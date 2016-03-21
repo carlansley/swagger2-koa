@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "build",
+    "declaration": true,
+    "removeComments": false,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "noImplicitAny": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/browser",
+    "typings/browser.d.ts"
+  ]
+}

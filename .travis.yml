@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "5.9"
+notifications:
+  email:
+    recipients:
+      - carl.ansley@gmail.com
+    on_success: always
+    on_failure: always
+after_success: npm run coveralls

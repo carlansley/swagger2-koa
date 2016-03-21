@@ -1,0 +1,7 @@
+{
+  "ambientDependencies": {
+    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#627b6c158b73494c803f36fc2fe00ad75faa8fde",
+    "nock": "github:DefinitelyTyped/DefinitelyTyped/nock/nock.d.ts#f29bf726a60674dbf24bab06a26403a3871c3f21",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#f29bf726a60674dbf24bab06a26403a3871c3f21"
+  }
+}
