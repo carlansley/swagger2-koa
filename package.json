@@ -35,7 +35,7 @@
     "expectations": "^0.5.2",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.4.5",
-    "nock": "^7.5.0",
+    "nock": "7.5.0",
     "remap-istanbul": "^0.5.1",
     "tslint": "^3.6.0",
     "typescript": "^1.8.9",
