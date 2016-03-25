@@ -33,10 +33,8 @@
 import * as swagger from 'swagger2';
 /* tslint:enable:no-unused-variable */
 
-import validate from './validate';
-import ui from './ui';
+import koaValidate from './validate';
+import koaUi from './ui';
 
-export default {
-  ui,
-  validate
-};
+export const validate = koaValidate;
+export const ui = koaUi;

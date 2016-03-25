@@ -26,9 +26,9 @@
 
 import * as assert from 'assert';
 
-import swagger2koa from './index';
+import { validate, ui } from './index';
 
 describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof swagger2koa.ui, 'function'));
-  it('has validate middleware', () => assert.equal(typeof swagger2koa.validate, 'function'));
+  it('has ui middleware', () => assert.equal(typeof ui, 'function'));
+  it('has validate middleware', () => assert.equal(typeof validate, 'function'));
 });
