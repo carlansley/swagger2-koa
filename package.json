@@ -22,9 +22,15 @@
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "swagger2": "^0.0.7"
+    "swagger2": "^0.0.7",
+    "koa": "^2.0.0-alpha.3",
+    "koa-convert": "^1.2.0",
+    "koa-static": "^2.0.0",
+    "swagger-ui": "^2.1.4"
   },
   "devDependencies": {
+    "supertest-koa-agent": "^0.2.1",
+    "koa-router": "^7.0.1",
     "coveralls": "^2.11.8",
     "expectations": "^0.5.2",
     "istanbul": "^1.0.0-alpha.2",
@@ -47,7 +53,7 @@
     "postversion": "git push && git push --tags",
     "prepublish": "typings install",
     "build": "rm -rf build && tsc",
-    "dist": "rm -rf dist && tsc typings/main.d.ts src/index.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
+    "dist": "rm -rf dist && tsc typings/main.d.ts src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
     "clean": "rm -rf build && rm -rf typings && rm -rf coverage && rm -rf node_modules",
     "lint": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
     "test": "npm run lint && npm run build && node --harmony --harmony_default_parameters --harmony_destructuring node_modules/.bin/_mocha --require expectations $(find build -name '*.spec.js')",

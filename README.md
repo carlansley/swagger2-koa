@@ -17,7 +17,7 @@ Basic loading and validation of swagger 2.0 document:
 
 ```
 import * as swagger from 'swagger2';
-import swaggerMiddleware from 'swagger2-koa';
+import { validate } from 'swagger2-koa';
 
 let app = new Koa();
 
@@ -30,9 +30,25 @@ if (!swagger.validateDocument(document)) {
 }
 
 app.use(body());
-app.use(swaggerMiddleware(document));
+app.use(validate(document));
 
 ```
+
+Serve swagger-ui for swagger 2.0 document:
+
+```
+import * as swagger from 'swagger2';
+import { ui } from 'swagger2-koa';
+
+let app = new Koa();
+
+// load YAML swagger file
+const document = swagger.loadDocumentSync('./swagger.yml');
+app.use(ui(document));
+
+```
+
+`ui()` adds routes for /api-docs and serves swagger-ui at /.
 
 ## Limitations
 

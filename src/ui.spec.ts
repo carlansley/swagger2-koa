@@ -1,4 +1,4 @@
-// index.spec.ts
+// ui.spec.ts
 
 /*
  The MIT License
@@ -25,10 +25,29 @@
  */
 
 import * as assert from 'assert';
+import * as Koa from 'koa';
+import * as agent from 'supertest-koa-agent';
+import * as swagger from 'swagger2';
 
-import swagger2koa from './index';
+import ui from './ui';
 
-describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof swagger2koa.ui, 'function'));
-  it('has validate middleware', () => assert.equal(typeof swagger2koa.validate, 'function'));
+const document: swagger.Document = {
+  swagger: '2.0',
+  info: {
+    title: 'mock',
+    version: '0.0.1'
+  },
+  paths: {}
+};
+
+let http = agent((new Koa()).use(ui(document)));
+
+describe('ui', () => {
+  it('serves custom index.html', done => http.get('/').expect(200, done));
+  it('serves api-docs', done => http.get('/api-docs').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.deepStrictEqual(response.body, document);
+    done();
+  }));
+  it('serves swagger UI', done => http.get('/swagger-ui.js').expect(200, done));
 });

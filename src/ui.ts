@@ -1,4 +1,4 @@
-// index.spec.ts
+// ui.ts
 
 /*
  The MIT License
@@ -24,11 +24,34 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'assert';
+import * as koa from 'koa';
+import * as swaggerUi from 'swagger-ui/index';
+import * as koaStatic from 'koa-static';
+import * as koaConvert from 'koa-convert';
+import * as swagger from 'swagger2';
 
-import swagger2koa from './index';
+import html from './ui-html';
 
-describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof swagger2koa.ui, 'function'));
-  it('has validate middleware', () => assert.equal(typeof swagger2koa.validate, 'function'));
-});
+const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
+
+export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+
+  const uiHtml = html(document);
+
+  return async(context: koa.Context, next: Function) => {
+    if (context.url === '/' && context.method === 'GET') {
+      context.type = 'text/html; charset=utf-8';
+      context.body = uiHtml;
+      context.status = 200;
+      return;
+    } else if (context.url === '/api-docs' && context.method === 'GET') {
+      context.type = 'application/json; charset=utf-8';
+      context.body = document;
+      context.status = 200;
+      return;
+    }
+
+    // outside of / and /api-docs, serve static SwaggerUI files
+    await uiMiddleware(context, next);
+  };
+}

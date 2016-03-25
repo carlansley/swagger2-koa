@@ -28,57 +28,15 @@
  THE SOFTWARE.
  */
 
+/* tslint:disable:no-unused-variable */
+//noinspection ES6UnusedImports
 import * as swagger from 'swagger2';
+/* tslint:enable:no-unused-variable */
 
-export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+import validate from './validate';
+import ui from './ui';
 
-  // construct a validation object, pre-compiling all schema and regex required
-  let compiled = swagger.compileDocument(document);
-
-  return async(context: any, next: Function) => {
-
-    if (!context.path.startsWith(document.basePath)) {
-      // not a path that we care about
-      await next();
-      return;
-    }
-
-    let compiledPath = compiled(context.path);
-    if (compiledPath === undefined) {
-      // if there is no single matching path, return 404 (not found)
-      context.status = 404;
-      return;
-    }
-
-    // check the request matches the swagger schema
-    let validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body);
-    if (validationErrors === undefined) {
-      // operation not defined, return 405 (method not allowed)
-      context.status = 405;
-      return;
-    }
-
-    if (validationErrors.length > 0) {
-      context.status = 400;
-      context.body = {
-        code: 'SWAGGER_REQUEST_VALIDATION_FAILED',
-        errors: validationErrors
-      };
-      return;
-    }
-
-    // wait for the operation to execute
-    await next();
-
-    // check the response matches the swagger schema
-    let error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
-    if (error) {
-      error.where = 'response';
-      context.status = 500;
-      context.body = {
-        code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-        errors: [error]
-      };
-    }
-  };
-}
+export default {
+  ui,
+  validate
+};
