@@ -1,4 +1,8 @@
-// index.spec.ts
+// log.ts
+
+/*
+ * Middleware for logging of HTTP requests and responses
+ */
 
 /*
  The MIT License
@@ -24,12 +28,27 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'assert';
+import * as winston from 'winston';
+import {Context} from 'koa';
 
-import { validate, ui, router } from './index';
+let winstonLogger = new (winston.Logger)({transports: [new (winston.transports.Console)({'timestamp': true})]});
+winston.level = 'debug';
 
-describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof ui, 'function'));
-  it('has validate middleware', () => assert.equal(typeof validate, 'function'));
-  it('has router middleware', () => assert.equal(typeof router, 'function'));
-});
+export let logger = async function (context: Context, next: Function) {
+  let startTime = Date.now();
+  let { method, url } = context.request;
+
+  await next();
+
+  let logHttp: any = {
+    method: method,
+    url: url,
+    status: context.status
+  };
+
+  logHttp.time = (Date.now() - startTime) + 'ms';
+
+  winstonLogger.info('HTTP', logHttp);
+};
+
+export default winstonLogger;

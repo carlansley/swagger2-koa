@@ -1,4 +1,4 @@
-// validate.spec.ts
+// router.spec.ts
 
 /*
  The MIT License
@@ -25,15 +25,11 @@
  */
 
 import * as assert from 'assert';
-import * as Koa from 'koa';
 import * as agent from 'supertest-koa-agent';
 import * as swagger from 'swagger2';
-import * as koaRouter from 'koa-router';
+import swaggerRouter, {Context} from './router';
 
-
-import validate from './validate';
-
-describe('validate', () => {
+describe('router', () => {
 
   const document: swagger.Document = {
     swagger: '2.0',
@@ -60,6 +56,34 @@ describe('validate', () => {
               }
             }
           }
+        },
+        'head': {
+          responses: {
+            200: {
+              description: ''
+            }
+          }
+        },
+        'put': {
+          responses: {
+            204: {
+              description: ''
+            }
+          }
+        },
+        'post': {
+          responses: {
+            201: {
+              description: ''
+            }
+          }
+        },
+        'delete': {
+          responses: {
+            204: {
+              description: ''
+            }
+          }
         }
       },
       '/badPing': {
@@ -84,38 +108,77 @@ describe('validate', () => {
     }
   };
 
-  let router = koaRouter();
+  let router = swaggerRouter(document);
 
-  router.get('/mock/ping', (context: Koa.Context) => {
+  router.head('/ping', (context: Context) => {
+    context.status = 200;
+  });
+
+  router.get('/ping', (context: Context) => {
     context.status = 200;
     context.body = {
       time: new Date().toISOString()
     };
   });
 
-  router.get('/mock/badPing', (context: Koa.Context) => {
+  router.put('/ping', (context: Context) => {
+    context.status = 204;
+  });
+
+  router.post('/ping', (context: Context) => {
+    context.status = 201;
+  });
+
+  router.del('/ping', (context: Context) => {
+    context.status = 204;
+  });
+
+  router.get('/badPing', (context: Context) => {
     context.status = 200;
     context.body = {
       badTime: 'mock'
     };
   });
 
-  let app = new Koa();
-  app.use(validate(document));
-  app.use(router.routes());
-  app.use(router.allowedMethods());
+  let http = agent(router.app());
 
-  let http = agent(app);
-
-  it('invalid path', done => http.get('/ping').expect(404, done));
+  it('invalid path', done => http.post('/mock/pingy').expect(404, done));
   it('invalid path', done => http.post('/pingy').expect(404, done));
-  it('invalid method', done => http.post('/mock/ping').expect(405, done));
+  it('invalid method', done => http.post('/mock/badPing').expect(405, done));
   it('invalid request', done => http.get('/mock/ping?x=y').expect(400, done));
 
   it('validates valid GET operation', done => http.get('/mock/ping').end((err: any, response: any) => {
     assert.equal(!err, true);
     assert.equal(response.status, 200);
     assert.doesNotThrow(() => new Date(response.body.time));
+    done();
+  }));
+
+  it('validates valid HEAD operation', done => http.head('/mock/ping').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.equal(response.status, 200);
+    assert.deepStrictEqual(response.body, {});
+    done();
+  }));
+
+  it('validates valid POST operation', done => http.post('/mock/ping').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.equal(response.status, 201);
+    assert.deepStrictEqual(response.body, {});
+    done();
+  }));
+
+  it('validates valid DELETE operation', done => http.del('/mock/ping').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.equal(response.status, 204);
+    assert.deepStrictEqual(response.body, {});
+    done();
+  }));
+
+  it('validates valid PUT operation', done => http.put('/mock/ping').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.equal(response.status, 204);
+    assert.deepStrictEqual(response.body, {});
     done();
   }));
 

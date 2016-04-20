@@ -23,3 +23,13 @@ declare module 'koa-router' {
   let x: any;
   export = x;
 }
+
+declare module 'koa-body' {
+  let x: any;
+  export = x;
+}
+
+declare module 'koa-onerror' {
+  let x: any;
+  export = x;
+}

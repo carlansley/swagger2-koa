@@ -57,7 +57,6 @@ export default function(document: swagger.Document): (context: any, next: () => 
       context.status = 405;
       return;
     }
-
     if (validationErrors.length > 0) {
       context.status = 400;
       context.body = {
