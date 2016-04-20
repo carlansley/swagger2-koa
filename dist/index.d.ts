@@ -1,4 +1,3 @@
-import koaValidate from './validate';
-import koaUi from './ui';
-export declare const validate: typeof koaValidate;
-export declare const ui: typeof koaUi;
+export { default as validate } from './validate';
+export { default as ui } from './ui';
+export { default as router } from './router';
