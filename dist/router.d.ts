@@ -1,4 +1,3 @@
-import * as Koa from 'koa';
 export interface Request {
     query: any;
     body?: any;
@@ -23,6 +22,6 @@ export interface Router {
     put: (path: string, middleware: Middleware) => Router;
     post: (path: string, middleware: Middleware) => Router;
     del: (path: string, middleware: Middleware) => Router;
-    app: () => Koa;
+    app: () => any;
 }
 export default function (swaggerDocument: any): Router;
