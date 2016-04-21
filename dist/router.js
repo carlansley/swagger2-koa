@@ -27,6 +27,7 @@
  THE SOFTWARE.
  */
 const Koa = require('koa');
+const koaCors = require('koa-cors');
 const koaRouter = require('koa-router');
 const koaConvert = require('koa-convert');
 const koaError = require('koa-onerror');
@@ -52,6 +53,7 @@ function default_1(swaggerDocument) {
     }
     koaError(app);
     app.use(log_1.logger);
+    app.use(koaCors());
     app.use(body());
     app.use(validate_1.default(document));
     app.use(router.routes());
