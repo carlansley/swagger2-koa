@@ -2,13 +2,24 @@ export interface Request {
     query: any;
     body?: any;
     method: string;
+    url: string;
+    get?: (field: string) => string;
+    header: {
+        [name: string]: string;
+    };
 }
 export interface Response {
-    set?: (field: any, val: any) => void;
+    get?: (field: string) => string;
+    set?: (field: string, value: string) => void;
     body?: any;
     status?: number;
+    message?: string;
+    header: {
+        [name: string]: string;
+    };
 }
 export interface Context extends Request, Response {
+    originalUrl?: string;
     params: {
         [name: string]: string;
     };

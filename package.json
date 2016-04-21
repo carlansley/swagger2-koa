@@ -1,6 +1,6 @@
 {
   "name": "swagger2-koa",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
   "main": "index.js",
   "repository": {
