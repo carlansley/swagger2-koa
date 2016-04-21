@@ -5,6 +5,11 @@ declare module 'koa-convert' {
   export = x;
 }
 
+declare module 'koa-cors' {
+  let x: any;
+  export = x;
+}
+
 declare module 'koa-static' {
   let x: any;
   export = x;

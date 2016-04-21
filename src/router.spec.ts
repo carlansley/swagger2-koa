@@ -175,6 +175,13 @@ describe('router', () => {
     done();
   }));
 
+  it('support CORS via OPTIONS operation', done => http.options('/mock/ping').end((err: any, response: any) => {
+    assert.equal(!err, true);
+    assert.equal(response.status, 204);
+    assert.deepStrictEqual(response.body, {});
+    done();
+  }));
+
   it('validates valid PUT operation', done => http.put('/mock/ping').end((err: any, response: any) => {
     assert.equal(!err, true);
     assert.equal(response.status, 204);

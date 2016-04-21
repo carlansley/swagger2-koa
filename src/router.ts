@@ -29,6 +29,7 @@
  */
 
 import * as Koa from 'koa';
+import * as koaCors from 'koa-cors';
 import * as koaRouter from 'koa-router';
 import * as koaConvert from 'koa-convert';
 import * as koaError from 'koa-onerror';
@@ -97,6 +98,7 @@ export default function (swaggerDocument: any): Router {
   koaError(app);
 
   app.use(logger);
+  app.use(koaCors());
   app.use(body());
   app.use(validate(document));
   app.use(router.routes());
