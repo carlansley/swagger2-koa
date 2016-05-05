@@ -3,8 +3,27 @@ export interface Request {
     body?: any;
     method: string;
     url: string;
+    ip: string;
+    ips: string[];
+    subdomains: string[];
+    origin: string;
+    host: string;
+    length: number;
+    originalUrl: string;
+    href: string;
+    querystring: string;
+    search: string;
+    hostname: string;
+    type: string;
+    charset?: string;
+    fresh: boolean;
+    stale: boolean;
+    idempotent: boolean;
     get?: (field: string) => string;
     header: {
+        [name: string]: string;
+    };
+    headers: {
         [name: string]: string;
     };
 }
@@ -19,7 +38,6 @@ export interface Response {
     };
 }
 export interface Context extends Request, Response {
-    originalUrl?: string;
     params: {
         [name: string]: string;
     };
