@@ -3,6 +3,9 @@
   "version": "0.0.11",
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
   "main": "index.js",
+  "engines": {
+    "node": ">=6.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/carlansley/swagger2-koa.git"
@@ -37,12 +40,12 @@
     "supertest-koa-agent": "^0.2.1",
     "koa-router": "^7.0.1",
     "coveralls": "^2.11.9",
-    "expectations": "^0.5.2",
+    "expectations": "^0.6.0",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.4.5",
     "nock": "8.0.0",
     "remap-istanbul": "^0.6.3",
-    "tslint": "^3.7.4",
+    "tslint": "^3.9.0",
     "typescript": "^1.8.10",
     "typings": "^0.8.1"
   },
@@ -61,10 +64,10 @@
     "dist": "rm -rf dist && tsc typings/main.d.ts src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
     "clean": "rm -rf build && rm -rf typings && rm -rf coverage && rm -rf node_modules",
     "lint": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
-    "test": "npm run lint && npm run build && node --harmony --harmony_default_parameters --harmony_destructuring node_modules/.bin/_mocha --require expectations $(find build -name '*.spec.js')",
+    "test": "npm run lint && npm run build && _mocha --require expectations $(find build -name '*.spec.js')",
     "cover": "npm run build && npm run cover:istanbul && npm run cover:remap",
     "cover:browser": "npm run cover && istanbul report html && open coverage/coverage-remapped/index.html",
-    "cover:istanbul": "rm -rf ./coverage && node --harmony --harmony_default_parameters --harmony_destructuring node_modules/.bin/istanbul cover _mocha -- --require expectations $(find build -name '*.spec.js')",
+    "cover:istanbul": "rm -rf ./coverage && istanbul cover _mocha -- --require expectations $(find build -name '*.spec.js')",
     "cover:remap": "remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.json && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.lcov -t lcovonly && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped -t html",
     "coveralls": "npm run-script cover && coveralls < coverage/coverage-remapped.lcov"
   }

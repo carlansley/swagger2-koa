@@ -142,6 +142,14 @@ describe('router', () => {
 
   let http = agent(router.app());
 
+  it('fails with invalid filename', () => {
+    assert.throws(() => swaggerRouter('invalid.yml'), Error);
+  });
+
+  it('fails with invalid Swagger document', () => {
+    assert.throws(() => swaggerRouter(__dirname + '/../.travis.yml'));
+  });
+
   it('invalid path', done => http.post('/mock/pingy').expect(404, done));
   it('invalid path', done => http.post('/pingy').expect(404, done));
   it('invalid method', done => http.post('/mock/badPing').expect(405, done));

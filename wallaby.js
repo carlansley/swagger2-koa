@@ -10,6 +10,7 @@ module.exports = function (wallaby) {
       {pattern: 'src/**/*.ts'},
       {pattern: 'src/**/*.json'},
       {pattern: 'src/**/*.yaml'},
+      {pattern: '.travis.yml'},
       {pattern: 'src/**/*.spec.ts', ignore: true}
     ],
 
@@ -23,10 +24,7 @@ module.exports = function (wallaby) {
 
     env: {
       type: 'node',
-      runner: 'node',
-      params: {
-        runner: '--harmony --harmony_default_parameters --harmony_destructuring'
-      }
+      runner: 'node'
     }
   };
 };
