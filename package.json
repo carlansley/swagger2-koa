@@ -33,7 +33,7 @@
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.1.4",
-    "swagger2": "^0.0.7",
+    "swagger2": "^0.0.8",
     "winston": "^2.2.0"
   },
   "devDependencies": {
@@ -44,8 +44,8 @@
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.4.5",
     "nock": "8.0.0",
-    "remap-istanbul": "^0.6.3",
-    "tslint": "^3.9.0",
+    "remap-istanbul": "^0.6.4",
+    "tslint": "^3.10.1",
     "typescript": "^1.8.10",
     "typings": "^0.8.1"
   },

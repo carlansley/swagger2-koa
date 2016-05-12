@@ -55,7 +55,7 @@ app.use(ui(document));
 
 * expects context.body to contain request body in object form (e.g. via use of koa-body)
 * only supports Koa 2-style async/await middleware interface
-* until TypeScript 2.0 is available, currently requires ES6 generators (via babel or natively in node 4+)
+* requires node version 6 and above
 
 ## License
 
