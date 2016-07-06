@@ -29,7 +29,7 @@
     "koa-body": "^1.4.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
-    "koa-onerror": "^1.3.1",
+    "koa-onerror": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.1.4",
@@ -42,12 +42,12 @@
     "coveralls": "^2.11.9",
     "expectations": "^0.6.0",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^2.4.5",
+    "mocha": "^2.5.3",
     "nock": "8.0.0",
     "remap-istanbul": "^0.6.4",
-    "tslint": "^3.10.1",
+    "tslint": "^3.13.0",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1"
+    "typings": "^1.3.1"
   },
   "maintainers": [
     {
@@ -61,7 +61,7 @@
     "postversion": "git push && git push --tags",
     "prepublish": "typings install",
     "build": "rm -rf build && tsc",
-    "dist": "rm -rf dist && tsc typings/main.d.ts src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
+    "dist": "rm -rf dist && tsc typings/index.d.ts src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
     "clean": "rm -rf build && rm -rf typings && rm -rf coverage && rm -rf node_modules",
     "lint": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
     "test": "npm run lint && npm run build && _mocha --require expectations $(find build -name '*.spec.js')",

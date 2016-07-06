@@ -77,6 +77,7 @@ export interface Response {
   body?: any;
   status?: number;
   message?: string;
+  redirect: (url: string, alt?: string) => void;
   header: { [name: string]: string; };
 }
 

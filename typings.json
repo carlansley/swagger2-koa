@@ -1,9 +1,9 @@
 {
-  "ambientDependencies": {
-    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#627b6c158b73494c803f36fc2fe00ad75faa8fde",
-    "koa": "github:DefinitelyTyped/DefinitelyTyped/koa/koa.d.ts#3d7909ee394891b4f6ca5a0b2a556c60924b6bf1",
-    "nock": "github:DefinitelyTyped/DefinitelyTyped/nock/nock.d.ts#f29bf726a60674dbf24bab06a26403a3871c3f21",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#f29bf726a60674dbf24bab06a26403a3871c3f21",
-    "winston": "github:DefinitelyTyped/DefinitelyTyped/winston/winston.d.ts#fd9f16f862587bde12e5254e4c1e3d21ae94f9d1"
+  "globalDependencies": {
+    "koa": "registry:dt/koa#2.0.0+20160619030120",
+    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
+    "nock": "registry:dt/nock#0.54.0+20160613160405",
+    "node": "registry:dt/node#6.0.0+20160621231320",
+    "winston": "registry:dt/winston#0.0.0+20160417152829"
   }
 }
