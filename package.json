@@ -33,7 +33,7 @@
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.1.4",
-    "swagger2": "^0.0.8",
+    "swagger2": "^0.0.9",
     "winston": "^2.2.0"
   },
   "devDependencies": {
@@ -63,7 +63,7 @@
     "build": "rm -rf build && tsc",
     "dist": "rm -rf dist && tsc typings/index.d.ts src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es6 -d --pretty --noImplicitAny",
     "clean": "rm -rf build && rm -rf typings && rm -rf coverage && rm -rf node_modules",
-    "lint": "tslint -c tslint.json src/*.ts src/**/*.ts src/**/**/*.ts src/**/**/**/*.ts",
+    "lint": "tslint -c ./tslint.json $(find src -name '*.ts')",
     "test": "npm run lint && npm run build && _mocha --require expectations $(find build -name '*.spec.js')",
     "cover": "npm run build && npm run cover:istanbul && npm run cover:remap",
     "cover:browser": "npm run cover && istanbul report html && open coverage/coverage-remapped/index.html",

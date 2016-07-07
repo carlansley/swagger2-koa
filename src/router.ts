@@ -66,14 +66,14 @@ export interface Request {
   fresh: boolean;
   stale: boolean;
   idempotent: boolean;
-  get?: (field: string) => string;
+  get: (field: string) => string;
   header: { [name: string]: string; };
   headers: { [name: string]: string; };
 }
 
 export interface Response {
-  get?: (field: string) => string;
-  set?: (field: string, value: string) => void;
+  get: (field: string) => string;
+  set: (field: string, value: string) => void;
   body?: any;
   status?: number;
   message?: string;
