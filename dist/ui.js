@@ -16,13 +16,13 @@ const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
 function default_1(document) {
     const uiHtml = ui_html_1.default(document);
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
-        if (context.url === '/' && context.method === 'GET') {
+        if (context.path === '/' && context.method === 'GET') {
             context.type = 'text/html; charset=utf-8';
             context.body = uiHtml;
             context.status = 200;
             return;
         }
-        else if (context.url === '/api-docs' && context.method === 'GET') {
+        else if (context.path === '/api-docs' && context.method === 'GET') {
             context.type = 'application/json; charset=utf-8';
             context.body = document;
             context.status = 200;
