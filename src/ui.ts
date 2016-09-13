@@ -39,12 +39,12 @@ export default function(document: swagger.Document): (context: any, next: () => 
   const uiHtml = html(document);
 
   return async(context: koa.Context, next: Function) => {
-    if (context.url === '/' && context.method === 'GET') {
+    if (context.path === '/' && context.method === 'GET') {
       context.type = 'text/html; charset=utf-8';
       context.body = uiHtml;
       context.status = 200;
       return;
-    } else if (context.url === '/api-docs' && context.method === 'GET') {
+    } else if (context.path === '/api-docs' && context.method === 'GET') {
       context.type = 'application/json; charset=utf-8';
       context.body = document;
       context.status = 200;
