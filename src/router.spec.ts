@@ -150,64 +150,51 @@ describe('router', () => {
     assert.throws(() => swaggerRouter(__dirname + '/../.travis.yml'));
   });
 
-  it('invalid path', done => http.post('/mock/pingy').expect(404, done));
-  it('invalid path', done => http.post('/pingy').expect(404, done));
-  it('invalid method', done => http.post('/mock/badPing').expect(405, done));
-  it('invalid request', done => http.get('/mock/ping?x=y').expect(400, done));
+  it('invalid path', async () => http.post('/mock/pingy').expect(404));
+  it('invalid path', async () => http.post('/pingy').expect(404));
+  it('invalid method', async () => http.post('/mock/badPing').expect(405));
+  it('invalid request', async () => http.get('/mock/ping?x=y').expect(400));
 
-  it('validates valid GET operation', done => http.get('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 200);
-    assert.doesNotThrow(() => new Date(response.body.time));
-    done();
-  }));
+  it('validates valid GET operation', async () => {
+    const {body} =  await http.get('/mock/ping').expect(200);
+    assert.doesNotThrow(() => new Date(body.time));
+  });
 
-  it('validates valid HEAD operation', done => http.head('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 200);
-    assert.deepStrictEqual(response.body, {});
-    done();
-  }));
+  it('validates valid HEAD operation', async () => {
+    const {body} = await http.head('/mock/ping').expect(200);
+    assert.deepStrictEqual(body, {});
+  });
 
-  it('validates valid POST operation', done => http.post('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 201);
-    assert.deepStrictEqual(response.body, {});
-    done();
-  }));
+  it('validates valid POST operation', async () => {
+    const {body} = await http.post('/mock/ping').expect(201);
+    assert.deepStrictEqual(body, {});
+  });
 
-  it('validates valid DELETE operation', done => http.del('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 204);
-    assert.deepStrictEqual(response.body, {});
-    done();
-  }));
+  it('validates valid DELETE operation', async () => {
+    const {body} = await http.del('/mock/ping').expect(204);
+    assert.deepStrictEqual(body, {});
+  });
 
-  it('support CORS via OPTIONS operation', done => http.options('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 204);
-    assert.deepStrictEqual(response.body, {});
-    done();
-  }));
+  it('support CORS via OPTIONS operation', async () => {
+    const {body} = await http.options('/mock/ping').expect(204);
+    assert.deepStrictEqual(body, {});
+  });
 
-  it('validates valid PUT operation', done => http.put('/mock/ping').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 204);
-    assert.deepStrictEqual(response.body, {});
-    done();
-  }));
+  it('validates valid PUT operation', async () => {
+    const {body} = await http.put('/mock/ping').expect(204);
+    assert.deepStrictEqual(body, {});
+  });
 
-  it('does not validate invalid operation response', done => http.get('/mock/badPing').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.equal(response.status, 500);
-    assert.deepStrictEqual(response.body, {
+  it('does not validate invalid operation response', async () => {
+    const {body} = await http.get('/mock/badPing').expect(500);
+    assert.deepStrictEqual(body, {
       'code': 'SWAGGER_RESPONSE_VALIDATION_FAILED',
       'errors': [{
         'actual': {'badTime': 'mock'},
-        'expected': {'schema': {'type': 'object', 'required': ['time'], 'properties': {'time': {'type': 'string', 'format': 'date-time'}}}},
+        'expected': {
+          'schema': {'type': 'object', 'required': ['time'], 'properties': {'time': {'type': 'string', 'format': 'date-time'}}}},
         'where': 'response'
       }]
     });
-    done();
-  }));
+  });
 });

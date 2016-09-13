@@ -43,11 +43,10 @@ const document: swagger.Document = {
 let http = agent((new Koa()).use(ui(document)));
 
 describe('ui', () => {
-  it('serves custom index.html', done => http.get('/').expect(200, done));
-  it('serves api-docs', done => http.get('/api-docs').end((err: any, response: any) => {
-    assert.equal(!err, true);
-    assert.deepStrictEqual(response.body, document);
-    done();
-  }));
-  it('serves swagger UI', done => http.get('/swagger-ui.js').expect(200, done));
+  it('serves custom index.html', async () => http.get('/').expect(200));
+  it('serves api-docs', async () => {
+    const {body} = await http.get('/api-docs').expect(200);
+    assert.deepStrictEqual(body, document);
+  });
+  it('serves swagger UI', async () => http.get('/swagger-ui.js').expect(200));
 });
