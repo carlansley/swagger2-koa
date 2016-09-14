@@ -18,11 +18,11 @@ $ npm install swagger2-koa --save
 
 ### `router(document) => koa2-style Router`
 
-This is the easiest way to use swagger2-koa; it creates a standalone koa server, adds the `validate` and `ui` middleware, and returns a
+This is the easiest way to use swagger2-koa; it creates a standalone koa server, adds the `validate` middleware, and returns a
 Router object that allows you to add your route implementations.
 
 ```
-import {router as swaggerRouter, Router} from 'swagger2-koa';
+import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
 
 ...
 
@@ -37,11 +37,13 @@ router.get('/ping', async (context) => {
 
 ...
 
-router.app().listen(3000);
+router.app()         // get the koa 2 server
+  .use(ui(document)) // only needed if you want to publish a swagger-ui for the API
+  .listen(3000);     // start handling requests on port 3000
 
 ```
 
-Note: in addition to `validate` and `ui` (described below), `router` adds the following middleware:
+Note: in addition to `validate` (described below), `router` adds the following middleware to its koa server:
 * `koa-cors`
 * `koa-router`
 * `koa-convert`
