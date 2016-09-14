@@ -35,8 +35,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
  THE SOFTWARE.
  */
 const winston = require('winston');
-let winstonLogger = new (winston.Logger)({ transports: [new (winston.transports.Console)({ 'timestamp': true })] });
-winston.level = 'debug';
+// set up logging
+exports.winstonLogger = new (winston.Logger)({
+    transports: [new (winston.transports.Console)({ 'timestamp': true })],
+    level: 'debug'
+});
 exports.logger = function (context, next) {
     return __awaiter(this, void 0, void 0, function* () {
         let startTime = Date.now();
@@ -48,9 +51,9 @@ exports.logger = function (context, next) {
             status: context.status
         };
         logHttp.time = (Date.now() - startTime) + 'ms';
-        winstonLogger.info('HTTP', logHttp);
+        exports.winstonLogger.info('HTTP', logHttp);
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = winstonLogger;
+exports.default = exports.winstonLogger;
 //# sourceMappingURL=log.js.map
