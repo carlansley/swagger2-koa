@@ -33,7 +33,7 @@
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.2.3",
-    "swagger2": "^0.0.9",
+    "swagger2": "^0.0.10",
     "winston": "^2.2.0"
   },
   "devDependencies": {
