@@ -31,8 +31,11 @@
 import * as winston from 'winston';
 import {Context} from 'koa';
 
-let winstonLogger = new (winston.Logger)({transports: [new (winston.transports.Console)({'timestamp': true})]});
-winston.level = 'debug';
+// set up logging
+export const winstonLogger = new (winston.Logger)({
+  transports: [new (winston.transports.Console)({'timestamp': true})],
+  level: 'debug'
+});
 
 export let logger = async function (context: Context, next: Function) {
   let startTime = Date.now();

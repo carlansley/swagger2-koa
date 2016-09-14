@@ -1,9 +1,0 @@
-{
-  "globalDependencies": {
-    "koa": "registry:dt/koa#2.0.0+20160619030120",
-    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
-    "nock": "registry:dt/nock#0.54.0+20160613160405",
-    "node": "registry:dt/node#6.0.0+20160621231320",
-    "winston": "registry:dt/winston#0.0.0+20160417152829"
-  }
-}
