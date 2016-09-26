@@ -103,6 +103,11 @@ describe('router', () => {
               }
             }
           }
+        },
+        'put': {
+          responses: {
+            201: { description: '' }
+          }
         }
       }
     }
@@ -137,6 +142,13 @@ describe('router', () => {
     context.status = 200;
     context.body = {
       badTime: 'mock'
+    };
+  });
+
+  router.put('/badPing', (context: Context) => {
+    context.status = 201;
+    context.body = {
+      something: 'mock'
     };
   });
 
@@ -197,4 +209,16 @@ describe('router', () => {
       }]
     });
   });
+
+  it('does not validate response where nothing is expected', async () => {
+    const {body} = await http.put('/mock/badPing').expect(500);
+    assert.deepStrictEqual(body, {
+      'code': 'SWAGGER_RESPONSE_VALIDATION_FAILED',
+      'errors': [{
+        'actual': {'something': 'mock'},
+        'where': 'response'
+      }]
+    });
+  });
+
 });
