@@ -32,26 +32,26 @@
     "koa-onerror": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
-    "swagger-ui": "^2.2.3",
-    "swagger2": "^0.0.10",
+    "swagger-ui": "^2.2.4",
+    "swagger2": "^0.0.12",
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "@types/koa": "^2.0.32",
-    "@types/mocha": "^2.2.31",
-    "@types/nock": "^0.54.31",
-    "@types/node": "^6.0.38",
-    "@types/winston": "0.0.27",
+    "@types/koa": "^2.0.33",
+    "@types/mocha": "^2.2.32",
+    "@types/nock": "^8.0.33",
+    "@types/node": "^6.0.41",
+    "@types/winston": "0.0.28",
     "supertest-koa-agent": "^0.3.0",
     "koa-router": "^7.0.1",
-    "coveralls": "^2.11.12",
+    "coveralls": "^2.11.14",
     "expectations": "^0.6.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.0.2",
     "nock": "8.0.0",
     "remap-istanbul": "^0.6.4",
     "tslint": "^3.15.1",
-    "typescript": "^2.0.0"
+    "typescript": "^2.0.3"
   },
   "maintainers": [
     {
