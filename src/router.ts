@@ -29,11 +29,10 @@
  */
 
 import * as Koa from 'koa';
+import * as body from 'koa-body';
+import * as koaConvert from 'koa-convert';
 import * as koaCors from 'koa-cors';
 import * as koaRouter from 'koa-router';
-import * as koaConvert from 'koa-convert';
-import * as koaError from 'koa-onerror';
-import * as body from 'koa-body';
 import * as swagger from 'swagger2';
 
 import validate from './validate';
@@ -95,6 +94,7 @@ export interface Router {
   put: (path: string, middleware: Middleware) => Router;
   post: (path: string, middleware: Middleware) => Router;
   del: (path: string, middleware: Middleware) => Router;
+  patch: (path: string, middleware: Middleware) => Router;
   app: () => any;
 }
 
@@ -104,8 +104,8 @@ export default function (swaggerDocument: any): Router {
   let app = new Koa();
 
   // automatically convert legacy middleware to new middleware
-  const _use = app.use;
-  app.use = x => _use.call(app, koaConvert(x));
+  const appUse = app.use;
+  app.use = x => appUse.call(app, koaConvert(x));
 
   let document: any;
 
@@ -118,8 +118,6 @@ export default function (swaggerDocument: any): Router {
   if (!swagger.validateDocument(document)) {
     throw Error(`Document does not conform to the Swagger 2.0 schema`);
   }
-
-  koaError(app);
 
   app.use(logger);
   app.use(koaCors());
@@ -134,6 +132,7 @@ export default function (swaggerDocument: any): Router {
     put: (path, middleware) => router.put(document.basePath + path, middleware),
     post: (path, middleware) => router.post(document.basePath + path, middleware),
     del: (path, middleware) => router.del(document.basePath + path, middleware),
+    patch: (path, middleware) => router.patch(document.basePath + path, middleware),
     app: () => app
   };
 }

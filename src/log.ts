@@ -28,24 +28,24 @@
  THE SOFTWARE.
  */
 
-import * as winston from 'winston';
 import {Context} from 'koa';
+import * as winston from 'winston';
 
 // set up logging
 export const winstonLogger = new (winston.Logger)({
-  transports: [new (winston.transports.Console)({'timestamp': true})],
+  transports: [new (winston.transports.Console)({timestamp: true})],
   level: 'debug'
 });
 
-export let logger = async function (context: Context, next: Function) {
+export let logger = async (context: Context, next: Function) => {
   let startTime = Date.now();
   let { method, url } = context.request;
 
   await next();
 
   let logHttp: any = {
-    method: method,
-    url: url,
+    method,
+    url,
     status: context.status
   };
 

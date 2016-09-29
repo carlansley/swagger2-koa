@@ -47,7 +47,6 @@ Note: in addition to `validate` (described below), `router` adds the following m
 * `koa-cors`
 * `koa-router`
 * `koa-convert`
-* `koa-onerror`
 * `koa-body`
 
 ### `validate(document) => koa2 middleware`

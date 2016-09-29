@@ -26,7 +26,7 @@
 
 import * as assert from 'assert';
 
-import { validate, ui, router } from './index';
+import { router, ui, validate } from './index';
 
 describe('swagger2-koa', () => {
   it('has ui middleware', () => assert.equal(typeof ui, 'function'));

@@ -25,9 +25,9 @@
  */
 
 import * as koa from 'koa';
-import * as swaggerUi from 'swagger-ui/index';
-import * as koaStatic from 'koa-static';
 import * as koaConvert from 'koa-convert';
+import * as koaStatic from 'koa-static';
+import * as swaggerUi from 'swagger-ui/index';
 import * as swagger from 'swagger2';
 
 import html from './ui-html';

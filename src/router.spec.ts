@@ -27,10 +27,12 @@
 import * as assert from 'assert';
 import * as agent from 'supertest-koa-agent';
 import * as swagger from 'swagger2';
+
 import swaggerRouter, {Context} from './router';
 
 describe('router', () => {
 
+  //noinspection ReservedWordAsName
   const document: swagger.Document = {
     swagger: '2.0',
     info: {
@@ -40,7 +42,7 @@ describe('router', () => {
     basePath: '/mock',
     paths: {
       '/ping': {
-        'get': {
+        get: {
           responses: {
             200: {
               description: '',
@@ -57,28 +59,42 @@ describe('router', () => {
             }
           }
         },
-        'head': {
+        head: {
           responses: {
             200: {
               description: ''
             }
           }
         },
-        'put': {
+        patch: {
           responses: {
             204: {
               description: ''
             }
           }
         },
-        'post': {
+        put: {
+          responses: {
+            204: {
+              description: ''
+            }
+          }
+        },
+        post: {
           responses: {
             201: {
               description: ''
             }
           }
         },
-        'delete': {
+        options: {
+          responses: {
+            204: {
+              description: ''
+            }
+          }
+        },
+        delete: {
           responses: {
             204: {
               description: ''
@@ -87,7 +103,7 @@ describe('router', () => {
         }
       },
       '/badPing': {
-        'get': {
+        get: {
           responses: {
             200: {
               description: '',
@@ -104,7 +120,12 @@ describe('router', () => {
             }
           }
         },
-        'put': {
+        put: {
+          responses: {
+            201: { description: '' }
+          }
+        },
+        post: {
           responses: {
             201: { description: '' }
           }
@@ -115,41 +136,51 @@ describe('router', () => {
 
   let router = swaggerRouter(document);
 
-  router.head('/ping', (context: Context) => {
+  router.head('/ping', async (context: Context) => {
     context.status = 200;
   });
 
-  router.get('/ping', (context: Context) => {
+  router.get('/ping', async (context: Context) => {
     context.status = 200;
     context.body = {
       time: new Date().toISOString()
     };
   });
 
-  router.put('/ping', (context: Context) => {
+  router.put('/ping', async (context: Context) => {
     context.status = 204;
   });
 
-  router.post('/ping', (context: Context) => {
+  router.patch('/ping', async (context: Context) => {
+    context.status = 204;
+  });
+
+  router.post('/ping', async (context: Context) => {
     context.status = 201;
   });
 
-  router.del('/ping', (context: Context) => {
+  router.del('/ping', async (context: Context) => {
     context.status = 204;
   });
 
-  router.get('/badPing', (context: Context) => {
+  router.get('/badPing', async (context: Context) => {
     context.status = 200;
     context.body = {
       badTime: 'mock'
     };
   });
 
-  router.put('/badPing', (context: Context) => {
+  router.put('/badPing', async (context: Context) => {
     context.status = 201;
     context.body = {
       something: 'mock'
     };
+  });
+
+  router.post('/badPing', async () => {
+    const err: any = new Error();
+    err.status = 400;
+    throw err;
   });
 
   let http = agent(router.app());
@@ -164,7 +195,7 @@ describe('router', () => {
 
   it('invalid path', async () => http.post('/mock/pingy').expect(404));
   it('invalid path', async () => http.post('/pingy').expect(404));
-  it('invalid method', async () => http.post('/mock/badPing').expect(405));
+  it('invalid method', async () => http.patch('/mock/badPing').expect(405));
   it('invalid request', async () => http.get('/mock/ping?x=y').expect(400));
 
   it('validates valid GET operation', async () => {
@@ -179,6 +210,11 @@ describe('router', () => {
 
   it('validates valid POST operation', async () => {
     const {body} = await http.post('/mock/ping').expect(201);
+    assert.deepStrictEqual(body, {});
+  });
+
+  it('validates valid PATCH operation', async () => {
+    const {body} = await http.patch('/mock/ping').expect(204);
     assert.deepStrictEqual(body, {});
   });
 
@@ -197,15 +233,19 @@ describe('router', () => {
     assert.deepStrictEqual(body, {});
   });
 
+  it('handles POST operation throwing 400 error', async () => {
+    await http.post('/mock/badPing').expect(400);
+  });
+
   it('does not validate invalid operation response', async () => {
     const {body} = await http.get('/mock/badPing').expect(500);
     assert.deepStrictEqual(body, {
-      'code': 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-      'errors': [{
-        'actual': {'badTime': 'mock'},
-        'expected': {
-          'schema': {'type': 'object', 'required': ['time'], 'properties': {'time': {'type': 'string', 'format': 'date-time'}}}},
-        'where': 'response'
+      code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
+      errors: [{
+        actual: {badTime: 'mock'},
+        expected: {
+          schema: {type: 'object', required: ['time'], properties: {time: {type: 'string', format: 'date-time'}}}},
+        where: 'response'
       }]
     });
   });
@@ -213,10 +253,10 @@ describe('router', () => {
   it('does not validate response where nothing is expected', async () => {
     const {body} = await http.put('/mock/badPing').expect(500);
     assert.deepStrictEqual(body, {
-      'code': 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-      'errors': [{
-        'actual': {'something': 'mock'},
-        'where': 'response'
+      code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
+      errors: [{
+        actual: {something: 'mock'},
+        where: 'response'
       }]
     });
   });
