@@ -27,11 +27,10 @@
  THE SOFTWARE.
  */
 const Koa = require('koa');
+const body = require('koa-body');
+const koaConvert = require('koa-convert');
 const koaCors = require('koa-cors');
 const koaRouter = require('koa-router');
-const koaConvert = require('koa-convert');
-const koaError = require('koa-onerror');
-const body = require('koa-body');
 const swagger = require('swagger2');
 const validate_1 = require('./validate');
 const log_1 = require('./log');
@@ -39,8 +38,8 @@ function default_1(swaggerDocument) {
     let router = koaRouter();
     let app = new Koa();
     // automatically convert legacy middleware to new middleware
-    const _use = app.use;
-    app.use = x => _use.call(app, koaConvert(x));
+    const appUse = app.use;
+    app.use = x => appUse.call(app, koaConvert(x));
     let document;
     if (typeof swaggerDocument === 'string') {
         document = swagger.loadDocumentSync(swaggerDocument);
@@ -51,7 +50,6 @@ function default_1(swaggerDocument) {
     if (!swagger.validateDocument(document)) {
         throw Error(`Document does not conform to the Swagger 2.0 schema`);
     }
-    koaError(app);
     app.use(log_1.logger);
     app.use(koaCors());
     app.use(body());
@@ -64,6 +62,7 @@ function default_1(swaggerDocument) {
         put: (path, middleware) => router.put(document.basePath + path, middleware),
         post: (path, middleware) => router.post(document.basePath + path, middleware),
         del: (path, middleware) => router.del(document.basePath + path, middleware),
+        patch: (path, middleware) => router.patch(document.basePath + path, middleware),
         app: () => app
     };
 }

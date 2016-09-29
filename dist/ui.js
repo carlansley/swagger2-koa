@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const swaggerUi = require('swagger-ui/index');
-const koaStatic = require('koa-static');
 const koaConvert = require('koa-convert');
+const koaStatic = require('koa-static');
+const swaggerUi = require('swagger-ui/index');
 const ui_html_1 = require('./ui-html');
 const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
 function default_1(document) {
