@@ -26,31 +26,31 @@
   "typings": "./dist/index.d.ts",
   "dependencies": {
     "koa": "^2.0.0-alpha.7",
-    "koa-body": "^1.5.0",
+    "koa-body": "^1.6.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
-    "swagger-ui": "^2.2.5",
-    "swagger2": "^0.0.13",
+    "swagger-ui": "^2.2.6",
+    "swagger2": "^0.0.14",
     "winston": "^2.2.0"
   },
   "devDependencies": {
     "@types/koa": "^2.0.33",
     "@types/mocha": "^2.2.32",
     "@types/nock": "^8.0.33",
-    "@types/node": "^6.0.41",
+    "@types/node": "^6.0.45",
     "@types/winston": "0.0.28",
     "supertest-koa-agent": "^0.3.0",
     "koa-router": "^7.0.1",
     "coveralls": "^2.11.14",
     "expectations": "^0.6.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^3.1.0",
-    "nock": "8.0.0",
-    "remap-istanbul": "^0.6.4",
+    "mocha": "^3.1.2",
+    "nock": "9.0.0",
+    "remap-istanbul": "^0.7.0",
     "tslint": "^3.15.1",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.6"
   },
   "maintainers": [
     {
