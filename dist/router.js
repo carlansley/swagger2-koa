@@ -33,7 +33,7 @@ const koaCors = require('koa-cors');
 const koaRouter = require('koa-router');
 const swagger = require('swagger2');
 const validate_1 = require('./validate');
-const log_1 = require('./log');
+const debug_1 = require('./debug');
 function default_1(swaggerDocument) {
     let router = koaRouter();
     let app = new Koa();
@@ -50,7 +50,7 @@ function default_1(swaggerDocument) {
     if (!swagger.validateDocument(document)) {
         throw Error(`Document does not conform to the Swagger 2.0 schema`);
     }
-    app.use(log_1.logger);
+    app.use(debug_1.default('swagger2-koa:router'));
     app.use(koaCors());
     app.use(body());
     app.use(validate_1.default(document));
