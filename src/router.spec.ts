@@ -32,7 +32,7 @@ import swaggerRouter, {Context} from './router';
 
 describe('router', () => {
 
-  //noinspection ReservedWordAsName
+  // noinspection ReservedWordAsName
   const document: swagger.Document = {
     swagger: '2.0',
     info: {

@@ -25,6 +25,7 @@
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
   "dependencies": {
+    "debug": "^2.2.0",
     "koa": "^2.0.0-alpha.7",
     "koa-body": "^1.6.0",
     "koa-convert": "^1.2.0",
@@ -32,15 +33,14 @@
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.2.6",
-    "swagger2": "^0.0.14",
-    "winston": "^2.2.0"
+    "swagger2": "^0.0.15"
   },
   "devDependencies": {
+    "@types/debug": "0.0.29",
     "@types/koa": "^2.0.33",
     "@types/mocha": "^2.2.32",
     "@types/nock": "^8.0.33",
-    "@types/node": "^6.0.45",
-    "@types/winston": "0.0.28",
+    "@types/node": "^6.0.46",
     "supertest-koa-agent": "^0.3.0",
     "koa-router": "^7.0.1",
     "coveralls": "^2.11.14",

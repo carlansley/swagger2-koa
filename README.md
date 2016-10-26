@@ -108,6 +108,14 @@ app.use(ui(document));
 
 `ui()` adds routes for /api-docs and serves swagger-ui at /.
 
+## Debugging
+
+This library uses [`debug`](https://github.com/visionmedia/debug), which can be activated using the
+`DEBUG` environment variable:
+
+```
+export DEBUG=swagger2-koa:*
+```
 
 ## Limitations
 

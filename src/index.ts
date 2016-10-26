@@ -29,7 +29,7 @@
  */
 
 /* tslint:disable:no-unused-variable */
-//noinspection ES6UnusedImports
+// noinspection ES6UnusedImports
 import * as swagger from 'swagger2';
 /* tslint:enable:no-unused-variable */
 

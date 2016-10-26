@@ -1,28 +1,13 @@
 {
-  "extends": "tslint:recommended",
+  "extends": "tslint:latest",
   "rules": {
     "quotemark": [
       true,
-      "single",
-      "avoid-escape"
+      "single"
     ],
     "interface-name": false,
     "trailing-comma": false,
     "no-consecutive-blank-lines": false,
-    "comment-format": false,
-    "max-line-length": [
-      true,
-      140
-    ],
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
-    "object-literal-sort-keys": false,
-    "one-line": false
+    "object-literal-sort-keys": false
   }
 }

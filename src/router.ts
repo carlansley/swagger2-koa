@@ -37,7 +37,7 @@ import * as swagger from 'swagger2';
 
 import validate from './validate';
 
-import {logger} from './log';
+import debug from './debug';
 
 interface HttpRouter extends Router {
   routes: () => (ctx: Koa.Context, next: Function) => any;
@@ -119,7 +119,7 @@ export default function (swaggerDocument: any): Router {
     throw Error(`Document does not conform to the Swagger 2.0 schema`);
   }
 
-  app.use(logger);
+  app.use(debug('swagger2-koa:router'));
   app.use(koaCors());
   app.use(body());
   app.use(validate(document));

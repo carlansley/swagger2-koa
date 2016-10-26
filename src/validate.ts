@@ -30,7 +30,7 @@
 
 import * as swagger from 'swagger2';
 
-export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function (document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
 
   // construct a validation object, pre-compiling all schema and regex required
   let compiled = swagger.compileDocument(document);
@@ -51,7 +51,9 @@ export default function(document: swagger.Document): (context: any, next: () => 
     }
 
     // check the request matches the swagger schema
-    let validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body);
+    let validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query,
+      context.request.body);
+
     if (validationErrors === undefined) {
       // operation not defined, return 405 (method not allowed)
       context.status = 405;
