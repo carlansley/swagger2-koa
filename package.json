@@ -33,7 +33,7 @@
     "koa-router": "^7.0.1",
     "koa-static": "^2.0.0",
     "swagger-ui": "^2.2.6",
-    "swagger2": "^0.0.15"
+    "swagger2": "^0.0.16"
   },
   "devDependencies": {
     "@types/debug": "0.0.29",
@@ -47,7 +47,7 @@
     "expectations": "^0.6.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.1.2",
-    "nock": "9.0.0",
+    "nock": "9.0.2",
     "remap-istanbul": "^0.7.0",
     "tslint": "^3.15.1",
     "typescript": "^2.0.6"
