@@ -8,29 +8,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const koaConvert = require('koa-convert');
-const koaStatic = require('koa-static');
+const send = require('koa-send');
 const swaggerUi = require('swagger-ui/index');
 const ui_html_1 = require('./ui-html');
-const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
-function default_1(document, basePath = '/') {
-    const apiDocsPath = basePath.endsWith('/') ? basePath + 'api-docs' : basePath + '/api-docs';
-    const uiHtml = ui_html_1.default(document, apiDocsPath);
+function default_1(document, basePath = '/', skipPaths = []) {
+    const pathRoot = basePath.endsWith('/') ? basePath : basePath + '/';
+    const uiHtml = ui_html_1.default(document, pathRoot);
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
-        if (context.path === basePath && context.method === 'GET') {
-            context.type = 'text/html; charset=utf-8';
-            context.body = uiHtml;
-            context.status = 200;
-            return;
+        if (context.path.startsWith(basePath)) {
+            const skipPath = skipPaths.some(path => context.path.startsWith(path));
+            if (context.path === basePath && context.method === 'GET') {
+                context.type = 'text/html; charset=utf-8';
+                context.body = uiHtml;
+                context.status = 200;
+                return;
+            }
+            else if (context.path === (pathRoot + 'api-docs') && context.method === 'GET') {
+                context.type = 'application/json; charset=utf-8';
+                context.body = document;
+                context.status = 200;
+                return;
+            }
+            else if (!skipPath && context.method === 'GET') {
+                const filePath = context.path.substring(basePath.length);
+                yield send(context, filePath, { root: swaggerUi.dist });
+                return;
+            }
         }
-        else if (context.path === apiDocsPath && context.method === 'GET') {
-            context.type = 'application/json; charset=utf-8';
-            context.body = document;
-            context.status = 200;
-            return;
-        }
-        // outside of / and /api-docs, serve static SwaggerUI files
-        yield uiMiddleware(context, next);
+        return next();
     });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
