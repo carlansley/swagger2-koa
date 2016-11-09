@@ -38,7 +38,7 @@ exports.default = (document, apiDocsPath) => `
 
     <script type="text/javascript">
       $(function () {
-        var url = ${apiDocsPath};
+        var url = '${apiDocsPath}';
 
         hljs.configure({
           highlightSizeThreshold: 5000
