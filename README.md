@@ -91,7 +91,7 @@ For either request (HTTP 400) or response (HTTP 500) errors, details of the sche
 }
 ```
 
-### `ui(document, basePath = "/") => koa2 middleware`
+### `ui(document, basePath = "/", skipPaths = []) => koa2 middleware`
 
 You can also serve a swagger-ui for your API from a given base path (basePath defaults to "/"):
 
@@ -107,6 +107,20 @@ app.use(ui(document));
 ```
 
 `ui(document, "/swagger")` adds routes for /swagger/api-docs and serves swagger-ui at /swagger.
+
+By using the `skipPaths` parameter, it is possible to create a fully independent API routes, such as:
+
+```
+/api          : Swagger UI
+/api/api-docs : Swagger API Docs
+/api/v1       : Actual API
+```
+
+with the following code:
+
+````
+app.use(ui(document, "/api", ['/api/v1']));
+````
 
 ## Debugging
 
