@@ -34,17 +34,18 @@ import html from './ui-html';
 
 const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
 
-export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function(
+  document: swagger.Document, basePath: string = '/'): (context: any, next: () => Promise<void>) => Promise<void> {
 
   const uiHtml = html(document);
-
+  const apiDocsPath = basePath.endsWith('/') ? basePath + 'api-docs' : basePath + '/api-docs';
   return async(context: koa.Context, next: Function) => {
-    if (context.path === '/' && context.method === 'GET') {
+    if (context.path === basePath && context.method === 'GET') {
       context.type = 'text/html; charset=utf-8';
       context.body = uiHtml;
       context.status = 200;
       return;
-    } else if (context.path === '/api-docs' && context.method === 'GET') {
+    } else if (context.path === apiDocsPath && context.method === 'GET') {
       context.type = 'application/json; charset=utf-8';
       context.body = document;
       context.status = 200;

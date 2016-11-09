@@ -91,9 +91,9 @@ For either request (HTTP 400) or response (HTTP 500) errors, details of the sche
 }
 ```
 
-### `ui(document) => koa2 middleware`
+### `ui(document, basePath = "/") => koa2 middleware`
 
-You can also serve a swagger-ui for your API:
+You can also serve a swagger-ui for your API from a given base path (basePath defaults to "/"):
 
 ```
 import * as swagger from 'swagger2';
@@ -106,7 +106,7 @@ app.use(ui(document));
 
 ```
 
-`ui()` adds routes for /api-docs and serves swagger-ui at /.
+`ui(document, "/swagger")` adds routes for /swagger/api-docs and serves swagger-ui at /swagger.
 
 ## Debugging
 
