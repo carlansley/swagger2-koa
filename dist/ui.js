@@ -13,16 +13,17 @@ const koaStatic = require('koa-static');
 const swaggerUi = require('swagger-ui/index');
 const ui_html_1 = require('./ui-html');
 const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
-function default_1(document) {
+function default_1(document, basePath = '/') {
     const uiHtml = ui_html_1.default(document);
+    const apiDocsPath = basePath.endsWith('/') ? basePath + 'api-docs' : basePath + '/api-docs';
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
-        if (context.path === '/' && context.method === 'GET') {
+        if (context.path === basePath && context.method === 'GET') {
             context.type = 'text/html; charset=utf-8';
             context.body = uiHtml;
             context.status = 200;
             return;
         }
-        else if (context.path === '/api-docs' && context.method === 'GET') {
+        else if (context.path === apiDocsPath && context.method === 'GET') {
             context.type = 'application/json; charset=utf-8';
             context.body = document;
             context.status = 200;
