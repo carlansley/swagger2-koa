@@ -14,8 +14,8 @@ const swaggerUi = require('swagger-ui/index');
 const ui_html_1 = require('./ui-html');
 const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
 function default_1(document, basePath = '/') {
-    const uiHtml = ui_html_1.default(document);
     const apiDocsPath = basePath.endsWith('/') ? basePath + 'api-docs' : basePath + '/api-docs';
+    const uiHtml = ui_html_1.default(document, apiDocsPath);
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
         if (context.path === basePath && context.method === 'GET') {
             context.type = 'text/html; charset=utf-8';

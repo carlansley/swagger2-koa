@@ -6,7 +6,7 @@
 
 import {Document} from 'swagger2';
 
-export default (document: Document) => `
+export default (document: Document, apiDocsPath: string) => `
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@ export default (document: Document) => `
 
     <script type="text/javascript">
       $(function () {
-        var url = '/api-docs';
+        var url = ${apiDocsPath};
 
         hljs.configure({
           highlightSizeThreshold: 5000

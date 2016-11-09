@@ -1,7 +1,7 @@
 // ui-html.ts
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (document) => `
+exports.default = (document, apiDocsPath) => `
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@ exports.default = (document) => `
 
     <script type="text/javascript">
       $(function () {
-        var url = '/api-docs';
+        var url = ${apiDocsPath};
 
         hljs.configure({
           highlightSizeThreshold: 5000

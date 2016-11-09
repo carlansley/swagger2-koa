@@ -37,8 +37,8 @@ const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
 export default function(
   document: swagger.Document, basePath: string = '/'): (context: any, next: () => Promise<void>) => Promise<void> {
 
-  const uiHtml = html(document);
   const apiDocsPath = basePath.endsWith('/') ? basePath + 'api-docs' : basePath + '/api-docs';
+  const uiHtml = html(document, apiDocsPath);
   return async(context: koa.Context, next: Function) => {
     if (context.path === basePath && context.method === 'GET') {
       context.type = 'text/html; charset=utf-8';
