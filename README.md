@@ -106,9 +106,9 @@ app.use(ui(document));
 
 ```
 
-`ui(document, "/swagger")` adds routes for /swagger/api-docs and serves swagger-ui at /swagger.
+`app.use(ui(document, "/swagger"))` adds routes /swagger/api-docs and /swagger.
 
-By using the `skipPaths` parameter, it is possible to create a fully independent API routes, such as:
+By using the `skipPaths` parameter, it is possible to create routes such as:
 
 ```
 /api          : Swagger UI
@@ -116,7 +116,7 @@ By using the `skipPaths` parameter, it is possible to create a fully independent
 /api/v1       : Actual API
 ```
 
-with the following code:
+with:
 
 ````
 app.use(ui(document, "/api", ['/api/v1']));
