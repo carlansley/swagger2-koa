@@ -33,26 +33,26 @@ import html from './ui-html';
 
 export default function(
   document: swagger.Document,
-  basePath: string = '/',
+  pathRoot: string = '/',
   skipPaths: Array<string> = []): (context: any, next: () => Promise<void>) => Promise<void> {
-  const pathRoot = basePath.endsWith('/') ? basePath : basePath + '/';
-  const uiHtml = html(document, pathRoot);
+  const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
+  const uiHtml = html(document, pathPrefix);
 
   return async(context: koa.Context, next: Function) => {
-    if (context.path.startsWith(basePath)) {
+    if (context.path.startsWith(pathRoot)) {
       const skipPath: boolean = skipPaths.some(path => context.path.startsWith(path));
-      if (context.path === basePath && context.method === 'GET') {
+      if (context.path === pathRoot && context.method === 'GET') {
         context.type = 'text/html; charset=utf-8';
         context.body = uiHtml;
         context.status = 200;
         return;
-      } else if (context.path === (pathRoot + 'api-docs') && context.method === 'GET') {
+      } else if (context.path === (pathPrefix + 'api-docs') && context.method === 'GET') {
         context.type = 'application/json; charset=utf-8';
         context.body = document;
         context.status = 200;
         return;
       }else if (!skipPath && context.method === 'GET') {
-        const filePath = context.path.substring(basePath.length);
+        const filePath = context.path.substring(pathRoot.length);
         await send(context, filePath, { root:  swaggerUi.dist });
         return;
       }

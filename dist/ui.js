@@ -11,26 +11,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const send = require('koa-send');
 const swaggerUi = require('swagger-ui/index');
 const ui_html_1 = require('./ui-html');
-function default_1(document, basePath = '/', skipPaths = []) {
-    const pathRoot = basePath.endsWith('/') ? basePath : basePath + '/';
-    const uiHtml = ui_html_1.default(document, pathRoot);
+function default_1(document, pathRoot = '/', skipPaths = []) {
+    const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
+    const uiHtml = ui_html_1.default(document, pathPrefix);
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
-        if (context.path.startsWith(basePath)) {
+        if (context.path.startsWith(pathRoot)) {
             const skipPath = skipPaths.some(path => context.path.startsWith(path));
-            if (context.path === basePath && context.method === 'GET') {
+            if (context.path === pathRoot && context.method === 'GET') {
                 context.type = 'text/html; charset=utf-8';
                 context.body = uiHtml;
                 context.status = 200;
                 return;
             }
-            else if (context.path === (pathRoot + 'api-docs') && context.method === 'GET') {
+            else if (context.path === (pathPrefix + 'api-docs') && context.method === 'GET') {
                 context.type = 'application/json; charset=utf-8';
                 context.body = document;
                 context.status = 200;
                 return;
             }
             else if (!skipPath && context.method === 'GET') {
-                const filePath = context.path.substring(basePath.length);
+                const filePath = context.path.substring(pathRoot.length);
                 yield send(context, filePath, { root: swaggerUi.dist });
                 return;
             }

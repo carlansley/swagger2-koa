@@ -40,8 +40,8 @@ const document: swagger.Document = {
   paths: {}
 };
 
-function getRequestClient(basePath?: string, skipPaths?: Array<string>) {
-  const koa = new Koa().use(ui(document, basePath, skipPaths));
+function getRequestClient(pathRoot?: string, skipPaths?: Array<string>) {
+  const koa = new Koa().use(ui(document, pathRoot, skipPaths));
   return agent(koa);
 }
 
@@ -49,7 +49,7 @@ describe('ui', () => {
   it('serves custom index.html', async () => {
     await getRequestClient().get('/').expect(200);
   });
-  it('serves custom index.html from custom base path', async () => {
+  it('serves custom index.html from custom path root', async () => {
     await getRequestClient('/swagger2').get('/swagger2').expect(200);
   });
 
@@ -64,17 +64,17 @@ describe('ui', () => {
     const {body} = await getRequestClient().get('/api-docs').expect(200);
     assert.deepStrictEqual(body, document);
   });
-  it('serves api-docs from custom base path', async () => {
+  it('serves api-docs from custom path root', async () => {
     const {body} = await getRequestClient('/swagger2').get('/swagger2/api-docs').expect(200);
     assert.deepStrictEqual(body, document);
   });
 
   it('serves swagger UI', async () => getRequestClient().get('/swagger-ui.js').expect(200));
-  it('serves swagger UI from custom base path', async () => {
+  it('serves swagger UI from custom path root', async () => {
     await getRequestClient('/swagger2').get('/swagger2/swagger-ui.js').expect(200);
   });
 
-  it('does not serve files from paths outside base path', async () => {
+  it('does not serve files from paths outside path root', async () => {
     await getRequestClient('/swagger2', ['/swagger/css']).get('/css/print.css').expect(404);
   });
 

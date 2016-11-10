@@ -25,7 +25,6 @@
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "@types/koa-send": "^3.0.1",
     "debug": "^2.2.0",
     "koa": "^2.0.0-alpha.7",
     "koa-body": "^1.6.0",
@@ -39,6 +38,7 @@
   "devDependencies": {
     "@types/debug": "0.0.29",
     "@types/koa": "^2.0.33",
+    "@types/koa-send": "^3.0.1",
     "@types/mocha": "^2.2.32",
     "@types/nock": "^8.0.33",
     "@types/node": "^6.0.46",
