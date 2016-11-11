@@ -25,33 +25,38 @@
  */
 
 import * as koa from 'koa';
-import * as koaConvert from 'koa-convert';
-import * as koaStatic from 'koa-static';
+import * as send from 'koa-send';
 import * as swaggerUi from 'swagger-ui/index';
 import * as swagger from 'swagger2';
 
 import html from './ui-html';
 
-const uiMiddleware = koaConvert(koaStatic(swaggerUi.dist, {}));
-
-export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
-
-  const uiHtml = html(document);
+export default function(
+  document: swagger.Document,
+  pathRoot: string = '/',
+  skipPaths: Array<string> = []): (context: any, next: () => Promise<void>) => Promise<void> {
+  const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
+  const uiHtml = html(document, pathPrefix);
 
   return async(context: koa.Context, next: Function) => {
-    if (context.path === '/' && context.method === 'GET') {
-      context.type = 'text/html; charset=utf-8';
-      context.body = uiHtml;
-      context.status = 200;
-      return;
-    } else if (context.path === '/api-docs' && context.method === 'GET') {
-      context.type = 'application/json; charset=utf-8';
-      context.body = document;
-      context.status = 200;
-      return;
+    if (context.path.startsWith(pathRoot)) {
+      const skipPath: boolean = skipPaths.some(path => context.path.startsWith(path));
+      if (context.path === pathRoot && context.method === 'GET') {
+        context.type = 'text/html; charset=utf-8';
+        context.body = uiHtml;
+        context.status = 200;
+        return;
+      } else if (context.path === (pathPrefix + 'api-docs') && context.method === 'GET') {
+        context.type = 'application/json; charset=utf-8';
+        context.body = document;
+        context.status = 200;
+        return;
+      }else if (!skipPath && context.method === 'GET') {
+        const filePath = context.path.substring(pathRoot.length);
+        await send(context, filePath, { root:  swaggerUi.dist });
+        return;
+      }
     }
-
-    // outside of / and /api-docs, serve static SwaggerUI files
-    await uiMiddleware(context, next);
+    return next();
   };
 }

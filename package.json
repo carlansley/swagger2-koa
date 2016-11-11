@@ -31,13 +31,14 @@
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
     "koa-router": "^7.0.1",
-    "koa-static": "^2.0.0",
+    "koa-send": "^3.2.0",
     "swagger-ui": "^2.2.6",
     "swagger2": "^0.0.16"
   },
   "devDependencies": {
     "@types/debug": "0.0.29",
     "@types/koa": "^2.0.33",
+    "@types/koa-send": "^3.0.1",
     "@types/mocha": "^2.2.32",
     "@types/nock": "^8.0.33",
     "@types/node": "^6.0.46",
