@@ -34,13 +34,13 @@ import html from './ui-html';
 export default function(
   document: swagger.Document,
   pathRoot: string = '/',
-  skipPaths: Array<string> = []): (context: any, next: () => Promise<void>) => Promise<void> {
+  skipPaths: string[] = []): (context: any, next: () => Promise<void>) => Promise<void> {
   const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
   const uiHtml = html(document, pathPrefix);
 
   return async(context: koa.Context, next: Function) => {
     if (context.path.startsWith(pathRoot)) {
-      const skipPath: boolean = skipPaths.some(path => context.path.startsWith(path));
+      const skipPath: boolean = skipPaths.some((path) => context.path.startsWith(path));
       if (context.path === pathRoot && context.method === 'GET') {
         context.type = 'text/html; charset=utf-8';
         context.body = uiHtml;

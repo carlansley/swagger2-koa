@@ -40,7 +40,7 @@ const document: swagger.Document = {
   paths: {}
 };
 
-function getRequestClient(pathRoot?: string, skipPaths?: Array<string>) {
+function getRequestClient(pathRoot?: string, skipPaths?: string[]) {
   const koa = new Koa().use(ui(document, pathRoot, skipPaths));
   return agent(koa);
 }
