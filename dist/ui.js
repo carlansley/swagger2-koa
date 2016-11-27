@@ -16,7 +16,7 @@ function default_1(document, pathRoot = '/', skipPaths = []) {
     const uiHtml = ui_html_1.default(document, pathPrefix);
     return (context, next) => __awaiter(this, void 0, void 0, function* () {
         if (context.path.startsWith(pathRoot)) {
-            const skipPath = skipPaths.some(path => context.path.startsWith(path));
+            const skipPath = skipPaths.some((path) => context.path.startsWith(path));
             if (context.path === pathRoot && context.method === 'GET') {
                 context.type = 'text/html; charset=utf-8';
                 context.body = uiHtml;

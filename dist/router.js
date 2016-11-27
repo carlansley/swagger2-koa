@@ -39,7 +39,7 @@ function default_1(swaggerDocument) {
     let app = new Koa();
     // automatically convert legacy middleware to new middleware
     const appUse = app.use;
-    app.use = x => appUse.call(app, koaConvert(x));
+    app.use = (x) => appUse.call(app, koaConvert(x));
     let document;
     if (typeof swaggerDocument === 'string') {
         document = swagger.loadDocumentSync(swaggerDocument);
