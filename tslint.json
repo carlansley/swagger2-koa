@@ -5,6 +5,7 @@
       true,
       "single"
     ],
+    "arrow-parens": false,
     "interface-name": false,
     "trailing-comma": false,
     "no-consecutive-blank-lines": false,

@@ -25,7 +25,7 @@
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "debug": "^2.3.3",
+    "debug": "^2.4.2",
     "koa": "^2.0.0-alpha.7",
     "koa-body": "^1.6.0",
     "koa-convert": "^1.2.0",
@@ -33,15 +33,15 @@
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
     "swagger-ui": "^2.2.8",
-    "swagger2": "^0.0.18"
+    "swagger2": "^0.0.20"
   },
   "devDependencies": {
     "@types/debug": "0.0.29",
-    "@types/koa": "^2.0.34",
+    "@types/koa": "^2.0.35",
     "@types/koa-send": "^3.0.1",
     "@types/mocha": "^2.2.33",
     "@types/nock": "^8.2.0",
-    "@types/node": "^6.0.51",
+    "@types/node": "^6.0.52",
     "supertest-koa-agent": "^0.3.0",
     "koa-router": "^7.0.1",
     "coveralls": "^2.11.15",
@@ -49,9 +49,9 @@
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.2.0",
     "nock": "9.0.2",
-    "remap-istanbul": "^0.7.0",
+    "remap-istanbul": "^0.8.0",
     "tslint": "^4.0.2",
-    "typescript": "^2.0.10"
+    "typescript": "2.1.4"
   },
   "maintainers": [
     {
