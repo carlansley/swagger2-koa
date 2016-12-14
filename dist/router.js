@@ -26,14 +26,14 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-const Koa = require('koa');
-const body = require('koa-body');
-const koaConvert = require('koa-convert');
-const koaCors = require('koa-cors');
-const koaRouter = require('koa-router');
-const swagger = require('swagger2');
-const validate_1 = require('./validate');
-const debug_1 = require('./debug');
+const Koa = require("koa");
+const body = require("koa-body");
+const koaConvert = require("koa-convert");
+const koaCors = require("koa-cors");
+const koaRouter = require("koa-router");
+const swagger = require("swagger2");
+const validate_1 = require("./validate");
+const debug_1 = require("./debug");
 function default_1(swaggerDocument) {
     let router = koaRouter();
     let app = new Koa();
