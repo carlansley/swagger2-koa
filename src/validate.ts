@@ -56,7 +56,9 @@ export default function (document: swagger.Document): (context: any, next: () =>
 
     if (validationErrors === undefined) {
       // operation not defined, return 405 (method not allowed)
-      context.status = 405;
+      if (context.method !== 'OPTIONS') {
+        context.status = 405;
+      }
       return;
     }
     if (validationErrors.length > 0) {
