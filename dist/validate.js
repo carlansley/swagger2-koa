@@ -54,7 +54,9 @@ function default_1(document) {
         let validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body);
         if (validationErrors === undefined) {
             // operation not defined, return 405 (method not allowed)
-            context.status = 405;
+            if (context.method !== 'OPTIONS') {
+                context.status = 405;
+            }
             return;
         }
         if (validationErrors.length > 0) {
