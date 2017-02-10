@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2016 Carl Ansley
+ Copyright (c) 2014-2017 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,12 +30,12 @@
 
 import * as swagger from 'swagger2';
 
-export default function (document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
 
   // construct a validation object, pre-compiling all schema and regex required
-  let compiled = swagger.compileDocument(document);
+  const compiled = swagger.compileDocument(document);
 
-  return async(context: any, next: Function) => {
+  return async (context: any, next: Function) => {
 
     if (document.basePath !== undefined && !context.path.startsWith(document.basePath)) {
       // not a path that we care about
@@ -43,7 +43,7 @@ export default function (document: swagger.Document): (context: any, next: () =>
       return;
     }
 
-    let compiledPath = compiled(context.path);
+    const compiledPath = compiled(context.path);
     if (compiledPath === undefined) {
       // if there is no single matching path, return 404 (not found)
       context.status = 404;
@@ -51,12 +51,14 @@ export default function (document: swagger.Document): (context: any, next: () =>
     }
 
     // check the request matches the swagger schema
-    let validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query,
+    const validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query,
       context.request.body);
 
     if (validationErrors === undefined) {
       // operation not defined, return 405 (method not allowed)
-      context.status = 405;
+      if (context.method !== 'OPTIONS') {
+        context.status = 405;
+      }
       return;
     }
     if (validationErrors.length > 0) {
@@ -72,7 +74,7 @@ export default function (document: swagger.Document): (context: any, next: () =>
     await next();
 
     // check the response matches the swagger schema
-    let error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
+    const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
     if (error) {
       error.where = 'response';
       context.status = 500;

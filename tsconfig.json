@@ -10,12 +10,15 @@
     "preserveConstEnums": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true
   },
   "exclude": [
-    "dist",
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

@@ -6,7 +6,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2016 Carl Ansley
+ Copyright (c) 2014-2017 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -35,8 +35,8 @@ const swagger = require("swagger2");
 const validate_1 = require("./validate");
 const debug_1 = require("./debug");
 function default_1(swaggerDocument) {
-    let router = koaRouter();
-    let app = new Koa();
+    const router = koaRouter();
+    const app = new Koa();
     // automatically convert legacy middleware to new middleware
     const appUse = app.use;
     app.use = (x) => appUse.call(app, koaConvert(x));

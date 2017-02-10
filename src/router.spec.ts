@@ -3,7 +3,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2016 Carl Ansley
+ Copyright (c) 2014-2017 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -134,7 +134,7 @@ describe('router', () => {
     }
   };
 
-  let router = swaggerRouter(document);
+  const router = swaggerRouter(document);
 
   router.head('/ping', async (context: Context) => {
     context.status = 200;
@@ -183,7 +183,7 @@ describe('router', () => {
     throw err;
   });
 
-  let http = agent(router.app());
+  const http = agent(router.app());
 
   it('fails with invalid filename', () => {
     assert.throws(() => swaggerRouter('invalid.yml'), Error);

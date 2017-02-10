@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2016 Carl Ansley
+ Copyright (c) 2014-2017 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@
 
 /* tslint:disable:no-unused-variable */
 // noinspection ES6UnusedImports
-import * as swagger from 'swagger2';
+// import * as swagger from 'swagger2';
 /* tslint:enable:no-unused-variable */
 
 export {default as validate} from './validate';
