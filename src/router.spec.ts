@@ -245,7 +245,8 @@ describe('router', () => {
         actual: {badTime: 'mock'},
         expected: {
           schema: {type: 'object', required: ['time'], properties: {time: {type: 'string', format: 'date-time'}}}},
-        where: 'response'
+        where: 'response',
+        error: 'data.time is required'
       }]
     });
   });
