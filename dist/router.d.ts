@@ -45,7 +45,7 @@ export interface Context extends Request, Response {
     request: Request;
     response: Response;
 }
-export declare type Middleware = (context: Context, next: Function) => any;
+export declare type Middleware = (context: Context, next: () => void) => any;
 export interface Router {
     get: (path: string, middleware: Middleware) => Router;
     head: (path: string, middleware: Middleware) => Router;
