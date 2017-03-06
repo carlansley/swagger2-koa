@@ -38,7 +38,7 @@ export default function(
   const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
   const uiHtml = html(document, pathPrefix);
 
-  return async (context: koa.Context, next: Function) => {
+  return async (context: koa.Context, next: () => void) => {
     if (context.path.startsWith(pathRoot)) {
       const skipPath: boolean = skipPaths.some((path) => context.path.startsWith(path));
       if (context.path === pathRoot && context.method === 'GET') {

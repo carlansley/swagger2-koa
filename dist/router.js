@@ -1,5 +1,6 @@
 // router.ts
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * Koa2 router implementation for validating against a Swagger document
  */
@@ -26,21 +27,21 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-const Koa = require("koa");
-const body = require("koa-body");
-const koaConvert = require("koa-convert");
-const koaCors = require("koa-cors");
-const koaRouter = require("koa-router");
-const swagger = require("swagger2");
-const validate_1 = require("./validate");
-const debug_1 = require("./debug");
+var Koa = require("koa");
+var body = require("koa-body");
+var koaConvert = require("koa-convert");
+var koaCors = require("koa-cors");
+var koaRouter = require("koa-router");
+var swagger = require("swagger2");
+var validate_1 = require("./validate");
+var debug_1 = require("./debug");
 function default_1(swaggerDocument) {
-    const router = koaRouter();
-    const app = new Koa();
+    var router = koaRouter();
+    var app = new Koa();
     // automatically convert legacy middleware to new middleware
-    const appUse = app.use;
-    app.use = (x) => appUse.call(app, koaConvert(x));
-    let document;
+    var appUse = app.use;
+    app.use = function (x) { return appUse.call(app, koaConvert(x)); };
+    var document;
     if (typeof swaggerDocument === 'string') {
         document = swagger.loadDocumentSync(swaggerDocument);
     }
@@ -48,7 +49,7 @@ function default_1(swaggerDocument) {
         document = swaggerDocument;
     }
     if (!swagger.validateDocument(document)) {
-        throw Error(`Document does not conform to the Swagger 2.0 schema`);
+        throw Error("Document does not conform to the Swagger 2.0 schema");
     }
     app.use(debug_1.default('swagger2-koa:router'));
     app.use(koaCors());
@@ -57,15 +58,14 @@ function default_1(swaggerDocument) {
     app.use(router.routes());
     app.use(router.allowedMethods());
     return {
-        get: (path, middleware) => router.get(document.basePath + path, middleware),
-        head: (path, middleware) => router.head(document.basePath + path, middleware),
-        put: (path, middleware) => router.put(document.basePath + path, middleware),
-        post: (path, middleware) => router.post(document.basePath + path, middleware),
-        del: (path, middleware) => router.del(document.basePath + path, middleware),
-        patch: (path, middleware) => router.patch(document.basePath + path, middleware),
-        app: () => app
+        get: function (path, middleware) { return router.get(document.basePath + path, middleware); },
+        head: function (path, middleware) { return router.head(document.basePath + path, middleware); },
+        put: function (path, middleware) { return router.put(document.basePath + path, middleware); },
+        post: function (path, middleware) { return router.post(document.basePath + path, middleware); },
+        del: function (path, middleware) { return router.del(document.basePath + path, middleware); },
+        patch: function (path, middleware) { return router.patch(document.basePath + path, middleware); },
+        app: function () { return app; }
     };
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = default_1;
 //# sourceMappingURL=router.js.map

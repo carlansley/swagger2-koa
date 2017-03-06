@@ -40,8 +40,8 @@ import validate from './validate';
 import debug from './debug';
 
 interface HttpRouter extends Router {
-  routes: () => (ctx: Koa.Context, next: Function) => any;
-  allowedMethods: () => (ctx: Koa.Context, next: Function) => any;
+  routes: () => (ctx: Koa.Context, next: () => void) => any;
+  allowedMethods: () => (ctx: Koa.Context, next: () => void) => any;
 }
 
 export interface Request {
@@ -86,7 +86,7 @@ export interface Context extends Request, Response {
   response: Response;
 }
 
-export type Middleware = (context: Context, next: Function) => any;
+export type Middleware = (context: Context, next: () => void) => any;
 
 export interface Router {
   get: (path: string, middleware: Middleware) => Router;

@@ -37,11 +37,11 @@ export default function(module: string) {
 
   if (!log.enabled) {
     // logging not enabled for this module, return do-nothing middleware
-    return (context: any, next: Function) => next();
+    return (context: any, next: () => void) => next();
   }
 
   /* istanbul ignore next */
-  return async (context: any, next: Function) => {
+  return async (context: any, next: () => void) => {
 
     const startTime = Date.now();
     const { method, url } = context.request;
