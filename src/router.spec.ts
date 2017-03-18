@@ -140,8 +140,10 @@ describe('router', () => {
     context.status = 200;
   });
 
-  router.get('/ping', async (context: Context) => {
+  router.get('/ping', async (context: Context, next: () => Promise<any>) => {
     context.status = 200;
+    return next();
+  }, async (context: Context) => {
     context.body = {
       time: new Date().toISOString()
     };
