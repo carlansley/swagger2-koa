@@ -47,12 +47,12 @@ export interface Context extends Request, Response {
 }
 export declare type Middleware = (context: Context, next: () => void) => any;
 export interface Router {
-    get: (path: string, middleware: Middleware) => Router;
-    head: (path: string, middleware: Middleware) => Router;
-    put: (path: string, middleware: Middleware) => Router;
-    post: (path: string, middleware: Middleware) => Router;
-    del: (path: string, middleware: Middleware) => Router;
-    patch: (path: string, middleware: Middleware) => Router;
+    get: (path: string, ...middleware: Middleware[]) => Router;
+    head: (path: string, ...middleware: Middleware[]) => Router;
+    put: (path: string, ...middleware: Middleware[]) => Router;
+    post: (path: string, ...middleware: Middleware[]) => Router;
+    del: (path: string, ...middleware: Middleware[]) => Router;
+    patch: (path: string, ...middleware: Middleware[]) => Router;
     app: () => any;
 }
 export default function (swaggerDocument: any): Router;

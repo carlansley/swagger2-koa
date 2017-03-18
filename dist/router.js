@@ -58,12 +58,48 @@ function default_1(swaggerDocument) {
     app.use(router.routes());
     app.use(router.allowedMethods());
     return {
-        get: function (path, middleware) { return router.get(document.basePath + path, middleware); },
-        head: function (path, middleware) { return router.head(document.basePath + path, middleware); },
-        put: function (path, middleware) { return router.put(document.basePath + path, middleware); },
-        post: function (path, middleware) { return router.post(document.basePath + path, middleware); },
-        del: function (path, middleware) { return router.del(document.basePath + path, middleware); },
-        patch: function (path, middleware) { return router.patch(document.basePath + path, middleware); },
+        get: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.get.apply(router, [document.basePath + path].concat(middleware));
+        },
+        head: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.head.apply(router, [document.basePath + path].concat(middleware));
+        },
+        put: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.put.apply(router, [document.basePath + path].concat(middleware));
+        },
+        post: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.post.apply(router, [document.basePath + path].concat(middleware));
+        },
+        del: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.del.apply(router, [document.basePath + path].concat(middleware));
+        },
+        patch: function (path) {
+            var middleware = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                middleware[_i - 1] = arguments[_i];
+            }
+            return router.patch.apply(router, [document.basePath + path].concat(middleware));
+        },
         app: function () { return app; }
     };
 }
