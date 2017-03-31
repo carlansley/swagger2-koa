@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
-    "lib": ["es6"],
+    "target": "es6",
     "sourceMap": true,
     "outDir": "build",
     "declaration": true,
@@ -13,6 +12,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
+    "alwaysStrict": false,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
