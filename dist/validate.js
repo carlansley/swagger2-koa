@@ -67,12 +67,14 @@ function default_1(document) {
     var _this = this;
     // construct a validation object, pre-compiling all schema and regex required
     var compiled = swagger.compileDocument(document);
+    // construct a canonical base path
+    var basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
     return function (context, next) { return __awaiter(_this, void 0, void 0, function () {
         var compiledPath, validationErrors, error;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(document.basePath !== undefined && !context.path.startsWith(document.basePath))) return [3 /*break*/, 2];
+                    if (!(document.basePath !== undefined && !context.path.startsWith(basePath))) return [3 /*break*/, 2];
                     // not a path that we care about
                     return [4 /*yield*/, next()];
                 case 1:
