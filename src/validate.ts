@@ -35,9 +35,12 @@ export default function(document: swagger.Document): (context: any, next: () => 
   // construct a validation object, pre-compiling all schema and regex required
   const compiled = swagger.compileDocument(document);
 
+  // construct a canonical base path
+  const basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
+
   return async (context: any, next: () => void) => {
 
-    if (document.basePath !== undefined && !context.path.startsWith(document.basePath)) {
+    if (document.basePath !== undefined && !context.path.startsWith(basePath)) {
       // not a path that we care about
       await next();
       return;
