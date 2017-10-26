@@ -10,6 +10,7 @@
     "trailing-comma": false,
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,
-    "prefer-conditional-expression": false
+    "prefer-conditional-expression": false,
+    "no-implicit-dependencies": [true, "dev"]
   }
 }

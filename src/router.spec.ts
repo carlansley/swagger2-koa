@@ -140,7 +140,7 @@ describe('router', () => {
     context.status = 200;
   });
 
-  router.get('/ping', async (context: Context, next: () => Promise<any>) => {
+  router.get('/ping', async (context: Context, next: () => void) => {
     context.status = 200;
     return next();
   }, async (context: Context) => {

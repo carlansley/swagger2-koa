@@ -26,6 +26,7 @@
 
 import * as koa from 'koa';
 import * as send from 'koa-send';
+// tslint:disable-next-line:no-submodule-imports
 import * as swaggerUi from 'swagger-ui/index';
 import * as swagger from 'swagger2';
 
@@ -51,7 +52,7 @@ export default function(
         context.body = document;
         context.status = 200;
         return;
-      }else if (!skipPath && context.method === 'GET') {
+      } else if (!skipPath && context.method === 'GET') {
         const filePath = context.path.substring(pathRoot.length);
         await send(context, filePath, { root:  swaggerUi.dist });
         return;

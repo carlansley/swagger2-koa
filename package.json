@@ -25,33 +25,33 @@
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-    "debug": "^2.6.3",
-    "koa": "^2.2.0",
-    "koa-body": "^1.6.0",
+    "debug": "^3.1.0",
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
-    "koa-router": "^7.0.1",
+    "koa-router": "^7.2.1",
     "koa-send": "^3.3.0",
     "swagger-ui": "^2.2.10",
-    "swagger2": "^0.0.24"
+    "swagger2": "^0.0.25"
   },
   "devDependencies": {
-    "@types/debug": "0.0.29",
+    "@types/debug": "0.0.30",
     "@types/koa": "^2.0.39",
     "@types/koa-send": "^3.3.0",
-    "@types/mocha": "^2.2.40",
+    "@types/mocha": "^2.2.43",
     "@types/nock": "^8.2.1",
-    "@types/node": "^7.0.12",
+    "@types/node": "^8.0.47",
     "supertest-koa-agent": "^0.3.0",
-    "coveralls": "^2.13.0",
+    "coveralls": "^3.0.0",
     "expectations": "^0.7.1",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^3.2.0",
-    "nock": "9.0.11",
+    "mocha": "^4.0.1",
+    "nock": "9.0.25",
     "remap-istanbul": "^0.9.5",
-    "rimraf": "^2.6.1",
-    "tslint": "^5.0.0",
-    "typescript": "2.2.2"
+    "rimraf": "^2.6.2",
+    "tslint": "^5.8.0",
+    "typescript": "2.5.3"
   },
   "maintainers": [
     {
