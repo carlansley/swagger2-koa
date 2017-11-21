@@ -1,3 +1,3 @@
 import { Document } from 'swagger2';
-declare const _default: (document: Document, pathPrefix: string) => string;
+declare var _default: (document: Document, pathPrefix: string) => string;
 export default _default;
