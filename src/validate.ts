@@ -54,7 +54,8 @@ export default function(document: swagger.Document): (context: any, next: () => 
     }
 
     // check the request matches the swagger schema
-    const validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query,
+    const validationErrors = swagger.validateRequest(compiledPath, context.params, context.method,
+      context.request.query,
       context.request.body);
 
     if (validationErrors === undefined) {
