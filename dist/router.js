@@ -1,5 +1,5 @@
-// router.ts
 "use strict";
+// router.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * Koa2 router implementation for validating against a Swagger document
