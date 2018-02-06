@@ -33,7 +33,7 @@
     "koa-router": "^7.4.0",
     "koa-send": "^3.3.0",
     "swagger-ui": "^2.2.10",
-    "swagger2": "^0.0.27"
+    "swagger2": "^0.0.28"
   },
   "devDependencies": {
     "@types/debug": "0.0.30",
@@ -41,7 +41,7 @@
     "@types/koa-send": "^4.1.1",
     "@types/mocha": "^2.2.48",
     "@types/nock": "^9.1.2",
-    "@types/node": "^9.4.0",
+    "@types/node": "^9.4.1",
     "supertest-koa-agent": "^0.3.0",
     "coveralls": "^3.0.0",
     "expectations": "^0.7.1",
