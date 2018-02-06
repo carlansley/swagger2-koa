@@ -22,11 +22,12 @@ This is the easiest way to use swagger2-koa; it creates a standalone koa server,
 Router object that allows you to add your route implementations.
 
 ```
+import * as swagger from 'swagger2';
 import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
 
 ...
-
-let router: Router = swaggerRouter(__dirname + '/swagger.yml');
+const document = swagger.loadDocumentSync('./swagger.yml');
+const router: Router = swaggerRouter(document);
 
 router.get('/ping', async (context) => {
   context.status = 200;
@@ -57,7 +58,7 @@ swagger 2.0 document:
 import * as swagger from 'swagger2';
 import { validate } from 'swagger2-koa';
 
-let app = new Koa();
+const app = new Koa();
 
 // load YAML swagger file
 const document = swagger.loadDocumentSync('./swagger.yml');
@@ -99,7 +100,7 @@ You can also serve a swagger-ui for your API from a given path root (pathRoot de
 import * as swagger from 'swagger2';
 import { ui } from 'swagger2-koa';
 
-let app = new Koa();
+const app = new Koa();
 
 const document = swagger.loadDocumentSync('./swagger.yml');
 app.use(ui(document));
