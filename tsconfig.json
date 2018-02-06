@@ -1,20 +1,20 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2016",
+    "lib": ["es2016", "dom"],
     "sourceMap": true,
     "outDir": "build",
     "declaration": true,
     "removeComments": false,
     "noLib": false,
+    "strict": true,
     "preserveConstEnums": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "alwaysStrict": false,
     "noFallthroughCasesInSwitch": true,
-    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true
   },
