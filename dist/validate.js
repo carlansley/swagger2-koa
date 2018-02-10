@@ -88,7 +88,7 @@ function default_1(document) {
                         context.status = 404;
                         return [2 /*return*/];
                     }
-                    validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body, context.request.headers, context.params);
+                    validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body, context.request.headers);
                     if (validationErrors === undefined) {
                         // operation not defined, return 405 (method not allowed)
                         if (context.method !== 'OPTIONS') {
