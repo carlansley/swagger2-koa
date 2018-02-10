@@ -32,236 +32,327 @@ import swaggerRouter, {Context} from './router';
 
 describe('router', () => {
 
-  // noinspection ReservedWordAsName
-  const document: swagger.Document = {
-    swagger: '2.0',
-    info: {
-      title: 'mock',
-      version: '0.0.1'
-    },
-    basePath: '/mock',
-    paths: {
-      '/ping': {
-        get: {
-          responses: {
-            200: {
-              description: '',
-              schema: {
-                type: 'object',
-                required: ['time'],
-                properties: {
-                  time: {
-                    type: 'string',
-                    format: 'date-time'
-                  }
-                }
-              }
-            }
-          }
-        },
-        head: {
-          responses: {
-            200: {
-              description: ''
-            }
-          }
-        },
-        patch: {
-          responses: {
-            204: {
-              description: ''
-            }
-          }
-        },
-        put: {
-          responses: {
-            204: {
-              description: ''
-            }
-          }
-        },
-        post: {
-          responses: {
-            201: {
-              description: ''
-            }
-          }
-        },
-        options: {
-          responses: {
-            204: {
-              description: ''
-            }
-          }
-        },
-        delete: {
-          responses: {
-            204: {
-              description: ''
-            }
-          }
-        }
+  describe('numeric-path', () => {
+    const numericPath = swaggerRouter({
+      swagger: '2.0',
+      info: {
+        title: 'thing',
+        version: '1.0'
       },
-      '/badPing': {
-        get: {
-          responses: {
-            200: {
-              description: '',
-              schema: {
-                type: 'object',
-                required: ['time'],
-                properties: {
-                  time: {
-                    type: 'string',
-                    format: 'date-time'
+      paths: {
+        '/v1/post/{id}': {
+          get: {
+            parameters: [{
+              name: 'id',
+              in: 'path',
+              type: 'integer',
+              format: 'int64',
+              description: 'The post to fetch',
+              required: true
+            }],
+            responses: {
+              200: {
+                description: ''
+              }
+            }
+          },
+        }
+      }
+    });
+
+    numericPath.get('/v1/post/:id', async (context: Context) => {
+      context.status = 200;
+    });
+
+    const http = agent(numericPath.app());
+
+    it('validates valid GET operation', async () => {
+      await http.get('/v1/post/3').expect(200);
+      await http.get('/v1/post/3.2').expect(400);
+      await http.get('/v1/post/abc').expect(400);
+    });
+  });
+
+  describe('no-base-path', () => {
+    const routerNoBasePath = swaggerRouter({
+      swagger: '2.0',
+      info: {
+        title: 'mock',
+        version: '0.0.1'
+      },
+      paths: {
+        '/ping': {
+          get: {
+            responses: {
+              200: {
+                description: '',
+                schema: {
+                  type: 'object',
+                  required: ['time'],
+                  properties: {
+                    time: {
+                      type: 'string',
+                      format: 'date-time'
+                    }
                   }
                 }
               }
             }
+          },
+        }
+      }
+    });
+
+    routerNoBasePath.get('/ping', async (context: Context) => {
+      context.status = 200;
+      context.body = {
+        time: new Date().toISOString()
+      };
+    });
+
+    const http = agent(routerNoBasePath.app());
+
+    it('validates valid GET operation', async () => {
+      const {body} = await http.get('/ping').expect(200);
+      assert.doesNotThrow(() => new Date(body.time));
+    });
+  });
+
+
+  describe('mock swagger', () => {
+
+    // noinspection ReservedWordAsName
+    const document: swagger.Document = {
+      swagger: '2.0',
+      info: {
+        title: 'mock',
+        version: '0.0.1'
+      },
+      basePath: '/mock',
+      paths: {
+        '/ping': {
+          get: {
+            responses: {
+              200: {
+                description: '',
+                schema: {
+                  type: 'object',
+                  required: ['time'],
+                  properties: {
+                    time: {
+                      type: 'string',
+                      format: 'date-time'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          head: {
+            responses: {
+              200: {
+                description: ''
+              }
+            }
+          },
+          patch: {
+            responses: {
+              204: {
+                description: ''
+              }
+            }
+          },
+          put: {
+            responses: {
+              204: {
+                description: ''
+              }
+            }
+          },
+          post: {
+            responses: {
+              201: {
+                description: ''
+              }
+            }
+          },
+          options: {
+            responses: {
+              204: {
+                description: ''
+              }
+            }
+          },
+          delete: {
+            responses: {
+              204: {
+                description: ''
+              }
+            }
           }
         },
-        put: {
-          responses: {
-            201: { description: '' }
-          }
-        },
-        post: {
-          responses: {
-            201: { description: '' }
+        '/badPing': {
+          get: {
+            responses: {
+              200: {
+                description: '',
+                schema: {
+                  type: 'object',
+                  required: ['time'],
+                  properties: {
+                    time: {
+                      type: 'string',
+                      format: 'date-time'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          put: {
+            responses: {
+              201: {description: ''}
+            }
+          },
+          post: {
+            responses: {
+              201: {description: ''}
+            }
           }
         }
       }
-    }
-  };
-
-  const router = swaggerRouter(document);
-
-  router.head('/ping', async (context: Context) => {
-    context.status = 200;
-  });
-
-  router.get('/ping', async (context: Context, next: () => void) => {
-    context.status = 200;
-    return next();
-  }, async (context: Context) => {
-    context.body = {
-      time: new Date().toISOString()
     };
-  });
 
-  router.put('/ping', async (context: Context) => {
-    context.status = 204;
-  });
 
-  router.patch('/ping', async (context: Context) => {
-    context.status = 204;
-  });
+    const router = swaggerRouter(document);
 
-  router.post('/ping', async (context: Context) => {
-    context.status = 201;
-  });
+    router.head('/ping', async (context: Context) => {
+      context.status = 200;
+    });
 
-  router.del('/ping', async (context: Context) => {
-    context.status = 204;
-  });
+    router.get('/ping', async (context: Context, next: () => void) => {
+      context.status = 200;
+      return next();
+    }, async (context: Context) => {
+      context.body = {
+        time: new Date().toISOString()
+      };
+    });
 
-  router.get('/badPing', async (context: Context) => {
-    context.status = 200;
-    context.body = {
-      badTime: 'mock'
-    };
-  });
+    router.put('/ping', async (context: Context) => {
+      context.status = 204;
+    });
 
-  router.put('/badPing', async (context: Context) => {
-    context.status = 201;
-    context.body = {
-      something: 'mock'
-    };
-  });
+    router.patch('/ping', async (context: Context) => {
+      context.status = 204;
+    });
 
-  router.post('/badPing', async () => {
-    const err: any = new Error();
-    err.status = 400;
-    throw err;
-  });
+    router.post('/ping', async (context: Context) => {
+      context.status = 201;
+    });
 
-  const http = agent(router.app());
+    router.del('/ping', async (context: Context) => {
+      context.status = 204;
+    });
 
-  it('fails with invalid filename', () => {
-    assert.throws(() => swaggerRouter('invalid.yml'), Error);
-  });
+    router.get('/badPing', async (context: Context) => {
+      context.status = 200;
+      context.body = {
+        badTime: 'mock'
+      };
+    });
 
-  it('fails with invalid Swagger document', () => {
-    assert.throws(() => swaggerRouter(__dirname + '/../.travis.yml'));
-  });
+    router.put('/badPing', async (context: Context) => {
+      context.status = 201;
+      context.body = {
+        something: 'mock'
+      };
+    });
 
-  it('invalid path', async () => http.post('/mock/pingy').expect(404));
-  it('invalid path', async () => http.post('/pingy').expect(404));
-  it('invalid method', async () => http.patch('/mock/badPing').expect(405));
-  it('invalid request', async () => http.get('/mock/ping?x=y').expect(400));
+    router.post('/badPing', async () => {
+      const err: any = new Error();
+      err.status = 400;
+      throw err;
+    });
 
-  it('validates valid GET operation', async () => {
-    const {body} =  await http.get('/mock/ping').expect(200);
-    assert.doesNotThrow(() => new Date(body.time));
-  });
+    const http = agent(router.app());
 
-  it('validates valid HEAD operation', async () => {
-    const {body} = await http.head('/mock/ping').expect(200);
-    assert.deepStrictEqual(body, {});
-  });
+    it('fails with invalid filename', () => {
+      assert.throws(() => swaggerRouter('invalid.yml'), Error);
+    });
 
-  it('validates valid POST operation', async () => {
-    const {body} = await http.post('/mock/ping').expect(201);
-    assert.deepStrictEqual(body, {});
-  });
+    it('fails with invalid Swagger document', () => {
+      assert.throws(() => swaggerRouter(__dirname + '/../.travis.yml'));
+    });
 
-  it('validates valid PATCH operation', async () => {
-    const {body} = await http.patch('/mock/ping').expect(204);
-    assert.deepStrictEqual(body, {});
-  });
+    it('invalid path', async () => http.post('/mock/pingy').expect(404));
+    it('invalid path', async () => http.post('/pingy').expect(404));
+    it('invalid method', async () => http.patch('/mock/badPing').expect(405));
+    it('invalid request', async () => http.get('/mock/ping?x=y').expect(400));
 
-  it('validates valid DELETE operation', async () => {
-    const {body} = await http.del('/mock/ping').expect(204);
-    assert.deepStrictEqual(body, {});
-  });
+    it('validates valid GET operation', async () => {
+      const {body} = await http.get('/mock/ping').expect(200);
+      assert.doesNotThrow(() => new Date(body.time));
+    });
 
-  it('support CORS via OPTIONS operation', async () => {
-    const {body} = await http.options('/mock/ping').expect(204);
-    assert.deepStrictEqual(body, {});
-  });
+    it('validates valid HEAD operation', async () => {
+      const {body} = await http.head('/mock/ping').expect(200);
+      assert.deepStrictEqual(body, {});
+    });
 
-  it('validates valid PUT operation', async () => {
-    const {body} = await http.put('/mock/ping').expect(204);
-    assert.deepStrictEqual(body, {});
-  });
+    it('validates valid POST operation', async () => {
+      const {body} = await http.post('/mock/ping').expect(201);
+      assert.deepStrictEqual(body, {});
+    });
 
-  it('handles POST operation throwing 400 error', async () => {
-    await http.post('/mock/badPing').expect(400);
-  });
+    it('validates valid PATCH operation', async () => {
+      const {body} = await http.patch('/mock/ping').expect(204);
+      assert.deepStrictEqual(body, {});
+    });
 
-  it('does not validate invalid operation response', async () => {
-    const {body} = await http.get('/mock/badPing').expect(500);
-    assert.deepStrictEqual(body, {
-      code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-      errors: [{
-        actual: {badTime: 'mock'},
-        expected: {
-          schema: {type: 'object', required: ['time'], properties: {time: {type: 'string', format: 'date-time'}}}},
-        where: 'response',
-        error: 'data.time is required'
-      }]
+    it('validates valid DELETE operation', async () => {
+      const {body} = await http.del('/mock/ping').expect(204);
+      assert.deepStrictEqual(body, {});
+    });
+
+    it('support CORS via OPTIONS operation', async () => {
+      const {body} = await http.options('/mock/ping').expect(204);
+      assert.deepStrictEqual(body, {});
+    });
+
+    it('validates valid PUT operation', async () => {
+      const {body} = await http.put('/mock/ping').expect(204);
+      assert.deepStrictEqual(body, {});
+    });
+
+    it('handles POST operation throwing 400 error', async () => {
+      await http.post('/mock/badPing').expect(400);
+    });
+
+    it('does not validate invalid operation response', async () => {
+      const {body} = await http.get('/mock/badPing').expect(500);
+      assert.deepStrictEqual(body, {
+        code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
+        errors: [{
+          actual: {badTime: 'mock'},
+          expected: {
+            schema: {type: 'object', required: ['time'], properties: {time: {type: 'string', format: 'date-time'}}}
+          },
+          where: 'response',
+          error: 'data.time is required'
+        }]
+      });
+    });
+
+    it('does not validate response where nothing is expected', async () => {
+      const {body} = await http.put('/mock/badPing').expect(500);
+      assert.deepStrictEqual(body, {
+        code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
+        errors: [{
+          actual: {something: 'mock'},
+          where: 'response'
+        }]
+      });
     });
   });
-
-  it('does not validate response where nothing is expected', async () => {
-    const {body} = await http.put('/mock/badPing').expect(500);
-    assert.deepStrictEqual(body, {
-      code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-      errors: [{
-        actual: {something: 'mock'},
-        where: 'response'
-      }]
-    });
-  });
-
 });

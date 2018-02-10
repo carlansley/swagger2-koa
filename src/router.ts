@@ -126,13 +126,15 @@ export default function(swaggerDocument: any): Router {
   app.use(router.routes());
   app.use(router.allowedMethods());
 
+  const full = (path: string) => document.basePath !== undefined ? document.basePath + path : path;
+
   return {
-    get: (path, ...middleware) => router.get(document.basePath + path, ...middleware),
-    head: (path, ...middleware) => router.head(document.basePath + path, ...middleware),
-    put: (path, ...middleware) => router.put(document.basePath + path, ...middleware),
-    post: (path, ...middleware) => router.post(document.basePath + path, ...middleware),
-    del: (path, ...middleware) => router.del(document.basePath + path, ...middleware),
-    patch: (path, ...middleware) => router.patch(document.basePath + path, ...middleware),
+    get: (path, ...middleware) => router.get(full(path), ...middleware),
+    head: (path, ...middleware) => router.head(full(path), ...middleware),
+    put: (path, ...middleware) => router.put(full(path), ...middleware),
+    post: (path, ...middleware) => router.post(full(path), ...middleware),
+    del: (path, ...middleware) => router.del(full(path), ...middleware),
+    patch: (path, ...middleware) => router.patch(full(path), ...middleware),
     app: () => app
   };
 }

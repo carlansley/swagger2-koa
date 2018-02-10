@@ -33,7 +33,7 @@
     "koa-router": "^7.4.0",
     "koa-send": "^3.3.0",
     "swagger-ui": "^2.2.10",
-    "swagger2": "^0.0.28"
+    "swagger2": "^0.0.29"
   },
   "devDependencies": {
     "@types/debug": "0.0.30",
