@@ -26,8 +26,10 @@
 
 import * as koa from 'koa';
 import * as send from 'koa-send';
-import * as path from 'path';
 import * as swagger from 'swagger2';
+
+// tslint:disable-next-line:no-var-requires
+const SWAGGER_UI_PATH = require('swagger-ui-dist').getAbsoluteFSPath();
 
 import html from './ui-html';
 
@@ -53,7 +55,7 @@ export default function(
         return;
       } else if (!skipPath && context.method === 'GET') {
         const filePath = context.path.substring(pathRoot.length);
-        await send(context, filePath, { root: path.dirname(require.resolve('swagger-ui-dist')) });
+        await send(context, filePath, { root: SWAGGER_UI_PATH });
         return;
       }
     }
