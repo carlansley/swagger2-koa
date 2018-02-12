@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/carlansley/swagger2-koa.svg?branch=master)](https://travis-ci.org/carlansley/swagger2-koa)
 [![Coverage Status](https://coveralls.io/repos/github/carlansley/swagger2-koa/badge.svg?branch=master)](https://coveralls.io/github/carlansley/swagger2-koa?branch=master)
 [![Dependencies](https://david-dm.org/carlansley/swagger2-koa.svg)](https://raw.githubusercontent.com/carlansley/swagger2-koa/master/package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/carlansley/swagger2-koa/badge.svg)](https://snyk.io/test/github/carlansley/swagger2-koa)
 
 # swagger2-koa
 Koa 2 async-style middleware for loading, parsing and validating requests via swagger2, and serving UI via swagger-ui.
