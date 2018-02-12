@@ -37,7 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var send = require("koa-send");
-var path = require("path");
+// tslint:disable-next-line:no-var-requires
+var SWAGGER_UI_PATH = require('swagger-ui-dist').getAbsoluteFSPath();
 var ui_html_1 = require("./ui-html");
 function default_1(document, pathRoot, skipPaths) {
     var _this = this;
@@ -66,7 +67,7 @@ function default_1(document, pathRoot, skipPaths) {
                 case 2:
                     if (!(!skipPath && context.method === 'GET')) return [3 /*break*/, 4];
                     filePath = context.path.substring(pathRoot.length);
-                    return [4 /*yield*/, send(context, filePath, { root: path.dirname(require.resolve('swagger-ui-dist')) })];
+                    return [4 /*yield*/, send(context, filePath, { root: SWAGGER_UI_PATH })];
                 case 3:
                     _a.sent();
                     return [2 /*return*/];
