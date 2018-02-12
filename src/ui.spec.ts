@@ -54,10 +54,10 @@ describe('ui', () => {
   });
 
   it('serves files from non-skipped paths', async () => {
-    await getRequestClient('/swagger2', ['/swagger/images']).get('/swagger2/css/print.css').expect(200);
+    await getRequestClient('/swagger2', ['/swagger/images']).get('/swagger2/swagger-ui.css').expect(200);
   });
   it('does not serve files from skipped paths', async () => {
-    await getRequestClient('/swagger2', ['/swagger2/css']).get('/swagger2/css/print.css').expect(404);
+    await getRequestClient('/swagger2', ['/swagger2']).get('/swagger2/swagger-ui.css').expect(404);
   });
 
   it('serves api-docs', async () => {
