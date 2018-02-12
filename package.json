@@ -44,7 +44,6 @@
     "@types/node": "^9.4.1",
     "supertest-koa-agent": "^0.3.0",
     "coveralls": "^3.0.0",
-    "expectations": "^0.7.1",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.0.0",
     "nock": "9.1.6",
@@ -68,10 +67,10 @@
     "clean": "rimraf build coverage node_modules",
     "lint": "tslint -c ./tslint.json --project ./tsconfig.json",
     "lint:fix": "npm run lint -- --fix",
-    "test": "npm run build && _mocha --require expectations $(find build -name '*.spec.js') && npm run lint",
+    "test": "npm run build && _mocha $(find build -name '*.spec.js') && npm run lint",
     "cover": "npm run build && npm run cover:istanbul && npm run cover:remap",
     "cover:browser": "npm run cover && istanbul report html && open coverage/coverage-remapped/index.html",
-    "cover:istanbul": "rimraf ./coverage && istanbul cover _mocha -- --require expectations $(find build -name '*.spec.js')",
+    "cover:istanbul": "rimraf ./coverage && istanbul cover _mocha -- $(find build -name '*.spec.js')",
     "cover:remap": "remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.json && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.lcov -t lcovonly && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped -t html",
     "coveralls": "npm run-script cover && coveralls < coverage/coverage-remapped.lcov"
   }
