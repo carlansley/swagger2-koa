@@ -37,8 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var send = require("koa-send");
-// tslint:disable-next-line:no-submodule-imports
-var swaggerUi = require("swagger-ui/index");
+var path = require("path");
 var ui_html_1 = require("./ui-html");
 function default_1(document, pathRoot, skipPaths) {
     var _this = this;
@@ -52,7 +51,7 @@ function default_1(document, pathRoot, skipPaths) {
             switch (_a.label) {
                 case 0:
                     if (!context.path.startsWith(pathRoot)) return [3 /*break*/, 4];
-                    skipPath = skipPaths.some(function (path) { return context.path.startsWith(path); });
+                    skipPath = skipPaths.some(function (current) { return context.path.startsWith(current); });
                     if (!(context.path === pathRoot && context.method === 'GET')) return [3 /*break*/, 1];
                     context.type = 'text/html; charset=utf-8';
                     context.body = uiHtml;
@@ -67,7 +66,7 @@ function default_1(document, pathRoot, skipPaths) {
                 case 2:
                     if (!(!skipPath && context.method === 'GET')) return [3 /*break*/, 4];
                     filePath = context.path.substring(pathRoot.length);
-                    return [4 /*yield*/, send(context, filePath, { root: swaggerUi.dist })];
+                    return [4 /*yield*/, send(context, filePath, { root: path.dirname(require.resolve('swagger-ui-dist')) })];
                 case 3:
                     _a.sent();
                     return [2 /*return*/];
