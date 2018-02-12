@@ -26,8 +26,7 @@
 
 import * as koa from 'koa';
 import * as send from 'koa-send';
-// tslint:disable-next-line:no-submodule-imports
-import * as swaggerUi from 'swagger-ui/index';
+import * as path from 'path';
 import * as swagger from 'swagger2';
 
 import html from './ui-html';
@@ -41,7 +40,7 @@ export default function(
 
   return async (context: koa.Context, next: () => void) => {
     if (context.path.startsWith(pathRoot)) {
-      const skipPath: boolean = skipPaths.some((path) => context.path.startsWith(path));
+      const skipPath: boolean = skipPaths.some((current) => context.path.startsWith(current));
       if (context.path === pathRoot && context.method === 'GET') {
         context.type = 'text/html; charset=utf-8';
         context.body = uiHtml;
@@ -54,7 +53,7 @@ export default function(
         return;
       } else if (!skipPath && context.method === 'GET') {
         const filePath = context.path.substring(pathRoot.length);
-        await send(context, filePath, { root:  swaggerUi.dist });
+        await send(context, filePath, { root: path.dirname(require.resolve('swagger-ui-dist')) });
         return;
       }
     }
