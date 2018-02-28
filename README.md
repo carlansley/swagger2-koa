@@ -76,6 +76,7 @@ app.use(validate(document));
 
 The `validate` middleware behaves as follows:
 * expects context.body to contain request body in object form (e.g. via use of koa-body)
+* if the request is for a path not defined in swagger document, an HTTP 404 is returned to the client (subsequent middleware is never processed).
 * if the request body does not validate, an HTTP 400 is returned to the client (subsequent middleware is never processed)
 * if the response body does not validate, an HTTP 500 is returned to the client
 
