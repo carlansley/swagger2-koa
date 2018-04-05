@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2016",
-    "lib": ["es2016", "dom"],
+    "target": "es2017",
+    "lib": ["es2017", "dom"],
     "sourceMap": true,
     "outDir": "build",
     "declaration": true,

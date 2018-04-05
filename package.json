@@ -4,7 +4,7 @@
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
   "main": "dist/index.js",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "repository": {
     "type": "git",
@@ -31,26 +31,26 @@
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
     "koa-router": "^7.4.0",
-    "koa-send": "^3.3.0",
-    "swagger-ui-dist": "^3.12.0",
-    "swagger2": "^0.0.30"
+    "koa-send": "^4.1.3",
+    "swagger-ui-dist": "^3.13.2",
+    "swagger2": "^1.0.0"
   },
   "devDependencies": {
     "@types/debug": "0.0.30",
     "@types/koa": "^2.0.44",
     "@types/koa-send": "^4.1.1",
-    "@types/mocha": "^2.2.48",
+    "@types/mocha": "^5.0.0",
     "@types/nock": "^9.1.2",
-    "@types/node": "^9.4.6",
+    "@types/node": "^9.6.2",
     "supertest-koa-agent": "^0.3.0",
     "coveralls": "^3.0.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.0.1",
+    "mocha": "^5.0.5",
     "nock": "9.2.3",
-    "remap-istanbul": "^0.10.1",
+    "remap-istanbul": "^0.11.0",
     "rimraf": "^2.6.2",
     "tslint": "^5.9.1",
-    "typescript": "2.7.2"
+    "typescript": "2.8.1"
   },
   "maintainers": [
     {
@@ -64,7 +64,7 @@
     "postversion": "git push && git push --tags",
     "start": "npm run build && node build/api.js",
     "build": "rimraf build && tsc",
-    "dist": "rimraf dist && tsc src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es5 --lib ES2015 -d --pretty --noImplicitAny",
+    "dist": "rimraf dist && tsc src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es2017 --lib es2017 -d --pretty --noImplicitAny",
     "clean": "rimraf build coverage node_modules",
     "lint": "tslint -c ./tslint.json --project ./tsconfig.json",
     "lint:fix": "npm run lint -- --fix",
