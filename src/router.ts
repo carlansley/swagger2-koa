@@ -29,7 +29,7 @@
  */
 
 import * as Koa from 'koa';
-import * as body from 'koa-body';
+import * as body from 'koa-bodyparser';
 import * as koaConvert from 'koa-convert';
 import * as koaCors from 'koa-cors';
 import * as koaRouter from 'koa-router';
