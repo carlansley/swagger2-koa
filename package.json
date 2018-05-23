@@ -1,6 +1,6 @@
 {
   "name": "swagger2-koa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
   "main": "dist/index.js",
   "engines": {
