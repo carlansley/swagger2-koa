@@ -91,6 +91,7 @@ For either request (HTTP 400) or response (HTTP 500) errors, details of the sche
         'schema': {'type': 'object', 'required': ['time'], 'properties': {'time': {'type': 'string', 'format': 'date-time'}}}
      },
      'where': 'response'
+  }]
 }
 ```
 
