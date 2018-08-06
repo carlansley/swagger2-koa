@@ -28,8 +28,8 @@ import * as koa from 'koa';
 import * as send from 'koa-send';
 import * as swagger from 'swagger2';
 
-// tslint:disable-next-line:no-var-requires
-const SWAGGER_UI_PATH = require('swagger-ui-dist').getAbsoluteFSPath();
+// tslint:disable-next-line:no-var-requires no-submodule-imports
+const SWAGGER_UI_PATH = require('swagger-ui-dist/absolute-path.js')();
 
 import html from './ui-html';
 
