@@ -2,8 +2,8 @@
 // ui.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 const send = require("koa-send");
-// tslint:disable-next-line:no-var-requires
-const SWAGGER_UI_PATH = require('swagger-ui-dist').getAbsoluteFSPath();
+// tslint:disable-next-line:no-var-requires no-submodule-imports
+const SWAGGER_UI_PATH = require('swagger-ui-dist/absolute-path.js')();
 const ui_html_1 = require("./ui-html");
 function default_1(document, pathRoot = '/', skipPaths = []) {
     const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';

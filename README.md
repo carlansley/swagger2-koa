@@ -22,7 +22,7 @@ $ npm install swagger2-koa --save
 This is the easiest way to use swagger2-koa; it creates a standalone koa server, adds the `validate` middleware, and returns a
 Router object that allows you to add your route implementations.
 
-```
+```javascript
 import * as swagger from 'swagger2';
 import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
 
@@ -55,7 +55,7 @@ Note: in addition to `validate` (described below), `router` adds the following m
 If you already have a Koa server, this middleware adds basic loading and validation of HTTP requests and responses against
 swagger 2.0 document:
 
-```
+```javascript
 import * as swagger from 'swagger2';
 import { validate } from 'swagger2-koa';
 
@@ -82,15 +82,16 @@ The `validate` middleware behaves as follows:
 
 For either request (HTTP 400) or response (HTTP 500) errors, details of the schema validation error are passed back in the body. e.g.:
 
-```
+```JSON
 {
-  'code': 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-  'errors': [{
-     'actual': {'badTime': 'mock'},
-     'expected': {
-        'schema': {'type': 'object', 'required': ['time'], 'properties': {'time': {'type': 'string', 'format': 'date-time'}}}
+  "code": "SWAGGER_RESPONSE_VALIDATION_FAILED",
+  "errors": [{
+     "actual": {"badTime": "mock"},
+     "expected": {
+        "schema": {"type": "object", "required": ["time"], "properties": {"time": {"type": "string", "format": "date-time"}}}
      },
-     'where': 'response'
+     "where": "response"
+  }]
 }
 ```
 
@@ -98,7 +99,7 @@ For either request (HTTP 400) or response (HTTP 500) errors, details of the sche
 
 You can also serve a swagger-ui for your API from a given path root (pathRoot defaults to "/"):
 
-```
+```javascript
 import * as swagger from 'swagger2';
 import { ui } from 'swagger2-koa';
 
@@ -121,7 +122,7 @@ By using the `skipPaths` parameter, it is possible to create routes such as:
 
 with:
 
-````
+````javascript
 app.use(ui(document, "/api", ['/api/v1']));
 ````
 
@@ -130,7 +131,7 @@ app.use(ui(document, "/api", ['/api/v1']));
 This library uses [`debug`](https://github.com/visionmedia/debug), which can be activated using the
 `DEBUG` environment variable:
 
-```
+```shell
 export DEBUG=swagger2-koa:*
 ```
 
