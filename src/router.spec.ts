@@ -25,7 +25,7 @@
  */
 
 import * as assert from 'assert';
-import * as agent from 'supertest-koa-agent';
+import * as agent from 'supertest';
 import * as swagger from 'swagger2';
 
 import swaggerRouter, {Context} from './router';
@@ -64,7 +64,7 @@ describe('router', () => {
       context.status = 200;
     });
 
-    const http = agent(numericPath.app());
+    const http = agent(numericPath.app().callback());
 
     it('validates valid GET operation', async () => {
       await http.get('/v1/post/3').expect(200);
@@ -110,7 +110,7 @@ describe('router', () => {
       };
     });
 
-    const http = agent(routerNoBasePath.app());
+    const http = agent(routerNoBasePath.app().callback());
 
     it('validates valid GET operation', async () => {
       const {body} = await http.get('/ping').expect(200);
@@ -275,7 +275,7 @@ describe('router', () => {
       throw err;
     });
 
-    const http = agent(router.app());
+    const http = agent(router.app().callback());
 
     it('fails with invalid filename', () => {
       assert.throws(() => swaggerRouter('invalid.yml'), Error);

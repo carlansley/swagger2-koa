@@ -26,7 +26,7 @@
 
 import * as assert from 'assert';
 import * as Koa from 'koa';
-import * as agent from 'supertest-koa-agent';
+import * as agent from 'supertest';
 import * as swagger from 'swagger2';
 
 import ui from './ui';
@@ -42,7 +42,7 @@ const document: swagger.Document = {
 
 function getRequestClient(pathRoot?: string, skipPaths?: string[]) {
   const koa = new Koa().use(ui(document, pathRoot, skipPaths));
-  return agent(koa);
+  return agent(koa.callback());
 }
 
 describe('ui', () => {
