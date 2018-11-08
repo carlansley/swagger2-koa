@@ -39,6 +39,9 @@
   "devDependencies": {
     "@types/debug": "0.0.31",
     "@types/koa": "^2.0.46",
+    "@types/koa-convert": "^1.2.1",
+    "@types/koa-cors": "0.0.0",
+    "@types/koa-router": "^7.0.33",
     "@types/koa-send": "^4.1.1",
     "@types/mocha": "^5.2.5",
     "@types/nock": "^9.3.0",
@@ -66,7 +69,7 @@
     "postversion": "git push && git push --tags",
     "start": "npm run build && node build/api.js",
     "build": "rimraf build && tsc",
-    "dist": "rimraf dist && tsc src/index.ts src/typings.d.ts -m commonjs --outDir dist --sourcemap --target es2017 --lib es2017 -d --pretty --noImplicitAny",
+    "dist": "rimraf dist && tsc src/index.ts -m commonjs --outDir dist --sourcemap --target es2017 --lib es2017,dom -d --pretty --noImplicitAny",
     "clean": "rimraf build coverage node_modules",
     "lint": "tslint -c ./tslint.json --project ./tsconfig.json",
     "lint:fix": "npm run lint -- --fix",

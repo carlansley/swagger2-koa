@@ -30,9 +30,9 @@
 
 import * as Koa from 'koa';
 import * as body from 'koa-bodyparser';
-import * as koaConvert from 'koa-convert';
+import koaConvert = require('koa-convert');
 import * as koaCors from 'koa-cors';
-import * as koaRouter from 'koa-router';
+import * as KoaRouter from 'koa-router';
 import * as swagger from 'swagger2';
 
 import validate from './validate';
@@ -100,7 +100,7 @@ export interface Router {
 
 export default function(swaggerDocument: any): Router {
 
-  const router: HttpRouter = koaRouter();
+  const router = new KoaRouter() as unknown as HttpRouter;
   const app = new Koa();
 
   // automatically convert legacy middleware to new middleware
