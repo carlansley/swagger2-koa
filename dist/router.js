@@ -31,12 +31,12 @@ const Koa = require("koa");
 const body = require("koa-bodyparser");
 const koaConvert = require("koa-convert");
 const koaCors = require("koa-cors");
-const koaRouter = require("koa-router");
+const KoaRouter = require("koa-router");
 const swagger = require("swagger2");
 const validate_1 = require("./validate");
 const debug_1 = require("./debug");
 function default_1(swaggerDocument) {
-    const router = koaRouter();
+    const router = new KoaRouter();
     const app = new Koa();
     // automatically convert legacy middleware to new middleware
     const appUse = app.use;
