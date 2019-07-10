@@ -34,7 +34,8 @@
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
     "swagger-ui-dist": "^3.19.5",
-    "swagger2": "^1.0.3"
+    "swagger2": "^1.0.3",
+    "snyk": "^1.192.4"
   },
   "devDependencies": {
     "@types/debug": "0.0.31",
@@ -78,6 +79,9 @@
     "cover:browser": "npm run cover && istanbul report html && open coverage/coverage-remapped/index.html",
     "cover:istanbul": "rimraf ./coverage && istanbul cover _mocha -- $(find build -name '*.spec.js')",
     "cover:remap": "remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.json && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.lcov -t lcovonly && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped -t html",
-    "coveralls": "npm run-script cover && coveralls < coverage/coverage-remapped.lcov"
-  }
+    "coveralls": "npm run-script cover && coveralls < coverage/coverage-remapped.lcov",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
