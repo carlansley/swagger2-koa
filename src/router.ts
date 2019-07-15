@@ -105,7 +105,7 @@ export default function(swaggerDocument: any): Router {
 
   // automatically convert legacy middleware to new middleware
   const appUse = app.use;
-  app.use = (x) => appUse.call(app, koaConvert(x));
+  app.use = (x: any): any => appUse.call(app, koaConvert(x));
 
   let document: any;
 
