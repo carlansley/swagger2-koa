@@ -72,7 +72,7 @@
     "version": "npm run dist && git add -A dist",
     "postversion": "git push && git push --tags",
     "build": "rm -rf build && tsc && cp src/schema.json build",
-    "dist": "rm -rf dist && tsc src/swagger.ts -m commonjs --outDir dist --sourcemap --target es2020 --lib es2020 -d --pretty --noImplicitAny --esModuleInterop --resolveJsonModule && cp src/schema.json dist",
+    "dist": "rm -rf dist && tsc src/index.ts -m commonjs --outDir dist --sourcemap --target es2020 --lib es2020 -d --pretty --noImplicitAny --esModuleInterop --resolveJsonModule",
     "clean": "rm -rf build && rm -rf coverage && rm -rf node_modules",
     "lint": "eslint -f unix src/**/*.ts",
     "lint:fix": "eslint -f unix src/**/*.ts --fix",
