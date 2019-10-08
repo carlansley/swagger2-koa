@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "typings": "./dist/index.d.ts",
+  "prettier": "@checkdigit/prettier-config",
   "dependencies": {
     "@types/koa-bodyparser": "^5.0.1",
     "debug": "^4.1.1",
@@ -37,6 +38,9 @@
     "swagger2": "^2.0.0"
   },
   "devDependencies": {
+    "@checkdigit/eslint-config": "^3.0.1",
+    "@checkdigit/prettier-config": "^1.0.0",
+    "@checkdigit/typescript": "^3.6.2",
     "@types/debug": "4.1.5",
     "@types/koa": "^2.0.50",
     "@types/koa-convert": "^1.2.2",
@@ -44,18 +48,18 @@
     "@types/koa-router": "^7.0.42",
     "@types/koa-send": "^4.1.2",
     "@types/mocha": "^5.2.7",
-    "@types/nock": "^11.1.0",
     "@types/node": "^12.7.11",
     "@types/supertest": "^2.0.8",
     "coveralls": "^3.0.6",
-    "istanbul": "^1.1.0-alpha.1",
+    "eslint": "^6.5.1",
     "mocha": "^6.2.1",
     "nock": "11.4.0",
-    "remap-istanbul": "^0.13.0",
     "rimraf": "^3.0.0",
     "supertest": "^4.0.2",
-    "tslint": "^5.20.0",
-    "typescript": "3.6.3"
+    "prettier": "^1.18.2",
+    "nyc": "^14.1.1",
+    "source-map-support": "^0.5.13",
+    "ts-node": "^8.4.1"
   },
   "maintainers": [
     {
@@ -67,17 +71,15 @@
     "preversion": "npm test",
     "version": "npm run dist && git add -A dist",
     "postversion": "git push && git push --tags",
-    "start": "npm run build && node build/api.js",
-    "build": "rimraf build && tsc",
-    "dist": "rimraf dist && tsc src/index.ts -m commonjs --outDir dist --sourcemap --target es2017 --lib es2017,dom -d --pretty --noImplicitAny",
-    "clean": "rimraf build coverage node_modules",
-    "lint": "tslint -c ./tslint.json --project ./tsconfig.json",
-    "lint:fix": "npm run lint -- --fix",
-    "test": "npm run build && _mocha $(find build -name '*.spec.js') && npm run lint",
-    "cover": "npm run build && npm run cover:istanbul && npm run cover:remap",
-    "cover:browser": "npm run cover && istanbul report html && open coverage/coverage-remapped/index.html",
-    "cover:istanbul": "rimraf ./coverage && istanbul cover _mocha -- $(find build -name '*.spec.js')",
-    "cover:remap": "remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.json && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped.lcov -t lcovonly && remap-istanbul -i coverage/coverage.raw.json -o coverage/coverage-remapped -t html",
-    "coveralls": "npm run-script cover && coveralls < coverage/coverage-remapped.lcov"
+    "build": "rm -rf build && tsc && cp src/schema.json build",
+    "dist": "rm -rf dist && tsc src/swagger.ts -m commonjs --outDir dist --sourcemap --target es2020 --lib es2020 -d --pretty --noImplicitAny --esModuleInterop --resolveJsonModule && cp src/schema.json dist",
+    "clean": "rm -rf build && rm -rf coverage && rm -rf node_modules",
+    "lint": "eslint -f unix src/**/*.ts",
+    "lint:fix": "eslint -f unix src/**/*.ts --fix",
+    "prettier": "prettier --list-different src/**/*.ts",
+    "prettier:fix": "prettier --write src/**/*.ts",
+    "test": "nyc mocha --require ts-node/register --require source-map-support/register --full-trace \"src/**/*.spec.ts\" && npm run lint && npm run prettier",
+    "cover:browser": "nyc report --reporter=html && open coverage/index.html",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   }
 }

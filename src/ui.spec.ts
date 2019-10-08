@@ -25,8 +25,8 @@
  */
 
 import * as assert from 'assert';
-import * as Koa from 'koa';
-import * as agent from 'supertest';
+import Koa from 'koa';
+import agent from 'supertest';
 import * as swagger from 'swagger2';
 
 import ui from './ui';
@@ -47,35 +47,53 @@ function getRequestClient(pathRoot?: string, skipPaths?: string[]) {
 
 describe('ui', () => {
   it('serves custom index.html', async () => {
-    await getRequestClient().get('/').expect(200);
+    await getRequestClient()
+      .get('/')
+      .expect(200);
   });
   it('serves custom index.html from custom path root', async () => {
-    await getRequestClient('/swagger2').get('/swagger2').expect(200);
+    await getRequestClient('/swagger2')
+      .get('/swagger2')
+      .expect(200);
   });
 
   it('serves files from non-skipped paths', async () => {
-    await getRequestClient('/swagger2', ['/swagger/images']).get('/swagger2/swagger-ui.css').expect(200);
+    await getRequestClient('/swagger2', ['/swagger/images'])
+      .get('/swagger2/swagger-ui.css')
+      .expect(200);
   });
   it('does not serve files from skipped paths', async () => {
-    await getRequestClient('/swagger2', ['/swagger2']).get('/swagger2/swagger-ui.css').expect(404);
+    await getRequestClient('/swagger2', ['/swagger2'])
+      .get('/swagger2/swagger-ui.css')
+      .expect(404);
   });
 
   it('serves api-docs', async () => {
-    const {body} = await getRequestClient().get('/api-docs').expect(200);
+    const { body } = await getRequestClient()
+      .get('/api-docs')
+      .expect(200);
     assert.deepStrictEqual(body, document);
   });
   it('serves api-docs from custom path root', async () => {
-    const {body} = await getRequestClient('/swagger2').get('/swagger2/api-docs').expect(200);
+    const { body } = await getRequestClient('/swagger2')
+      .get('/swagger2/api-docs')
+      .expect(200);
     assert.deepStrictEqual(body, document);
   });
 
-  it('serves swagger UI', async () => getRequestClient().get('/swagger-ui.js').expect(200));
+  it('serves swagger UI', async () =>
+    getRequestClient()
+      .get('/swagger-ui.js')
+      .expect(200));
   it('serves swagger UI from custom path root', async () => {
-    await getRequestClient('/swagger2').get('/swagger2/swagger-ui.js').expect(200);
+    await getRequestClient('/swagger2')
+      .get('/swagger2/swagger-ui.js')
+      .expect(200);
   });
 
   it('does not serve files from paths outside path root', async () => {
-    await getRequestClient('/swagger2', ['/swagger/css']).get('/css/print.css').expect(404);
+    await getRequestClient('/swagger2', ['/swagger/css'])
+      .get('/css/print.css')
+      .expect(404);
   });
-
 });
