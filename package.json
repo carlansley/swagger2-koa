@@ -81,5 +81,19 @@
     "test": "nyc mocha --require ts-node/register --require source-map-support/register --full-trace \"src/**/*.spec.ts\" && npm run lint && npm run prettier",
     "cover:browser": "nyc report --reporter=html && open coverage/index.html",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sourceMap": true,
+    "produceSourceMap": true,
+    "instrument": true
   }
 }
