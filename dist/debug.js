@@ -1,5 +1,8 @@
 "use strict";
 // debug.ts
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * Middleware for debugging HTTP requests and responses
@@ -27,33 +30,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-const debug = require("debug");
+const debug_1 = __importDefault(require("debug"));
 function default_1(module) {
     // set up logging
-    const log = debug(module);
+    const log = debug_1.default(module);
     if (!log.enabled) {
         // logging not enabled for this module, return do-nothing middleware
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (context, next) => next();
     }
     /* istanbul ignore next */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async (context, next) => {
         const startTime = Date.now();
         const { method, url } = context.request;
+        // eslint-disable-next-line callback-return
         await next();
         const status = parseInt(context.status, 10);
-        const requestBody = context.request.body === undefined ? undefined : JSON.stringify(context.request.body);
-        const responseBody = context.body === undefined ? undefined : JSON.stringify(context.body);
+        const requestBody = typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);
+        const responseBody = typeof context.body === 'undefined' ? context.body : JSON.stringify(context.body);
         const time = Date.now() - startTime;
-        if (requestBody !== undefined && responseBody !== undefined) {
+        if (typeof requestBody !== 'undefined' && typeof responseBody !== 'undefined') {
             log(`${method} ${url} ${requestBody} -> ${status} ${responseBody} ${time}ms`);
         }
-        if (requestBody !== undefined && responseBody === undefined) {
+        if (typeof requestBody !== 'undefined' && typeof responseBody === 'undefined') {
             log(`${method} ${url} ${requestBody} -> ${status} ${time}ms`);
         }
-        if (requestBody === undefined && responseBody !== undefined) {
+        if (typeof requestBody === 'undefined' && typeof responseBody !== 'undefined') {
             log(`${method} ${url} -> ${status} ${responseBody} ${time}ms`);
         }
-        if (requestBody === undefined && responseBody === undefined) {
+        if (typeof requestBody === 'undefined' && typeof responseBody === 'undefined') {
             log(`${method} ${url} -> ${status} ${time}ms`);
         }
     };

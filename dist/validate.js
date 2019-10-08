@@ -1,5 +1,12 @@
 "use strict";
 // validate.ts
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * Koa2 middleware for validating against a Swagger document
@@ -27,27 +34,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-const swagger = require("swagger2");
+const swagger = __importStar(require("swagger2"));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function default_1(document) {
     // construct a validation object, pre-compiling all schema and regex required
     const compiled = swagger.compileDocument(document);
     // construct a canonical base path
     const basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async (context, next) => {
-        if (document.basePath !== undefined && !context.path.startsWith(basePath)) {
+        if (typeof document.basePath !== 'undefined' && !context.path.startsWith(basePath)) {
             // not a path that we care about
-            await next();
-            return;
+            return next();
         }
         const compiledPath = compiled(context.path);
-        if (compiledPath === undefined) {
+        if (typeof compiledPath === 'undefined') {
             // if there is no single matching path, return 404 (not found)
             context.status = 404;
             return;
         }
         // check the request matches the swagger schema
         const validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body, context.request.headers);
-        if (validationErrors === undefined) {
+        if (typeof validationErrors === 'undefined') {
             // operation not defined, return 405 (method not allowed)
             if (context.method !== 'OPTIONS') {
                 context.status = 405;
@@ -63,12 +71,15 @@ function default_1(document) {
             return;
         }
         // wait for the operation to execute
+        // eslint-disable-next-line callback-return
         await next();
         // check the response matches the swagger schema
         const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
         if (error) {
             error.where = 'response';
+            // eslint-disable-next-line require-atomic-updates
             context.status = 500;
+            // eslint-disable-next-line require-atomic-updates
             context.body = {
                 code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
                 errors: [error]

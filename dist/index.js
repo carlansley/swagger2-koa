@@ -27,10 +27,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-/* tslint:disable:no-unused-variable */
-// noinspection ES6UnusedImports
-// import * as swagger from 'swagger2';
-/* tslint:enable:no-unused-variable */
 var validate_1 = require("./validate");
 exports.validate = validate_1.default;
 var ui_1 = require("./ui");

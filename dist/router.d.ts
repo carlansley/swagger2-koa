@@ -55,4 +55,4 @@ export interface Router {
     patch: (path: string, ...middleware: Middleware[]) => Router;
     app: () => any;
 }
-export default function (swaggerDocument: any): Router;
+export default function (swaggerDocument: unknown): Router;
