@@ -25,30 +25,32 @@
  */
 
 import * as koa from 'koa';
-import * as send from 'koa-send';
+import send from 'koa-send';
 import * as swagger from 'swagger2';
-
-// tslint:disable-next-line:no-var-requires no-submodule-imports
-const SWAGGER_UI_PATH = require('swagger-ui-dist/absolute-path.js')();
 
 import html from './ui-html';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
+const SWAGGER_UI_PATH = require('swagger-ui-dist/absolute-path.js')();
+
 export default function(
   document: swagger.Document,
-  pathRoot: string = '/',
-  skipPaths: string[] = []): (context: any, next: () => Promise<void>) => Promise<void> {
-  const pathPrefix = pathRoot.endsWith('/') ? pathRoot : pathRoot + '/';
+  pathRoot = '/',
+  skipPaths: string[] = []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (context: any, next: () => Promise<void>) => Promise<void> {
+  const pathPrefix = pathRoot.endsWith('/') ? pathRoot : `${pathRoot}/`;
   const uiHtml = html(document, pathPrefix);
 
   return async (context: koa.Context, next: () => void) => {
     if (context.path.startsWith(pathRoot)) {
-      const skipPath: boolean = skipPaths.some((current) => context.path.startsWith(current));
+      const skipPath: boolean = skipPaths.some(current => context.path.startsWith(current));
       if (context.path === pathRoot && context.method === 'GET') {
         context.type = 'text/html; charset=utf-8';
         context.body = uiHtml;
         context.status = 200;
         return;
-      } else if (context.path === (pathPrefix + 'api-docs') && context.method === 'GET') {
+      } else if (context.path === `${pathPrefix}api-docs` && context.method === 'GET') {
         context.type = 'application/json; charset=utf-8';
         context.body = document;
         context.status = 200;

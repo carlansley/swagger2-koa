@@ -4,7 +4,7 @@
  * Customized version of swagger-ui HTML.
  */
 
-import {Document} from 'swagger2';
+import { Document } from 'swagger2';
 
 export default (document: Document, pathPrefix: string) => `
 

@@ -28,44 +28,46 @@
  THE SOFTWARE.
  */
 
-import * as debug from 'debug';
+import debug from 'debug';
 
 export default function(module: string) {
-
   // set up logging
   const log = debug(module);
 
   if (!log.enabled) {
     // logging not enabled for this module, return do-nothing middleware
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (context: any, next: () => void) => next();
   }
 
   /* istanbul ignore next */
-  return async (context: any, next: () => void) => {
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return async (context: any, next: () => Promise<void>) => {
     const startTime = Date.now();
     const { method, url } = context.request;
 
+    // eslint-disable-next-line callback-return
     await next();
 
     const status = parseInt(context.status, 10);
-    const requestBody = context.request.body === undefined ? undefined : JSON.stringify(context.request.body);
-    const responseBody = context.body === undefined ? undefined : JSON.stringify(context.body);
+    const requestBody =
+      typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);
+    const responseBody = typeof context.body === 'undefined' ? context.body : JSON.stringify(context.body);
     const time = Date.now() - startTime;
 
-    if (requestBody !== undefined && responseBody !== undefined) {
+    if (typeof requestBody !== 'undefined' && typeof responseBody !== 'undefined') {
       log(`${method} ${url} ${requestBody} -> ${status} ${responseBody} ${time}ms`);
     }
 
-    if (requestBody !== undefined && responseBody === undefined) {
+    if (typeof requestBody !== 'undefined' && typeof responseBody === 'undefined') {
       log(`${method} ${url} ${requestBody} -> ${status} ${time}ms`);
     }
 
-    if (requestBody === undefined && responseBody !== undefined) {
+    if (typeof requestBody === 'undefined' && typeof responseBody !== 'undefined') {
       log(`${method} ${url} -> ${status} ${responseBody} ${time}ms`);
     }
 
-    if (requestBody === undefined && responseBody === undefined) {
+    if (typeof requestBody === 'undefined' && typeof responseBody === 'undefined') {
       log(`${method} ${url} -> ${status} ${time}ms`);
     }
   };

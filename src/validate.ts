@@ -30,36 +30,38 @@
 
 import * as swagger from 'swagger2';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
-
   // construct a validation object, pre-compiling all schema and regex required
   const compiled = swagger.compileDocument(document);
 
   // construct a canonical base path
   const basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
 
-  return async (context: any, next: () => void) => {
-
-    if (document.basePath !== undefined && !context.path.startsWith(basePath)) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return async (context: any, next: () => Promise<void>) => {
+    if (typeof document.basePath !== 'undefined' && !context.path.startsWith(basePath)) {
       // not a path that we care about
-      await next();
-      return;
+      return next();
     }
 
     const compiledPath = compiled(context.path);
-    if (compiledPath === undefined) {
+    if (typeof compiledPath === 'undefined') {
       // if there is no single matching path, return 404 (not found)
       context.status = 404;
       return;
     }
 
     // check the request matches the swagger schema
-    const validationErrors = swagger.validateRequest(compiledPath, context.method,
+    const validationErrors = swagger.validateRequest(
+      compiledPath,
+      context.method,
       context.request.query,
       context.request.body,
-      context.request.headers);
+      context.request.headers
+    );
 
-    if (validationErrors === undefined) {
+    if (typeof validationErrors === 'undefined') {
       // operation not defined, return 405 (method not allowed)
       if (context.method !== 'OPTIONS') {
         context.status = 405;
@@ -76,13 +78,16 @@ export default function(document: swagger.Document): (context: any, next: () => 
     }
 
     // wait for the operation to execute
+    // eslint-disable-next-line callback-return
     await next();
 
     // check the response matches the swagger schema
     const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
     if (error) {
       error.where = 'response';
+      // eslint-disable-next-line require-atomic-updates
       context.status = 500;
+      // eslint-disable-next-line require-atomic-updates
       context.body = {
         code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
         errors: [error]

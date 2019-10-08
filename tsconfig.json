@@ -1,26 +1,13 @@
 {
+  "extends": "@checkdigit/typescript",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2017",
-    "lib": ["es2017", "dom"],
-    "sourceMap": true,
-    "outDir": "build",
-    "declaration": true,
-    "removeComments": false,
-    "noLib": false,
-    "strict": true,
-    "preserveConstEnums": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "rootDir": "src",
+    "outDir": "build"
   },
   "exclude": [
     "node_modules",
     "build",
+    "coverage",
     "dist"
   ]
 }

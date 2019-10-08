@@ -138,7 +138,7 @@ export DEBUG=swagger2-koa:*
 ## Limitations
 
 * only supports Koa 2-style async/await middleware interface
-* requires node version 6 and above
+* requires node version 10 and above
 
 ## License
 

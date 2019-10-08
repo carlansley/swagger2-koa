@@ -28,11 +28,11 @@
  THE SOFTWARE.
  */
 
-import * as Koa from 'koa';
-import * as body from 'koa-bodyparser';
-import koaConvert = require('koa-convert');
-import * as koaCors from 'koa-cors';
-import * as KoaRouter from 'koa-router';
+import Koa from 'koa';
+import body from 'koa-bodyparser';
+import koaConvert from 'koa-convert';
+import koaCors from 'koa-cors';
+import KoaRouter from 'koa-router';
 import * as swagger from 'swagger2';
 
 import validate from './validate';
@@ -40,12 +40,16 @@ import validate from './validate';
 import debug from './debug';
 
 interface HttpRouter extends Router {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   routes: () => (ctx: Koa.Context, next: () => void) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   allowedMethods: () => (ctx: Koa.Context, next: () => void) => any;
 }
 
 export interface Request {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
   method: string;
   url: string;
@@ -66,26 +70,28 @@ export interface Request {
   stale: boolean;
   idempotent: boolean;
   get: (field: string) => string;
-  header: { [name: string]: string; };
-  headers: { [name: string]: string; };
+  header: { [name: string]: string };
+  headers: { [name: string]: string };
 }
 
 export interface Response {
   get: (field: string) => string;
   set: (field: string, value: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
   status?: number;
   message?: string;
   redirect: (url: string, alt?: string) => void;
-  header: { [name: string]: string; };
+  header: { [name: string]: string };
 }
 
 export interface Context extends Request, Response {
-  params: { [name: string]: string; };
+  params: { [name: string]: string };
   request: Request;
   response: Response;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Middleware = (context: Context, next: () => void) => any;
 
 export interface Router {
@@ -95,21 +101,24 @@ export interface Router {
   post: (path: string, ...middleware: Middleware[]) => Router;
   del: (path: string, ...middleware: Middleware[]) => Router;
   patch: (path: string, ...middleware: Middleware[]) => Router;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app: () => any;
 }
 
-export default function(swaggerDocument: any): Router {
-
-  const router = new KoaRouter() as unknown as HttpRouter;
+export default function(swaggerDocument: unknown): Router {
+  const router = (new KoaRouter() as unknown) as HttpRouter;
   const app = new Koa();
 
   // automatically convert legacy middleware to new middleware
   const appUse = app.use;
+  // eslint-disable-next-line id-length,@typescript-eslint/no-explicit-any
   app.use = (x: any): any => appUse.call(app, koaConvert(x));
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let document: any;
 
   if (typeof swaggerDocument === 'string') {
+    // eslint-disable-next-line no-sync
     document = swagger.loadDocumentSync(swaggerDocument);
   } else {
     document = swaggerDocument;
@@ -126,7 +135,7 @@ export default function(swaggerDocument: any): Router {
   app.use(router.routes());
   app.use(router.allowedMethods());
 
-  const full = (path: string) => document.basePath !== undefined ? document.basePath + path : path;
+  const full = (path: string) => (typeof document.basePath !== 'undefined' ? document.basePath + path : path);
 
   return {
     get: (path, ...middleware) => router.get(full(path), ...middleware),
