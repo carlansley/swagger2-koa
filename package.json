@@ -35,7 +35,8 @@
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
     "swagger-ui-dist": "^3.23.11",
-    "swagger2": "^2.0.0"
+    "swagger2": "^2.0.0",
+    "snyk": "^1.319.0"
   },
   "devDependencies": {
     "@checkdigit/eslint-config": "^3.0.1",
@@ -80,7 +81,9 @@
     "prettier:fix": "prettier --write src/**/*.ts",
     "test": "nyc mocha --require ts-node/register --require source-map-support/register --full-trace \"src/**/*.spec.ts\" && npm run lint && npm run prettier",
     "cover:browser": "nyc report --reporter=html && open coverage/index.html",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "nyc": {
     "include": [
@@ -95,5 +98,6 @@
     "sourceMap": true,
     "produceSourceMap": true,
     "instrument": true
-  }
+  },
+  "snyk": true
 }
