@@ -4,9 +4,11 @@
  * Customized version of swagger-ui HTML.
  */
 
-import { Document } from 'swagger2';
+import type { Document } from 'swagger2';
 
-export default (document: Document, pathPrefix: string) => `
+/* eslint-disable no-secrets/no-secrets */
+
+export default (document: Document, pathPrefix: string): string => `
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,3 +129,5 @@ window.onload = function() {
 </html>
 
 `;
+
+/* eslint-enable no-secrets/no-secrets */

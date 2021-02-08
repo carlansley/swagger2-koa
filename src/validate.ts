@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,12 @@
  THE SOFTWARE.
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
 import * as swagger from 'swagger2';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function(document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function (document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
   // construct a validation object, pre-compiling all schema and regex required
   const compiled = swagger.compileDocument(document);
 
@@ -72,7 +74,7 @@ export default function(document: swagger.Document): (context: any, next: () => 
       context.status = 400;
       context.body = {
         code: 'SWAGGER_REQUEST_VALIDATION_FAILED',
-        errors: validationErrors
+        errors: validationErrors,
       };
       return;
     }
@@ -90,8 +92,10 @@ export default function(document: swagger.Document): (context: any, next: () => 
       // eslint-disable-next-line require-atomic-updates
       context.body = {
         code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-        errors: [error]
+        errors: [error],
       };
     }
   };
 }
+
+/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */

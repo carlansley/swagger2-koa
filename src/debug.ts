@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,19 +30,20 @@
 
 import debug from 'debug';
 
-export default function(module: string) {
+/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function (module: string): (context: any, next: () => Promise<void>) => Promise<void> {
   // set up logging
   const log = debug(module);
 
   if (!log.enabled) {
     // logging not enabled for this module, return do-nothing middleware
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (context: any, next: () => void) => next();
+    return async (_, next) => next();
   }
 
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async (context: any, next: () => Promise<void>) => {
+  return async (context, next) => {
     const startTime = Date.now();
     const { method, url } = context.request;
 
@@ -72,3 +73,5 @@ export default function(module: string) {
     }
   };
 }
+
+/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */

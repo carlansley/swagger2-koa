@@ -26,7 +26,7 @@
 
 import * as assert from 'assert';
 import agent from 'supertest';
-import * as swagger from 'swagger2';
+import type * as swagger from 'swagger2';
 
 import swaggerRouter, { Context } from './router';
 
@@ -36,7 +36,7 @@ describe('router', () => {
       swagger: '2.0',
       info: {
         title: 'thing',
-        version: '1.0'
+        version: '1.0',
       },
       paths: {
         '/v1/post/{id}': {
@@ -48,17 +48,17 @@ describe('router', () => {
                 type: 'integer',
                 format: 'int64',
                 description: 'The post to fetch',
-                required: true
-              }
+                required: true,
+              },
             ],
             responses: {
               200: {
-                description: ''
-              }
-            }
-          }
-        }
-      }
+                description: '',
+              },
+            },
+          },
+        },
+      },
     });
 
     numericPath.get('/v1/post/:id', async (context: Context) => {
@@ -79,7 +79,7 @@ describe('router', () => {
       swagger: '2.0',
       info: {
         title: 'mock',
-        version: '0.0.1'
+        version: '0.0.1',
       },
       paths: {
         '/ping': {
@@ -93,21 +93,21 @@ describe('router', () => {
                   properties: {
                     time: {
                       type: 'string',
-                      format: 'date-time'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      format: 'date-time',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     routerNoBasePath.get('/ping', async (context: Context) => {
       context.status = 200;
       context.body = {
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
       };
     });
 
@@ -125,7 +125,7 @@ describe('router', () => {
       swagger: '2.0',
       info: {
         title: 'mock',
-        version: '0.0.1'
+        version: '0.0.1',
       },
       basePath: '/mock',
       paths: {
@@ -140,55 +140,55 @@ describe('router', () => {
                   properties: {
                     time: {
                       type: 'string',
-                      format: 'date-time'
-                    }
-                  }
-                }
-              }
-            }
+                      format: 'date-time',
+                    },
+                  },
+                },
+              },
+            },
           },
           head: {
             responses: {
               200: {
-                description: ''
-              }
-            }
+                description: '',
+              },
+            },
           },
           patch: {
             responses: {
               204: {
-                description: ''
-              }
-            }
+                description: '',
+              },
+            },
           },
           put: {
             responses: {
               204: {
-                description: ''
-              }
-            }
+                description: '',
+              },
+            },
           },
           post: {
             responses: {
               201: {
-                description: ''
-              }
-            }
+                description: '',
+              },
+            },
           },
           options: {
             responses: {
               204: {
-                description: ''
-              }
-            }
+                description: '',
+              },
+            },
           },
           delete: {
             responses: {
               204: {
-                description: ''
-              }
-            }
-          }
+                description: '',
+              },
+            },
+          },
         },
         '/badPing': {
           get: {
@@ -201,25 +201,25 @@ describe('router', () => {
                   properties: {
                     time: {
                       type: 'string',
-                      format: 'date-time'
-                    }
-                  }
-                }
-              }
-            }
+                      format: 'date-time',
+                    },
+                  },
+                },
+              },
+            },
           },
           put: {
             responses: {
-              201: { description: '' }
-            }
+              201: { description: '' },
+            },
           },
           post: {
             responses: {
-              201: { description: '' }
-            }
-          }
-        }
-      }
+              201: { description: '' },
+            },
+          },
+        },
+      },
     };
 
     const router = swaggerRouter(document);
@@ -236,7 +236,7 @@ describe('router', () => {
       },
       async (context: Context) => {
         context.body = {
-          time: new Date().toISOString()
+          time: new Date().toISOString(),
         };
       }
     );
@@ -260,14 +260,14 @@ describe('router', () => {
     router.get('/badPing', async (context: Context) => {
       context.status = 200;
       context.body = {
-        badTime: 'mock'
+        badTime: 'mock',
       };
     });
 
     router.put('/badPing', async (context: Context) => {
       context.status = 201;
       context.body = {
-        something: 'mock'
+        something: 'mock',
       };
     });
 
@@ -280,7 +280,7 @@ describe('router', () => {
     const http = agent(router.app().callback());
 
     it('fails with invalid filename', () => {
-      assert.throws(() => swaggerRouter('invalid.yml'), Error);
+      assert.throws(() => swaggerRouter('invalid.yml'), /^Error: ENOENT/u);
     });
 
     it('fails with invalid Swagger document', () => {
@@ -342,13 +342,13 @@ describe('router', () => {
               schema: {
                 type: 'object',
                 required: ['time'],
-                properties: { time: { type: 'string', format: 'date-time' } }
-              }
+                properties: { time: { type: 'string', format: 'date-time' } },
+              },
             },
             where: 'response',
-            error: 'data.time is required'
-          }
-        ]
+            error: 'data.time is required',
+          },
+        ],
       });
     });
 
@@ -359,9 +359,9 @@ describe('router', () => {
         errors: [
           {
             actual: { something: 'mock' },
-            where: 'response'
-          }
-        ]
+            where: 'response',
+          },
+        ],
       });
     });
   });
