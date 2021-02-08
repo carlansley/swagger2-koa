@@ -39,13 +39,6 @@ import validate from './validate';
 
 import debug from './debug';
 
-interface HttpRouter extends Router {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  routes: () => (ctx: Koa.Context, next: () => void) => any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  allowedMethods: () => (ctx: Koa.Context, next: () => void) => any;
-}
-
 export interface Request {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: any;
@@ -105,11 +98,19 @@ export interface Router {
   app: () => any;
 }
 
-export default function(swaggerDocument: unknown): Router {
+interface HttpRouter extends Router {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  routes: () => (ctx: Koa.Context, next: () => void) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  allowedMethods: () => (ctx: Koa.Context, next: () => void) => any;
+}
+
+export default function (swaggerDocument: unknown): Router {
   const router = (new KoaRouter() as unknown) as HttpRouter;
   const app = new Koa();
 
   // automatically convert legacy middleware to new middleware
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const appUse = app.use;
   // eslint-disable-next-line id-length,@typescript-eslint/no-explicit-any
   app.use = (x: any): any => appUse.call(app, koaConvert(x));
@@ -135,6 +136,7 @@ export default function(swaggerDocument: unknown): Router {
   app.use(router.routes());
   app.use(router.allowedMethods());
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands
   const full = (path: string) => (typeof document.basePath !== 'undefined' ? document.basePath + path : path);
 
   return {
@@ -144,6 +146,6 @@ export default function(swaggerDocument: unknown): Router {
     post: (path, ...middleware) => router.post(full(path), ...middleware),
     del: (path, ...middleware) => router.del(full(path), ...middleware),
     patch: (path, ...middleware) => router.patch(full(path), ...middleware),
-    app: () => app
+    app: () => app,
   };
 }

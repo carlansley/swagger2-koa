@@ -22,7 +22,7 @@ $ npm install swagger2-koa --save
 This is the easiest way to use swagger2-koa; it creates a standalone koa server, adds the `validate` middleware, and returns a
 Router object that allows you to add your route implementations.
 
-```javascript
+```
 import * as swagger from 'swagger2';
 import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
 
@@ -138,7 +138,7 @@ export DEBUG=swagger2-koa:*
 ## Limitations
 
 * only supports Koa 2-style async/await middleware interface
-* requires node version 10 and above
+* requires node version 14 and above
 
 ## License
 

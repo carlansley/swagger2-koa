@@ -3,7 +3,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,16 @@
  THE SOFTWARE.
  */
 
-import * as koa from 'koa';
+import type * as koa from 'koa';
 import send from 'koa-send';
-import * as swagger from 'swagger2';
+import type * as swagger from 'swagger2';
 
 import html from './ui-html';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-require-imports,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-var-requires
 const SWAGGER_UI_PATH = require('swagger-ui-dist/absolute-path.js')();
 
-export default function(
+export default function (
   document: swagger.Document,
   pathRoot = '/',
   skipPaths: string[] = []
@@ -44,7 +44,7 @@ export default function(
 
   return async (context: koa.Context, next: () => void) => {
     if (context.path.startsWith(pathRoot)) {
-      const skipPath: boolean = skipPaths.some(current => context.path.startsWith(current));
+      const skipPath: boolean = skipPaths.some((current) => context.path.startsWith(current));
       if (context.path === pathRoot && context.method === 'GET') {
         context.type = 'text/html; charset=utf-8';
         context.body = uiHtml;
@@ -57,6 +57,7 @@ export default function(
         return;
       } else if (!skipPath && context.method === 'GET') {
         const filePath = context.path.substring(pathRoot.length);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         await send(context, filePath, { root: SWAGGER_UI_PATH });
         return;
       }
