@@ -46,10 +46,9 @@ router.app()         // get the koa 2 server
 ```
 
 Note: in addition to `validate` (described below), `router` adds the following middleware to its koa server:
-* `koa-cors`
-* `koa-router`
-* `koa-convert`
-* `koa-body`
+* `@koa/cors`
+* `@koa/router`
+* `koa-bodyparser`
 
 ### `validate(document) => koa2 middleware`
 If you already have a Koa server, this middleware adds basic loading and validation of HTTP requests and responses against

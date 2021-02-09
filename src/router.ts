@@ -30,9 +30,8 @@
 
 import Koa from 'koa';
 import body from 'koa-bodyparser';
-import koaConvert from 'koa-convert';
-import koaCors from 'koa-cors';
-import KoaRouter from 'koa-router';
+import koaCors from '@koa/cors';
+import KoaRouter from '@koa/router';
 import * as swagger from 'swagger2';
 
 import validate from './validate';
@@ -108,12 +107,6 @@ interface HttpRouter extends Router {
 export default function (swaggerDocument: unknown): Router {
   const router = (new KoaRouter() as unknown) as HttpRouter;
   const app = new Koa();
-
-  // automatically convert legacy middleware to new middleware
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const appUse = app.use;
-  // eslint-disable-next-line id-length,@typescript-eslint/no-explicit-any
-  app.use = (x: any): any => appUse.call(app, koaConvert(x));
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let document: any;

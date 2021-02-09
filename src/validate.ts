@@ -83,6 +83,11 @@ export default function (document: swagger.Document): (context: any, next: () =>
     // eslint-disable-next-line callback-return
     await next();
 
+    // do not validate responses to OPTIONS
+    if (context.method.toLowerCase() === 'options') {
+      return;
+    }
+
     // check the response matches the swagger schema
     const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
     if (error) {

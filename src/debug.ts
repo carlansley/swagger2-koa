@@ -47,7 +47,6 @@ export default function (module: string): (context: any, next: () => Promise<voi
     const startTime = Date.now();
     const { method, url } = context.request;
 
-    // eslint-disable-next-line callback-return
     await next();
 
     const status = parseInt(context.status, 10);

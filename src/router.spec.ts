@@ -177,7 +177,7 @@ describe('router', () => {
           },
           options: {
             responses: {
-              204: {
+              200: {
                 description: '',
               },
             },
@@ -317,8 +317,8 @@ describe('router', () => {
       assert.deepStrictEqual(body, {});
     });
 
-    it('support CORS via OPTIONS operation', async () => {
-      const { body } = await http.options('/mock/ping').expect(204);
+    it('pass through OPTIONS operation', async () => {
+      const { body } = await http.options('/mock/ping').expect(200);
       assert.deepStrictEqual(body, {});
     });
 
