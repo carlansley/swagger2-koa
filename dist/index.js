@@ -1,13 +1,17 @@
 "use strict";
 // index.ts
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = exports.ui = exports.validate = void 0;
 /*
  * Koa2 middleware for validating against a Swagger document
  */
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +32,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  THE SOFTWARE.
  */
 var validate_1 = require("./validate");
-exports.validate = validate_1.default;
+Object.defineProperty(exports, "validate", { enumerable: true, get: function () { return __importDefault(validate_1).default; } });
 var ui_1 = require("./ui");
-exports.ui = ui_1.default;
+Object.defineProperty(exports, "ui", { enumerable: true, get: function () { return __importDefault(ui_1).default; } });
 var router_1 = require("./router");
-exports.router = router_1.default;
+Object.defineProperty(exports, "router", { enumerable: true, get: function () { return __importDefault(router_1).default; } });
 //# sourceMappingURL=index.js.map

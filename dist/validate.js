@@ -1,10 +1,22 @@
 "use strict";
 // validate.ts
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -14,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +46,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
 const swagger = __importStar(require("swagger2"));
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function default_1(document) {
@@ -66,13 +79,17 @@ function default_1(document) {
             context.status = 400;
             context.body = {
                 code: 'SWAGGER_REQUEST_VALIDATION_FAILED',
-                errors: validationErrors
+                errors: validationErrors,
             };
             return;
         }
         // wait for the operation to execute
         // eslint-disable-next-line callback-return
         await next();
+        // do not validate responses to OPTIONS
+        if (context.method.toLowerCase() === 'options') {
+            return;
+        }
         // check the response matches the swagger schema
         const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
         if (error) {
@@ -82,10 +99,11 @@ function default_1(document) {
             // eslint-disable-next-line require-atomic-updates
             context.body = {
                 code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
-                errors: [error]
+                errors: [error],
             };
         }
     };
 }
 exports.default = default_1;
+/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
 //# sourceMappingURL=validate.js.map

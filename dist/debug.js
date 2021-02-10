@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2021 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -31,20 +31,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
  THE SOFTWARE.
  */
 const debug_1 = __importDefault(require("debug"));
+/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function default_1(module) {
     // set up logging
     const log = debug_1.default(module);
     if (!log.enabled) {
         // logging not enabled for this module, return do-nothing middleware
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (context, next) => next();
+        return async (_, next) => next();
     }
     /* istanbul ignore next */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async (context, next) => {
         const startTime = Date.now();
         const { method, url } = context.request;
-        // eslint-disable-next-line callback-return
         await next();
         const status = parseInt(context.status, 10);
         const requestBody = typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);
@@ -65,4 +64,5 @@ function default_1(module) {
     };
 }
 exports.default = default_1;
+/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */
 //# sourceMappingURL=debug.js.map

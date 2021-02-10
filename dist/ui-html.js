@@ -1,6 +1,7 @@
 "use strict";
 // ui-html.ts
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-secrets/no-secrets */
 exports.default = (document, pathPrefix) => `
 
 <!DOCTYPE html>
@@ -122,4 +123,5 @@ window.onload = function() {
 </html>
 
 `;
+/* eslint-enable no-secrets/no-secrets */
 //# sourceMappingURL=ui-html.js.map

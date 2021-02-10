@@ -1,14 +1,26 @@
 "use strict";
 // router.ts
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
@@ -39,19 +51,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const koa_1 = __importDefault(require("koa"));
 const koa_bodyparser_1 = __importDefault(require("koa-bodyparser"));
-const koa_convert_1 = __importDefault(require("koa-convert"));
-const koa_cors_1 = __importDefault(require("koa-cors"));
-const koa_router_1 = __importDefault(require("koa-router"));
+const cors_1 = __importDefault(require("@koa/cors"));
+const router_1 = __importDefault(require("@koa/router"));
 const swagger = __importStar(require("swagger2"));
 const validate_1 = __importDefault(require("./validate"));
 const debug_1 = __importDefault(require("./debug"));
 function default_1(swaggerDocument) {
-    const router = new koa_router_1.default();
+    const router = new router_1.default();
     const app = new koa_1.default();
-    // automatically convert legacy middleware to new middleware
-    const appUse = app.use;
-    // eslint-disable-next-line id-length,@typescript-eslint/no-explicit-any
-    app.use = (x) => appUse.call(app, koa_convert_1.default(x));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let document;
     if (typeof swaggerDocument === 'string') {
@@ -65,11 +72,12 @@ function default_1(swaggerDocument) {
         throw Error(`Document does not conform to the Swagger 2.0 schema`);
     }
     app.use(debug_1.default('swagger2-koa:router'));
-    app.use(koa_cors_1.default());
+    app.use(cors_1.default());
     app.use(koa_bodyparser_1.default());
     app.use(validate_1.default(document));
     app.use(router.routes());
     app.use(router.allowedMethods());
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands
     const full = (path) => (typeof document.basePath !== 'undefined' ? document.basePath + path : path);
     return {
         get: (path, ...middleware) => router.get(full(path), ...middleware),
@@ -78,7 +86,7 @@ function default_1(swaggerDocument) {
         post: (path, ...middleware) => router.post(full(path), ...middleware),
         del: (path, ...middleware) => router.del(full(path), ...middleware),
         patch: (path, ...middleware) => router.patch(full(path), ...middleware),
-        app: () => app
+        app: () => app,
     };
 }
 exports.default = default_1;
