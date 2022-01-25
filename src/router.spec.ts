@@ -273,7 +273,7 @@ describe('router', () => {
 
     router.post('/badPing', async () => {
       const err = new Error();
-      ((err as unknown) as { status: number }).status = 400;
+      (err as unknown as { status: number }).status = 400;
       throw err;
     });
 
