@@ -12,7 +12,7 @@ function default_1(document, pathRoot = '/', skipPaths = []
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) {
     const pathPrefix = pathRoot.endsWith('/') ? pathRoot : `${pathRoot}/`;
-    const uiHtml = ui_html_1.default(document, pathPrefix);
+    const uiHtml = (0, ui_html_1.default)(document, pathPrefix);
     return async (context, next) => {
         if (context.path.startsWith(pathRoot)) {
             const skipPath = skipPaths.some((current) => context.path.startsWith(current));
@@ -31,7 +31,7 @@ function default_1(document, pathRoot = '/', skipPaths = []
             else if (!skipPath && context.method === 'GET') {
                 const filePath = context.path.substring(pathRoot.length);
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                await koa_send_1.default(context, filePath, { root: SWAGGER_UI_PATH });
+                await (0, koa_send_1.default)(context, filePath, { root: SWAGGER_UI_PATH });
                 return;
             }
         }

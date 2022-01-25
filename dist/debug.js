@@ -35,7 +35,7 @@ const debug_1 = __importDefault(require("debug"));
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function default_1(module) {
     // set up logging
-    const log = debug_1.default(module);
+    const log = (0, debug_1.default)(module);
     if (!log.enabled) {
         // logging not enabled for this module, return do-nothing middleware
         return async (_, next) => next();
@@ -45,6 +45,7 @@ function default_1(module) {
         const startTime = Date.now();
         const { method, url } = context.request;
         await next();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const status = parseInt(context.status, 10);
         const requestBody = typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);
         const responseBody = typeof context.body === 'undefined' ? context.body : JSON.stringify(context.body);

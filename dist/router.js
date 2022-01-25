@@ -71,10 +71,11 @@ function default_1(swaggerDocument) {
     if (!swagger.validateDocument(document)) {
         throw Error(`Document does not conform to the Swagger 2.0 schema`);
     }
-    app.use(debug_1.default('swagger2-koa:router'));
-    app.use(cors_1.default());
-    app.use(koa_bodyparser_1.default());
-    app.use(validate_1.default(document));
+    app.use((0, debug_1.default)('swagger2-koa:router'));
+    app.use((0, cors_1.default)());
+    app.use((0, koa_bodyparser_1.default)());
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    app.use((0, validate_1.default)(document));
     app.use(router.routes());
     app.use(router.allowedMethods());
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands

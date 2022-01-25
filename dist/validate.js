@@ -46,7 +46,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
 const swagger = __importStar(require("swagger2"));
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function default_1(document) {
@@ -56,27 +55,42 @@ function default_1(document) {
     const basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async (context, next) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         if (typeof document.basePath !== 'undefined' && !context.path.startsWith(basePath)) {
             // not a path that we care about
             return next();
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
         const compiledPath = compiled(context.path);
         if (typeof compiledPath === 'undefined') {
             // if there is no single matching path, return 404 (not found)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             context.status = 404;
             return;
         }
         // check the request matches the swagger schema
-        const validationErrors = swagger.validateRequest(compiledPath, context.method, context.request.query, context.request.body, context.request.headers);
+        const validationErrors = swagger.validateRequest(compiledPath, 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+        context.method, 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        context.request.query, 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        context.request.body, 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        context.request.headers);
         if (typeof validationErrors === 'undefined') {
             // operation not defined, return 405 (method not allowed)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (context.method !== 'OPTIONS') {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 context.status = 405;
             }
             return;
         }
         if (validationErrors.length > 0) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             context.status = 400;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             context.body = {
                 code: 'SWAGGER_REQUEST_VALIDATION_FAILED',
                 errors: validationErrors,
@@ -84,19 +98,20 @@ function default_1(document) {
             return;
         }
         // wait for the operation to execute
-        // eslint-disable-next-line callback-return
         await next();
         // do not validate responses to OPTIONS
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
         if (context.method.toLowerCase() === 'options') {
             return;
         }
         // check the response matches the swagger schema
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
         const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
         if (error) {
             error.where = 'response';
-            // eslint-disable-next-line require-atomic-updates
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             context.status = 500;
-            // eslint-disable-next-line require-atomic-updates
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             context.body = {
                 code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
                 errors: [error],
@@ -105,5 +120,4 @@ function default_1(document) {
     };
 }
 exports.default = default_1;
-/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
 //# sourceMappingURL=validate.js.map
