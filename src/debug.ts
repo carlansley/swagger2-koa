@@ -49,6 +49,7 @@ export default function (module: string): (context: any, next: () => Promise<voi
 
     await next();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const status = parseInt(context.status, 10);
     const requestBody =
       typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);

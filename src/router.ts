@@ -105,7 +105,7 @@ interface HttpRouter extends Router {
 }
 
 export default function (swaggerDocument: unknown): Router {
-  const router = (new KoaRouter() as unknown) as HttpRouter;
+  const router = new KoaRouter() as unknown as HttpRouter;
   const app = new Koa();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,6 +125,7 @@ export default function (swaggerDocument: unknown): Router {
   app.use(debug('swagger2-koa:router'));
   app.use(koaCors());
   app.use(body());
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   app.use(validate(document));
   app.use(router.routes());
   app.use(router.allowedMethods());
