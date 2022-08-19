@@ -1,18 +1,12 @@
-[![Build Status](https://travis-ci.org/carlansley/swagger2-koa.svg?branch=master)](https://travis-ci.org/carlansley/swagger2-koa)
-[![Coverage Status](https://coveralls.io/repos/github/carlansley/swagger2-koa/badge.svg?branch=master)](https://coveralls.io/github/carlansley/swagger2-koa?branch=master)
-[![Dependencies](https://david-dm.org/carlansley/swagger2-koa.svg)](https://raw.githubusercontent.com/carlansley/swagger2-koa/master/package.json)
-[![Known Vulnerabilities](https://snyk.io/test/github/carlansley/swagger2-koa/badge.svg)](https://snyk.io/test/github/carlansley/swagger2-koa)
-
 # swagger2-koa
-Koa 2 async-style middleware for loading, parsing and validating requests via swagger2, and serving UI via swagger-ui.
+Koa 2 async-style middleware for loading, parsing and validating requests via swagger2.
 * `router(document) => koa2-style Router`
 * `validate(document) => koa2 middleware`
-* `ui(document) => koa2 middleware`
 
 ## Installation
 
 ```shell
-$ npm install swagger2-koa --save
+$ npm add swagger2-koa
 ```
 
 ## Usage
@@ -24,7 +18,7 @@ Router object that allows you to add your route implementations.
 
 ```
 import * as swagger from 'swagger2';
-import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
+import {router as swaggerRouter, Router} from 'swagger2-koa';
 
 ...
 const document = swagger.loadDocumentSync('./swagger.yml');
@@ -40,7 +34,6 @@ router.get('/ping', async (context) => {
 ...
 
 router.app()         // get the koa 2 server
-  .use(ui(document)) // only needed if you want to publish a swagger-ui for the API
   .listen(3000);     // start handling requests on port 3000
 
 ```
@@ -94,37 +87,6 @@ For either request (HTTP 400) or response (HTTP 500) errors, details of the sche
 }
 ```
 
-### `ui(document, pathRoot = "/", skipPaths = []) => koa2 middleware`
-
-You can also serve a swagger-ui for your API from a given path root (pathRoot defaults to "/"):
-
-```javascript
-import * as swagger from 'swagger2';
-import { ui } from 'swagger2-koa';
-
-const app = new Koa();
-
-const document = swagger.loadDocumentSync('./swagger.yml');
-app.use(ui(document));
-
-```
-
-`app.use(ui(document, "/swagger"))` adds routes /swagger/api-docs and /swagger.
-
-By using the `skipPaths` parameter, it is possible to create routes such as:
-
-```
-/api          : Swagger UI
-/api/api-docs : Swagger API Docs
-/api/v1       : Actual API
-```
-
-with:
-
-````javascript
-app.use(ui(document, "/api", ['/api/v1']));
-````
-
 ## Debugging
 
 This library uses [`debug`](https://github.com/visionmedia/debug), which can be activated using the
@@ -137,7 +99,7 @@ export DEBUG=swagger2-koa:*
 ## Limitations
 
 * only supports Koa 2-style async/await middleware interface
-* requires node version 14 and above
+* requires node version 16 and above
 
 ## License
 
