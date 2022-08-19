@@ -77,8 +77,8 @@
     ]
   },
   "scripts": {
-    "dist": "rimraf dist && tsc --outDir dist && rimraf dist/*.spec.* && cp src/schema.json dist",
-    "prepublishOnly": "npm run dist && rimraf .github src test typings .eslintrc .gitignore tsconfig.json",
+    "dist": "rimraf dist && tsc --outDir dist && rimraf dist/*.spec.*",
+    "prepublishOnly": "npm run dist && rimraf .github src .eslintrc .gitignore tsconfig.json",
     "lint": "eslint -f unix src/**/*.ts",
     "lint:fix": "eslint -f unix src/**/*.ts --fix",
     "prettier": "prettier --list-different src/**/*.ts",
