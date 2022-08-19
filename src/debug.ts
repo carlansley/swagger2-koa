@@ -45,30 +45,33 @@ export default function (module: string): (context: any, next: () => Promise<voi
   /* istanbul ignore next */
   return async (context, next) => {
     const startTime = Date.now();
-    const { method, url } = context.request;
+    const {
+      method,
+      url,
+      request: { body },
+    } = context.request;
 
     await next();
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const status = parseInt(context.status, 10);
-    const requestBody =
-      typeof context.request.body === 'undefined' ? context.request.body : JSON.stringify(context.request.body);
-    const responseBody = typeof context.body === 'undefined' ? context.body : JSON.stringify(context.body);
+    const status = Number.parseInt(context.status, 10);
+    const requestBody = body === undefined ? body : JSON.stringify(body);
+    const responseBody = context.body === undefined ? context.body : JSON.stringify(context.body);
     const time = Date.now() - startTime;
 
-    if (typeof requestBody !== 'undefined' && typeof responseBody !== 'undefined') {
+    if (requestBody !== undefined && responseBody !== undefined) {
       log(`${method} ${url} ${requestBody} -> ${status} ${responseBody} ${time}ms`);
     }
 
-    if (typeof requestBody !== 'undefined' && typeof responseBody === 'undefined') {
+    if (requestBody !== undefined && responseBody === undefined) {
       log(`${method} ${url} ${requestBody} -> ${status} ${time}ms`);
     }
 
-    if (typeof requestBody === 'undefined' && typeof responseBody !== 'undefined') {
+    if (requestBody === undefined && responseBody !== undefined) {
       log(`${method} ${url} -> ${status} ${responseBody} ${time}ms`);
     }
 
-    if (typeof requestBody === 'undefined' && typeof responseBody === 'undefined') {
+    if (requestBody === undefined && responseBody === undefined) {
       log(`${method} ${url} -> ${status} ${time}ms`);
     }
   };

@@ -99,9 +99,9 @@ export interface Router {
 
 interface HttpRouter extends Router {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  routes: () => (ctx: Koa.Context, next: () => void) => any;
+  routes: () => (context: Koa.Context, next: () => void) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  allowedMethods: () => (ctx: Koa.Context, next: () => void) => any;
+  allowedMethods: () => (context: Koa.Context, next: () => void) => any;
 }
 
 export default function (swaggerDocument: unknown): Router {
@@ -119,7 +119,7 @@ export default function (swaggerDocument: unknown): Router {
   }
 
   if (!swagger.validateDocument(document)) {
-    throw Error(`Document does not conform to the Swagger 2.0 schema`);
+    throw new Error(`Document does not conform to the Swagger 2.0 schema`);
   }
 
   app.use(debug('swagger2-koa:router'));
@@ -131,7 +131,7 @@ export default function (swaggerDocument: unknown): Router {
   app.use(router.allowedMethods());
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands
-  const full = (path: string) => (typeof document.basePath !== 'undefined' ? document.basePath + path : path);
+  const full = (path: string) => (document.basePath !== undefined ? document.basePath + path : path);
 
   return {
     get: (path, ...middleware) => router.get(full(path), ...middleware),

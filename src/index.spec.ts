@@ -24,12 +24,11 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'assert';
+import * as assert from 'node:assert';
 
-import { router, ui, validate } from './index';
+import { router, validate } from './index';
 
 describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof ui, 'function'));
   it('has validate middleware', () => assert.equal(typeof validate, 'function'));
   it('has router middleware', () => assert.equal(typeof router, 'function'));
 });
