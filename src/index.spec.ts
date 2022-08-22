@@ -24,7 +24,7 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'node:assert';
+import { strict as assert } from 'node:assert';
 
 import { router, validate } from './index';
 

@@ -1,7 +1,9 @@
 # swagger2-koa
+
 Koa 2 async-style middleware for loading, parsing and validating requests via swagger2.
-* `router(document) => koa2-style Router`
-* `validate(document) => koa2 middleware`
+
+- `router(document) => koa2-style Router`
+- `validate(document) => koa2 middleware`
 
 ## Installation
 
@@ -39,11 +41,13 @@ router.app()         // get the koa 2 server
 ```
 
 Note: in addition to `validate` (described below), `router` adds the following middleware to its koa server:
-* `@koa/cors`
-* `@koa/router`
-* `koa-bodyparser`
+
+- `@koa/cors`
+- `@koa/router`
+- `koa-bodyparser`
 
 ### `validate(document) => koa2 middleware`
+
 If you already have a Koa server, this middleware adds basic loading and validation of HTTP requests and responses against
 swagger 2.0 document:
 
@@ -63,14 +67,14 @@ if (!swagger.validateDocument(document)) {
 
 app.use(body());
 app.use(validate(document));
-
 ```
 
 The `validate` middleware behaves as follows:
-* expects context.body to contain request body in object form (e.g. via use of koa-body)
-* if the request is for a path not defined in swagger document, an HTTP 404 is returned to the client (subsequent middleware is never processed).
-* if the request body does not validate, an HTTP 400 is returned to the client (subsequent middleware is never processed)
-* if the response body does not validate, an HTTP 500 is returned to the client
+
+- expects context.body to contain request body in object form (e.g. via use of koa-body)
+- if the request is for a path not defined in swagger document, an HTTP 404 is returned to the client (subsequent middleware is never processed).
+- if the request body does not validate, an HTTP 400 is returned to the client (subsequent middleware is never processed)
+- if the response body does not validate, an HTTP 500 is returned to the client
 
 For either request (HTTP 400) or response (HTTP 500) errors, details of the schema validation error are passed back in the body. e.g.:
 
@@ -98,8 +102,8 @@ export DEBUG=swagger2-koa:*
 
 ## Limitations
 
-* only supports Koa 2-style async/await middleware interface
-* requires node version 16 and above
+- only supports Koa 2-style async/await middleware interface
+- requires node version 16 and above
 
 ## License
 
