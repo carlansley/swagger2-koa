@@ -5,6 +5,9 @@ on:
     branches:
       - 'main'
 
+env:
+  CI: true
+
 jobs:
   pullRequestBuild:
     name: Pull Request Build
@@ -21,25 +24,14 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          CI: true
       - name: Compile
         run: npm run ci:compile
-        env:
-          CI: true
       - name: Check Code Style
         run: npm run ci:style
-        env:
-          CI: true
       - name: Perform Linting
         run: npm run ci:lint
-        env:
-          CI: true
       - name: Run Tests
         run: npm run ci:test
-        env:
-          CI: true
 
   branchBuild:
     runs-on: ubuntu-latest
@@ -58,22 +50,11 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          CI: true
       - name: Compile
         run: npm run ci:compile
-        env:
-          CI: true
       - name: Check Code Style
         run: npm run ci:style
-        env:
-          CI: true
       - name: Perform Linting
         run: npm run ci:lint
-        env:
-          CI: true
       - name: Run Tests
         run: npm run ci:test
-        env:
-          CI: true

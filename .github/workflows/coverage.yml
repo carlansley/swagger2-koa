@@ -5,6 +5,9 @@ on:
     branches:
       - 'main'
 
+env:
+  CI: true
+
 jobs:
   branchBuild:
     runs-on: ubuntu-latest
@@ -23,22 +26,14 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          CI: true
       - name: Calculate Code Coverage
         run: npm run ci:coverage
-        env:
-          CI: true
       - name: Create Coverage Report for base branch
         run: |
           mv coverage/lcov.info coverage/lcov_head.info
           git fetch
           git checkout origin/${{ github.event.pull_request.base.ref }}
           npm ci && npm run ci:coverage
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          CI: true
       - name: Post Coverage Report
         uses: romeovs/lcov-reporter-action@v0.3.1
         with:
