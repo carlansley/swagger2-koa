@@ -35,7 +35,7 @@
     "swagger2": "^4.0.2"
   },
   "devDependencies": {
-    "@checkdigit/eslint-config": "^7.1.0",
+    "@checkdigit/eslint-config": "^7.2.0",
     "@checkdigit/prettier-config": "^3.0.0",
     "@checkdigit/typescript-config": "^3.0.1",
     "@types/debug": "4.1.7",
