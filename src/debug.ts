@@ -56,7 +56,7 @@ export default function (module: string): (context: any, next: () => Promise<voi
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const status = Number.parseInt(context.status, 10);
     const requestBody = JSON.stringify(body);
-    const responseBody = context.body === undefined ? context.body : JSON.stringify(context.body);
+    const responseBody = JSON.stringify(context.body);
     const time = Date.now() - startTime;
 
     if (requestBody !== undefined && responseBody !== undefined) {
