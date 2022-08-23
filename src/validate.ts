@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2021 Carl Ansley
+ Copyright (c) 2014-2022 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -41,14 +41,14 @@ export default function (document: swagger.Document): (context: any, next: () =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (context: any, next: () => Promise<void>) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-    if (typeof document.basePath !== 'undefined' && !context.path.startsWith(basePath)) {
+    if (document.basePath !== undefined && !context.path.startsWith(basePath)) {
       // not a path that we care about
       return next();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
     const compiledPath = compiled(context.path);
-    if (typeof compiledPath === 'undefined') {
+    if (compiledPath === undefined) {
       // if there is no single matching path, return 404 (not found)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       context.status = 404;
@@ -68,7 +68,7 @@ export default function (document: swagger.Document): (context: any, next: () =>
       context.request.headers
     );
 
-    if (typeof validationErrors === 'undefined') {
+    if (validationErrors === undefined) {
       // operation not defined, return 405 (method not allowed)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (context.method !== 'OPTIONS') {

@@ -3,7 +3,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2021 Carl Ansley
+ Copyright (c) 2014-2022 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,11 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'assert';
+import { strict as assert } from 'node:assert';
 
-import { router, ui, validate } from './index';
+import { router, validate } from './index';
 
 describe('swagger2-koa', () => {
-  it('has ui middleware', () => assert.equal(typeof ui, 'function'));
   it('has validate middleware', () => assert.equal(typeof validate, 'function'));
   it('has router middleware', () => assert.equal(typeof router, 'function'));
 });

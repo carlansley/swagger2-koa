@@ -3,7 +3,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2018 Carl Ansley
+ Copyright (c) 2014-2022 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,8 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'assert';
+import * as assert from 'node:assert';
+
 import agent from 'supertest';
 import type * as swagger from 'swagger2';
 
@@ -272,9 +273,9 @@ describe('router', () => {
     });
 
     router.post('/badPing', async () => {
-      const err = new Error();
-      (err as unknown as { status: number }).status = 400;
-      throw err;
+      const error = new Error();
+      (error as unknown as { status: number }).status = 400;
+      throw error;
     });
 
     const http = agent(router.app().callback());
@@ -284,6 +285,7 @@ describe('router', () => {
     });
 
     it('fails with invalid Swagger document', () => {
+      // eslint-disable-next-line unicorn/prefer-module
       assert.throws(() => swaggerRouter(`${__dirname}/../.travis.yml`));
     });
 
@@ -299,32 +301,32 @@ describe('router', () => {
 
     it('validates valid HEAD operation', async () => {
       const { body } = await http.head('/mock/ping').expect(200);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('validates valid POST operation', async () => {
       const { body } = await http.post('/mock/ping').expect(201);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('validates valid PATCH operation', async () => {
       const { body } = await http.patch('/mock/ping').expect(204);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('validates valid DELETE operation', async () => {
       const { body } = await http.del('/mock/ping').expect(204);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('pass through OPTIONS operation', async () => {
       const { body } = await http.options('/mock/ping').expect(200);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('validates valid PUT operation', async () => {
       const { body } = await http.put('/mock/ping').expect(204);
-      assert.deepStrictEqual(body, {});
+      assert.deepEqual(body, {});
     });
 
     it('handles POST operation throwing 400 error', async () => {
@@ -333,7 +335,7 @@ describe('router', () => {
 
     it('does not validate invalid operation response', async () => {
       const { body } = await http.get('/mock/badPing').expect(500);
-      assert.deepStrictEqual(body, {
+      assert.deepEqual(body, {
         code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
         errors: [
           {
@@ -354,7 +356,7 @@ describe('router', () => {
 
     it('does not validate response where nothing is expected', async () => {
       const { body } = await http.put('/mock/badPing').expect(500);
-      assert.deepStrictEqual(body, {
+      assert.deepEqual(body, {
         code: 'SWAGGER_RESPONSE_VALIDATION_FAILED',
         errors: [
           {
