@@ -18,26 +18,26 @@ $ npm add swagger2-koa
 This is the easiest way to use swagger2-koa; it creates a standalone koa server, adds the `validate` middleware, and returns a
 Router object that allows you to add your route implementations.
 
-```
+```typescript
 import * as swagger from 'swagger2';
-import {router as swaggerRouter, Router} from 'swagger2-koa';
+import { router as swaggerRouter, Router } from 'swagger2-koa';
 
-...
+// ...
 const document = swagger.loadDocumentSync('./swagger.yml');
 const router: Router = swaggerRouter(document);
 
 router.get('/ping', async (context) => {
   context.status = 200;
   context.body = {
-    serverTime: new Date().toISOString()
+    serverTime: new Date().toISOString(),
   };
 });
 
-...
+// ...
 
-router.app()         // get the koa 2 server
-  .listen(3000);     // start handling requests on port 3000
-
+router
+  .app() // get the koa 2 server
+  .listen(3000); // start handling requests on port 3000
 ```
 
 Note: in addition to `validate` (described below), `router` adds the following middleware to its koa server:
@@ -103,7 +103,7 @@ export DEBUG=swagger2-koa:*
 ## Limitations
 
 - only supports Koa 2-style async/await middleware interface
-- requires node version 16 and above
+- requires ESM + Node version 22 and above
 
 ## License
 

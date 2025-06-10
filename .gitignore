@@ -7,5 +7,4 @@ lib-cov
 .idea
 build
 node_modules
-typings
 coverage

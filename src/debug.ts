@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2022 Carl Ansley
+ Copyright (c) 2014-2025 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,12 @@
 
 import debug from 'debug';
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function (module: string): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function (
+  module: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (context: any, next: () => Promise<void>) => Promise<void> {
   // set up logging
   const log = debug(module);
 
@@ -59,22 +61,28 @@ export default function (module: string): (context: any, next: () => Promise<voi
     const responseBody = JSON.stringify(context.body);
     const time = Date.now() - startTime;
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (requestBody !== undefined && responseBody !== undefined) {
-      log(`${method} ${url} ${requestBody} -> ${status} ${responseBody} ${time}ms`);
+      log(
+        `${method} ${url} ${requestBody} -> ${status} ${responseBody} ${time}ms`,
+      );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (requestBody !== undefined && responseBody === undefined) {
       log(`${method} ${url} ${requestBody} -> ${status} ${time}ms`);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (requestBody === undefined && responseBody !== undefined) {
       log(`${method} ${url} -> ${status} ${responseBody} ${time}ms`);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (requestBody === undefined && responseBody === undefined) {
       log(`${method} ${url} -> ${status} ${time}ms`);
     }
   };
 }
 
-/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/restrict-template-expressions */
+/* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */

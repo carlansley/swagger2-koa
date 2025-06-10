@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2022 Carl Ansley
+ Copyright (c) 2014-2025 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,17 +30,23 @@
 
 import * as swagger from 'swagger2';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function (document: swagger.Document): (context: any, next: () => Promise<void>) => Promise<void> {
+export default function (
+  document: swagger.Document,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (context: any, next: () => Promise<void>) => Promise<void> {
   // construct a validation object, pre-compiling all schema and regex required
   const compiled = swagger.compileDocument(document);
 
   // construct a canonical base path
-  const basePath = (document.basePath || '') + ((document.basePath || '').endsWith('/') ? '' : '/');
+  const basePath =
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions,@typescript-eslint/prefer-nullish-coalescing
+    (document.basePath || '') +
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions,@typescript-eslint/prefer-nullish-coalescing
+    ((document.basePath || '').endsWith('/') ? '' : '/');
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (context: any, next: () => Promise<void>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/strict-boolean-expressions
     if (document.basePath !== undefined && !context.path.startsWith(basePath)) {
       // not a path that we care about
       return next();
@@ -65,7 +71,7 @@ export default function (document: swagger.Document): (context: any, next: () =>
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       context.request.body,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      context.request.headers
+      context.request.headers,
     );
 
     if (validationErrors === undefined) {
@@ -98,8 +104,15 @@ export default function (document: swagger.Document): (context: any, next: () =>
     }
 
     // check the response matches the swagger schema
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    const error = swagger.validateResponse(compiledPath, context.method, context.status, context.body);
+    const error = swagger.validateResponse(
+      compiledPath,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+      context.method,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+      context.status,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      context.body,
+    );
     if (error) {
       error.where = 'response';
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
