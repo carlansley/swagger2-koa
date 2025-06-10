@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: ['main']
   schedule:
-    - cron: '50 22 * * 1'
+    - cron: '48 05 * * 1'
 
 jobs:
   analyze:
-    name: Analyze
+    name: CodeQL analysis
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -21,11 +21,11 @@ jobs:
       matrix:
         language: ['javascript']
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3

@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2022 Carl Ansley
+ Copyright (c) 2014-2025 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@
  THE SOFTWARE.
  */
 
-export { default as validate } from './validate';
-
-export { default as router } from './router';
-export { Router } from './router';
+export { default as validate } from './validate.ts';
+export { default as router } from './router.ts';
+export type { Router } from './router.ts';

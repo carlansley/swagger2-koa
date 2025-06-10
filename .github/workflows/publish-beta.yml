@@ -1,0 +1,52 @@
+name: Publish Beta Package
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  publishBeta:
+    name: Publish Beta
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4.3.3
+        with:
+          allow-licenses: ${{ vars.ALLOW_LICENSES }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Check Label
+        uses: checkdigit/github-actions/check-label@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check Imports
+        uses: checkdigit/github-actions/check-imports@main
+      - name: Install latest npm
+        run: npm install -g npm@latest
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+      - name: Audit Signatures
+        run: npm audit signatures
+      - name: Run Test
+        run: npm run ci:test
+      - name: Prepare Beta
+        id: prepare-beta
+        uses: checkdigit/github-actions/prepare-beta@main
+      - name: Publish Beta
+        run: npm publish --tag beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Comment npm publish result
+        uses: checkdigit/github-actions/comment-npm-publish@main
+        with:
+          betaPackage: ${{ steps.prepare-beta.outputs.betaPackage }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

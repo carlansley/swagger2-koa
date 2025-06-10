@@ -1,15 +1,7 @@
 {
   "name": "swagger2-koa",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
-  "main": "dist/index.js",
-  "engines": {
-    "node": ">=16"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/carlansley/swagger2-koa.git"
-  },
   "keywords": [
     "swagger",
     "swagger2",
@@ -17,76 +9,88 @@
     "koa",
     "koa2"
   ],
-  "author": "Carl Ansley",
-  "license": "MIT",
+  "homepage": "https://github.com/carlansley/swagger2-koa#readme",
   "bugs": {
     "url": "https://github.com/carlansley/swagger2-koa/issues"
   },
-  "homepage": "https://github.com/carlansley/swagger2-koa#readme",
-  "typings": "./dist/index.d.ts",
-  "prettier": "@checkdigit/prettier-config",
-  "dependencies": {
-    "@koa/cors": "^3.4.1",
-    "@koa/router": "^12.0.0",
-    "@types/koa-bodyparser": "^5.0.1",
-    "debug": "^4.3.4",
-    "koa": "^2.13.4",
-    "koa-bodyparser": "^4.3.0",
-    "swagger2": "^4.0.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlansley/swagger2-koa.git"
   },
-  "devDependencies": {
-    "@checkdigit/eslint-config": "^7.2.0",
-    "@checkdigit/prettier-config": "^3.0.0",
-    "@checkdigit/typescript-config": "^3.0.1",
-    "@types/debug": "4.1.7",
-    "@types/jest": "^28.1.7",
-    "@types/koa": "^2.13.5",
-    "@types/koa__cors": "^3.3.0",
-    "@types/koa__router": "^8.0.11",
-    "@types/koa-send": "^4.1.3",
-    "@types/supertest": "^2.0.12",
-    "jest": "^28.1.3",
-    "rimraf": "^3.0.2",
-    "supertest": "^6.2.4",
-    "ts-jest": "^28.0.8",
-    "ts-node": "^10.9.1"
-  },
+  "license": "MIT",
+  "author": "Carl Ansley",
   "maintainers": [
     {
-      "email": "carl.ansley@gmail.com",
-      "name": "Carl Ansley"
+      "name": "Carl Ansley",
+      "email": "carl.ansley@gmail.com"
     }
   ],
-  "jest": {
-    "preset": "ts-jest",
-    "collectCoverageFrom": [
-      "<rootDir>/src/**",
-      "!<rootDir>/src/**/*.json",
-      "!<rootDir>/src/**/*.spec.ts",
-      "!<rootDir>/src/**/*.test.ts"
-    ],
-    "globals": {
-      "ts-jest": {
-        "isolatedModules": true,
-        "diagnostics": false
-      }
-    },
-    "testMatch": [
-      "<rootDir>/src/**/*.spec.ts"
-    ]
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist-types/index.d.ts",
+      "import": "./dist-mjs/index.mjs",
+      "default": "./dist-mjs/index.mjs"
+    }
   },
+  "files": [
+    "src",
+    "dist-types",
+    "dist-mjs",
+    "!src/**/test/**",
+    "!src/**/*.test.ts",
+    "!src/**/*.spec.ts",
+    "!dist-types/**/test/**",
+    "!dist-types/**/*.test.d.ts",
+    "!dist-types/**/*.spec.d.ts",
+    "!dist-mjs/**/test/**",
+    "!dist-mjs/**/*.test.mjs",
+    "!dist-mjs/**/*.spec.mjs",
+    "SECURITY.md"
+  ],
   "scripts": {
-    "dist": "rimraf dist && tsc --outDir dist && rimraf dist/*.spec.*",
-    "prepublishOnly": "npm run dist && rimraf .github src .eslintrc .gitignore tsconfig.json",
-    "lint": "eslint -f unix src/**/*.ts",
-    "lint:fix": "eslint -f unix src/**/*.ts --fix",
-    "prettier": "prettier --list-different .",
-    "prettier:fix": "prettier --write .",
-    "test": "npm run ci:compile && npm run ci:test && npm run ci:lint && npm run ci:style",
+    "build:dist-mjs": "rimraf dist-mjs && npx builder --type=module --sourceMap --outDir=dist-mjs && node dist-mjs/index.mjs",
+    "build:dist-types": "rimraf dist-types && npx builder --type=types --outDir=dist-types",
     "ci:compile": "tsc --noEmit",
-    "ci:test": "jest --coverage=false",
-    "ci:coverage": "jest --coverage=true",
+    "ci:coverage": "rimraf coverage && mkdir coverage && node --disable-warning ExperimentalWarning --experimental-strip-types --test-timeout 600000 --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=coverage/lcov.info --test \"src/**/*.spec.ts\"",
     "ci:lint": "npm run lint",
-    "ci:style": "npm run prettier"
+    "ci:style": "npm run prettier",
+    "ci:test": "node --disable-warning ExperimentalWarning --experimental-strip-types --test-timeout 600000 --test \"src/**/*.spec.ts\"",
+    "clean": "npm cache verify && rimraf coverage node_modules",
+    "coverage": "node --disable-warning ExperimentalWarning --experimental-strip-types --test-timeout 600000 --experimental-test-coverage --test \"src/**/*.spec.ts\"",
+    "lint": "eslint --max-warnings 0 .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "",
+    "prepublishOnly": "npm run build:dist-types && npm run build:dist-mjs",
+    "prettier": "prettier --ignore-path .gitignore --list-different .",
+    "prettier:fix": "prettier --ignore-path .gitignore --write .",
+    "test": "npm run ci:compile && npm run ci:test && npm run ci:lint && npm run ci:style"
+  },
+  "prettier": "@checkdigit/prettier-config",
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "@koa/router": "^13.1.0",
+    "@types/koa-bodyparser": "^5.0.1",
+    "debug": "^4.4.1",
+    "koa": "^2.16.1",
+    "koa-bodyparser": "^4.4.1",
+    "swagger2": "5.0.0-PR.58-6673"
+  },
+  "devDependencies": {
+    "@checkdigit/eslint-config": "^11.2.6",
+    "@checkdigit/prettier-config": "^7.0.0",
+    "@checkdigit/typescript-config": "^9.1.1",
+    "@types/debug": "4.1.12",
+    "@types/koa": "^2.15.0",
+    "@types/koa-send": "^4.1.6",
+    "@types/koa__cors": "^5.0.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/supertest": "^6.0.3",
+    "rimraf": "^6.0.1",
+    "supertest": "^7.1.1"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

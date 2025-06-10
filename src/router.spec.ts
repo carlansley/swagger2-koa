@@ -3,7 +3,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2022 Carl Ansley
+ Copyright (c) 2014-2025 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,15 @@
  THE SOFTWARE.
  */
 
-import * as assert from 'node:assert';
+import { strict as assert } from 'node:assert';
+import path from 'node:path';
+import { describe, it } from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import agent from 'supertest';
 import type * as swagger from 'swagger2';
 
-import swaggerRouter, { Context } from './router';
+import swaggerRouter, { type Context } from './router.ts';
 
 describe('router', () => {
   describe('numeric-path', () => {
@@ -239,7 +242,7 @@ describe('router', () => {
         context.body = {
           time: new Date().toISOString(),
         };
-      }
+      },
     );
 
     router.put('/ping', async (context: Context) => {
@@ -280,19 +283,33 @@ describe('router', () => {
 
     const http = agent(router.app().callback());
 
+    // eslint-disable-next-line sonarjs/assertions-in-tests
     it('fails with invalid filename', () => {
-      assert.throws(() => swaggerRouter('invalid.yml'), /^Error: ENOENT/u);
+      assert.throws(() => swaggerRouter('invalid.yml'), /^Error: ENOENT/u); // ENOENT: no such file or directory
     });
 
+    // eslint-disable-next-line sonarjs/assertions-in-tests
     it('fails with invalid Swagger document', () => {
-      // eslint-disable-next-line unicorn/prefer-module
-      assert.throws(() => swaggerRouter(`${__dirname}/../.travis.yml`));
+      // eslint-disable-next-line @checkdigit/require-assert-predicate-rejects-throws
+      assert.throws(() =>
+        swaggerRouter(
+          `${path.dirname(fileURLToPath(import.meta.url))}/../.travis.yml`,
+        ),
+      );
     });
 
-    it('invalid path', async () => http.post('/mock/pingy').expect(404));
-    it('invalid path', async () => http.post('/pingy').expect(404));
-    it('invalid method', async () => http.patch('/mock/badPing').expect(405));
-    it('invalid request', async () => http.get('/mock/ping?x=y').expect(400));
+    it('invalid path', async () => {
+      await http.post('/mock/pingy').expect(404);
+    });
+    it('invalid path', async () => {
+      await http.post('/pingy').expect(404);
+    });
+    it('invalid method', async () => {
+      await http.patch('/mock/badPing').expect(405);
+    });
+    it('invalid request', async () => {
+      await http.get('/mock/ping?x=y').expect(400);
+    });
 
     it('validates valid GET operation', async () => {
       const { body } = await http.get('/mock/ping').expect(200);

@@ -9,34 +9,32 @@ env:
   CI: true
 
 jobs:
-  branchBuild:
+  coverage:
+    name: Coverage
     runs-on: ubuntu-latest
-    name: Branch Build
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '24.x'
           cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
       - name: Calculate Code Coverage
         run: npm run ci:coverage
       - name: Create Coverage Report for base branch
         run: |
-          mv coverage/lcov.info coverage/lcov_head.info
+          mv coverage coverage-pr
           git fetch
           git checkout origin/${{ github.event.pull_request.base.ref }}
-          npm ci && npm run ci:coverage
+          npm ci --ignore-scripts && npm run ci:coverage
       - name: Post Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.3.1
+        uses: checkdigit/github-actions/coverage-reporter@main
         with:
-          lcov-file: 'coverage/lcov_head.info'
-          lcov-base: 'coverage/lcov.info'
+          coverage-results-folder-pr: 'coverage-pr'
+          coverage-results-folder-base: 'coverage'
           delete-old-comments: true

@@ -7,7 +7,7 @@
 /*
  The MIT License
 
- Copyright (c) 2014-2022 Carl Ansley
+ Copyright (c) 2014-2025 Carl Ansley
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,9 @@ import koaCors from '@koa/cors';
 import KoaRouter from '@koa/router';
 import * as swagger from 'swagger2';
 
-import validate from './validate';
+import validate from './validate.ts';
 
-import debug from './debug';
+import debug from './debug.ts';
 
 export interface Request {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,7 +62,9 @@ export interface Request {
   stale: boolean;
   idempotent: boolean;
   get: (field: string) => string;
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   header: { [name: string]: string };
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   headers: { [name: string]: string };
 }
 
@@ -74,10 +76,12 @@ export interface Response {
   status?: number;
   message?: string;
   redirect: (url: string, alt?: string) => void;
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   header: { [name: string]: string };
 }
 
 export interface Context extends Request, Response {
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   params: { [name: string]: string };
   request: Request;
   response: Response;
@@ -112,7 +116,7 @@ export default function (swaggerDocument: unknown): Router {
   let document: any;
 
   if (typeof swaggerDocument === 'string') {
-    // eslint-disable-next-line no-sync
+    // eslint-disable-next-line n/no-sync
     document = swagger.loadDocumentSync(swaggerDocument);
   } else {
     document = swaggerDocument;
@@ -130,8 +134,9 @@ export default function (swaggerDocument: unknown): Router {
   app.use(router.routes());
   app.use(router.allowedMethods());
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands
-  const full = (path: string) => (document.basePath !== undefined ? document.basePath + path : path);
+  const full = (path: string) =>
+    // eslint-disable-next-line unicorn/no-negated-condition,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-plus-operands
+    document.basePath !== undefined ? document.basePath + path : path;
 
   return {
     get: (path, ...middleware) => router.get(full(path), ...middleware),
