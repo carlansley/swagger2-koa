@@ -75,7 +75,7 @@
     "debug": "^4.4.1",
     "koa": "^2.16.1",
     "koa-bodyparser": "^4.4.1",
-    "swagger2": "5.0.0-PR.58-6673"
+    "swagger2": "^5.0.1"
   },
   "devDependencies": {
     "@checkdigit/eslint-config": "^11.2.6",
