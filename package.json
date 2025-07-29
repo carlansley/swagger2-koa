@@ -73,7 +73,7 @@
     "@koa/router": "^13.1.0",
     "@types/koa-bodyparser": "^5.0.1",
     "debug": "^4.4.1",
-    "koa": "^2.16.1",
+    "koa": "^3.0.1",
     "koa-bodyparser": "^4.4.1",
     "swagger2": "^5.0.1"
   },
