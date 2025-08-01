@@ -1,6 +1,6 @@
 {
   "name": "swagger2-koa",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Koa 2 middleware for loading, parsing and validating requests via swagger2",
   "keywords": [
     "swagger",
@@ -69,26 +69,26 @@
   },
   "prettier": "@checkdigit/prettier-config",
   "dependencies": {
+    "@koa/bodyparser": "^6.0.0",
     "@koa/cors": "^5.0.0",
-    "@koa/router": "^13.1.0",
+    "@koa/router": "^13.1.1",
     "@types/koa-bodyparser": "^5.0.1",
     "debug": "^4.4.1",
-    "koa": "^2.16.1",
-    "koa-bodyparser": "^4.4.1",
+    "koa": "^3.0.1",
     "swagger2": "^5.0.1"
   },
   "devDependencies": {
-    "@checkdigit/eslint-config": "^11.2.6",
-    "@checkdigit/prettier-config": "^7.0.0",
-    "@checkdigit/typescript-config": "^9.1.1",
+    "@checkdigit/eslint-config": "^11.2.7",
+    "@checkdigit/prettier-config": "^7.1.1",
+    "@checkdigit/typescript-config": "^9.2.0",
     "@types/debug": "4.1.12",
-    "@types/koa": "^2.15.0",
-    "@types/koa-send": "^4.1.6",
+    "@types/koa": "^3.0.0",
     "@types/koa__cors": "^5.0.0",
     "@types/koa__router": "^12.0.4",
+    "@types/koa-send": "^4.1.6",
     "@types/supertest": "^6.0.3",
     "rimraf": "^6.0.1",
-    "supertest": "^7.1.1"
+    "supertest": "^7.1.4"
   },
   "engines": {
     "node": ">=22"
