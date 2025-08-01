@@ -72,7 +72,6 @@
     "@koa/bodyparser": "^6.0.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^13.1.1",
-    "@types/koa-bodyparser": "^5.0.1",
     "debug": "^4.4.1",
     "koa": "^3.0.1",
     "swagger2": "^5.0.1"
