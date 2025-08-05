@@ -29,7 +29,7 @@
  */
 
 import Koa from 'koa';
-import body from 'koa-bodyparser';
+import body from '@koa/bodyparser';
 import koaCors from '@koa/cors';
 import KoaRouter from '@koa/router';
 import * as swagger from 'swagger2';
